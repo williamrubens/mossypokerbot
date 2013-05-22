@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mossyholdem" default="compile.module.mossyholdem">
+  <dirname property="module.mossyholdem.basedir" file="${ant.file.module_mossyholdem}"/>
+  
+  <property name="module.jdk.home.mossyholdem" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.mossyholdem" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.mossyholdem" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.mossyholdem" value="${compiler.args}"/>
+  
+  <property name="mossyholdem.output.dir" value="${module.mossyholdem.basedir}/out/production/MossyHoldem"/>
+  <property name="mossyholdem.testoutput.dir" value="${module.mossyholdem.basedir}/out/test/MossyHoldem"/>
+  
+  <path id="mossyholdem.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mossyholdem.module.production.classpath">
+    <path refid="${module.jdk.classpath.mossyholdem}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+  </path>
+  
+  <path id="mossyholdem.runtime.production.module.classpath">
+    <pathelement location="${mossyholdem.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+  </path>
+  
+  <path id="mossyholdem.module.classpath">
+    <path refid="${module.jdk.classpath.mossyholdem}"/>
+    <pathelement location="${mossyholdem.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+  </path>
+  
+  <path id="mossyholdem.runtime.module.classpath">
+    <pathelement location="${mossyholdem.testoutput.dir}"/>
+    <pathelement location="${mossyholdem.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mossyholdem">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mossyholdem">
+    <patternset refid="excluded.from.module.mossyholdem"/>
+  </patternset>
+  
+  
+  <target name="compile.module.mossyholdem" depends="compile.module.mossyholdem.production,compile.module.mossyholdem.tests" description="Compile module MossyHoldem"/>
+  
+  <target name="compile.module.mossyholdem.production" depends="register.custom.compilers" description="Compile module MossyHoldem; production classes"/>
+  
+  <target name="compile.module.mossyholdem.tests" depends="register.custom.compilers,compile.module.mossyholdem.production" description="compile module MossyHoldem; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mossyholdem" description="cleanup module">
+    <delete dir="${mossyholdem.output.dir}"/>
+    <delete dir="${mossyholdem.testoutput.dir}"/>
+  </target>
+</project>

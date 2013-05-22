@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_runner" default="compile.module.runner">
+  <dirname property="module.runner.basedir" file="${ant.file.module_runner}"/>
+  
+  <property name="module.jdk.home.runner" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.runner" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.runner" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.runner" value="${compiler.args}"/>
+  
+  <property name="runner.output.dir" value="${module.runner.basedir}/../out/production/runner"/>
+  <property name="runner.testoutput.dir" value="${module.runner.basedir}/../out/test/runner"/>
+  
+  <path id="runner.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="runner.module.production.classpath">
+    <path refid="${module.jdk.classpath.runner}"/>
+    <pathelement location="${lib.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+  </path>
+  
+  <path id="runner.runtime.production.module.classpath">
+    <pathelement location="${runner.output.dir}"/>
+    <path refid="lib.runtime.production.module.classpath"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+  </path>
+  
+  <path id="runner.module.classpath">
+    <path refid="${module.jdk.classpath.runner}"/>
+    <pathelement location="${runner.output.dir}"/>
+    <pathelement location="${lib.testoutput.dir}"/>
+    <pathelement location="${lib.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+    <path refid="library.junit-4.11.classpath"/>
+  </path>
+  
+  <path id="runner.runtime.module.classpath">
+    <pathelement location="${runner.testoutput.dir}"/>
+    <pathelement location="${runner.output.dir}"/>
+    <path refid="lib.runtime.module.classpath"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+    <path refid="library.junit-4.11.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.runner">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.runner">
+    <patternset refid="excluded.from.module.runner"/>
+  </patternset>
+  
+  <path id="runner.module.sourcepath">
+    <dirset dir="${module.runner.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.runner" depends="compile.module.runner.production,compile.module.runner.tests" description="Compile module runner"/>
+  
+  <target name="compile.module.runner.production" depends="register.custom.compilers,compile.module.lib" description="Compile module runner; production classes">
+    <mkdir dir="${runner.output.dir}"/>
+    <javac2 destdir="${runner.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.runner}/javac">
+      <compilerarg line="${compiler.args.runner}"/>
+      <bootclasspath refid="runner.module.bootclasspath"/>
+      <classpath refid="runner.module.production.classpath"/>
+      <src refid="runner.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.runner"/>
+    </javac2>
+    
+    <copy todir="${runner.output.dir}">
+      <fileset dir="${module.runner.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.runner.tests" depends="register.custom.compilers,compile.module.runner.production" description="compile module runner; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.runner" description="cleanup module">
+    <delete dir="${runner.output.dir}"/>
+    <delete dir="${runner.testoutput.dir}"/>
+  </target>
+</project>

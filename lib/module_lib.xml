@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_lib" default="compile.module.lib">
+  <dirname property="module.lib.basedir" file="${ant.file.module_lib}"/>
+  
+  <property name="module.jdk.home.lib" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.lib" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.lib" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.lib" value="${compiler.args}"/>
+  
+  <property name="lib.output.dir" value="${module.lib.basedir}/../out/production/lib"/>
+  <property name="lib.testoutput.dir" value="${module.lib.basedir}/../out/test/lib"/>
+  
+  <path id="lib.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="lib.module.production.classpath">
+    <path refid="${module.jdk.classpath.lib}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+    <pathelement location="${basedir}/../../third-party/guava/guava-11.0.2.jar"/>
+    <path refid="library.junit-4.11.classpath"/>
+  </path>
+  
+  <path id="lib.runtime.production.module.classpath">
+    <pathelement location="${lib.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+    <pathelement location="${basedir}/../../third-party/guava/guava-11.0.2.jar"/>
+    <path refid="library.junit-4.11.classpath"/>
+  </path>
+  
+  <path id="lib.module.classpath">
+    <path refid="${module.jdk.classpath.lib}"/>
+    <pathelement location="${lib.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+    <pathelement location="${basedir}/../../third-party/guava/guava-11.0.2.jar"/>
+    <path refid="library.junit-4.11.classpath"/>
+  </path>
+  
+  <path id="lib.runtime.module.classpath">
+    <pathelement location="${lib.testoutput.dir}"/>
+    <pathelement location="${lib.output.dir}"/>
+    <pathelement location="${basedir}/../../third-party/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+    <pathelement location="${basedir}/../../third-party/commons-math3-3.2/commons-math3-3.2.jar"/>
+    <pathelement location="${basedir}/../../third-party/guava/guava-11.0.2.jar"/>
+    <path refid="library.junit-4.11.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.lib">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.lib">
+    <patternset refid="excluded.from.module.lib"/>
+  </patternset>
+  
+  <path id="lib.module.sourcepath">
+    <dirset dir="${module.lib.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="lib.module.test.sourcepath">
+    <dirset dir="${module.lib.basedir}">
+      <include name="test"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.lib" depends="compile.module.lib.production,compile.module.lib.tests" description="Compile module lib"/>
+  
+  <target name="compile.module.lib.production" depends="register.custom.compilers" description="Compile module lib; production classes">
+    <mkdir dir="${lib.output.dir}"/>
+    <javac2 destdir="${lib.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.lib}/javac">
+      <compilerarg line="${compiler.args.lib}"/>
+      <bootclasspath refid="lib.module.bootclasspath"/>
+      <classpath refid="lib.module.production.classpath"/>
+      <src refid="lib.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.lib"/>
+    </javac2>
+    
+    <copy todir="${lib.output.dir}">
+      <fileset dir="${module.lib.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.lib.tests" depends="register.custom.compilers,compile.module.lib.production" description="compile module lib; test classes" unless="skip.tests">
+    <mkdir dir="${lib.testoutput.dir}"/>
+    <javac2 destdir="${lib.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.lib}/javac">
+      <compilerarg line="${compiler.args.lib}"/>
+      <bootclasspath refid="lib.module.bootclasspath"/>
+      <classpath refid="lib.module.classpath"/>
+      <src refid="lib.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.lib"/>
+    </javac2>
+    
+    <copy todir="${lib.testoutput.dir}">
+      <fileset dir="${module.lib.basedir}/test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.lib" description="cleanup module">
+    <delete dir="${lib.output.dir}"/>
+    <delete dir="${lib.testoutput.dir}"/>
+  </target>
+</project>
