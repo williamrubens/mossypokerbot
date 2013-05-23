@@ -13,35 +13,29 @@ import com.mossy.holdem.interfaces.*;
  * Time: 18:40
  * To change this template use File | Settings | File Templates.
  */
-public class IteratedRolloutWinningsCalculator implements IRolloutWinningsCalculator
+public class RolloutWinningsCalculator implements IRolloutWinningsCalculator
 {
     final IHandEvaluator handEvaluator;
     final IHandFactory  handFactory;
-    final IHoleCardFolder folder;
-
     @Inject
-    IteratedRolloutWinningsCalculator(IHandEvaluator _handEvaluator, IHandFactory _handFactory, IHoleCardFolder _folder)
+    RolloutWinningsCalculator(IHandEvaluator _handEvaluator, IHandFactory _handFactory)
     {
         handEvaluator = _handEvaluator;
         handFactory = _handFactory;
-        folder = _folder;
     }
 
     @Override
     public double calculate(HoleCards myHoleCards, ImmutableList<HoleCards> oppHoleCards, ImmutableList<Card> boardCards)  throws Exception
     {
-        boolean opponentWin = false;
         int numDrawingPlayers = 0;
 
         IHand myHand = handFactory.build(myHoleCards, boardCards);
 
         int myScore = handEvaluator.evaluateHand(myHand);
 
-        ImmutableList<HoleCards> nonFoldedHands = folder.foldHoleCards(oppHoleCards);
-
-        for(HoleCards playerCards : nonFoldedHands)
+        for(HoleCards oppCards : oppHoleCards)
         {
-            IHand opponentHand = handFactory.build(playerCards, boardCards);
+            IHand opponentHand = handFactory.build(oppCards, boardCards);
             int opponentScore = handEvaluator.evaluateHand(opponentHand);
 
             if(opponentScore > myScore)
@@ -57,10 +51,14 @@ public class IteratedRolloutWinningsCalculator implements IRolloutWinningsCalcul
 
         if(numDrawingPlayers > 0)
         {
-            return (double) (nonFoldedHands.size()) / (double) numDrawingPlayers;
+            // I am also a drawing player, so add me in
+            numDrawingPlayers++;
+            // my winnings = total players / num players who draw - my blind
+            // total players = opponents + me
+            return (double) (oppHoleCards.size() + 1) / (double) numDrawingPlayers - 1.0d;
         }
 
-        return  (double) nonFoldedHands.size();
+        return  (double) oppHoleCards.size();
 
     }
 }

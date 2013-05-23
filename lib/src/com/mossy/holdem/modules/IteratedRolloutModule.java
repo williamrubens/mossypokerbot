@@ -21,8 +21,8 @@ public class IteratedRolloutModule extends AbstractModule
     final int numOpponents;
     final int numBoardCards;
 
-    public IteratedRolloutModule(int numOpponents, int numBoardCards) {
-        this.numOpponents = numOpponents;
+    public IteratedRolloutModule(int numPlayers, int numBoardCards) {
+        this.numOpponents = numPlayers - 1;
         this.numBoardCards = numBoardCards;
     }
 
@@ -37,9 +37,9 @@ public class IteratedRolloutModule extends AbstractModule
         bind(IStatisticsFactory.class).to(SummaryStatisticsFactory.class);
 
         bind(IDeckFactory.class).to(StandardDeckFactory.class)        ;
-        bind(IRolloutWinningsCalculator.class).to(IteratedRolloutWinningsCalculator.class);
+        bind(IRolloutWinningsCalculator.class).to(RolloutWinningsCalculator.class);
         bind(IPreFlopHandTypeAdaptor.class).to(PreFlopHandTypeAdaptor.class);
-        bind(IPreFlopIncomeRateBuilder.class).to(PreFlopIncomeRateBuilder.class);
+        bind(IPreFlopIncomeRateStore.class).to(PreFlopIncomeRateStore.class);
         bind(IPreFlopIncomeRateSimulator.class).to(PreFlopIncomeRateSimulator.class);
 
         bind(IHandEvaluator.class).to(HandEvaluator.class);
@@ -48,7 +48,7 @@ public class IteratedRolloutModule extends AbstractModule
         bind(IBoardCardDealer.class).to(BoardCardDealer.class);
         bind(IHoleCardDealer.class).to(HoleCardDealer.class);
 
-        bind(IHoleCardFolder.class).to(NegativeIncomeRateFolder.class);
+        bind(INegativeIncomeRateFolder.class).to(NegativeIncomeRateFolder.class);
 
     }
 

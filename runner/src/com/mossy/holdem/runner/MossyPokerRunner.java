@@ -54,12 +54,12 @@ public class MossyPokerRunner {
             int boardCards = 5;
 
             Injector injector = Guice.createInjector(new IteratedRolloutModule(numPlayers, boardCards));
-           // lookupCalculator.generatePreFlopLookup(stats, writer, 0.01, deckFactory.build(), adaptor, 2, handFactory, handEval);
+           // lookupCalculator.generatePreFlopLookup(stats, writer, 0.01, deckFactory.getMap(), adaptor, 2, handFactory, handEval);
 
             IPreFlopIncomeRateSimulator perFlopSimulator = injector.getInstance(IPreFlopIncomeRateSimulator.class);
             IDeckFactory deckFactory = injector.getInstance(IDeckFactory.class) ;
 
-            perFlopSimulator.simulateIncomeRate(deckFactory.build(), PreFlopHandType.fromHoleCards(Card.ACE_CLUBS, Card.ACE_DIAMONDS), 0.01);
+            //perFlopSimulator.simulateIncomeRate(deckFactory.build(), PreFlopHandType.fromHoleCards(Card.ACE_CLUBS, Card.ACE_DIAMONDS), 0.01);
 
             writer.close();
 

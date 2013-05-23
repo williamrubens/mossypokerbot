@@ -7,16 +7,11 @@ import com.mossy.holdem.PreFlopHandType;
 /**
  * Created with IntelliJ IDEA.
  * User: d80050
- * Date: 16/05/13
- * Time: 12:41
+ * Date: 23/05/13
+ * Time: 21:22
  * To change this template use File | Settings | File Templates.
  */
-public interface IPreFlopIncomeRateBuilder
+public interface IPreFlopRolloutSimulator
 {
-
-    IncomeRate getIncomeRate(PreFlopHandType handType);
-
-    void addWinnings(PreFlopHandType handType, double winnings);
-
-    ImmutableMap<PreFlopHandType, IncomeRate> build();
+    ImmutableMap<PreFlopHandType, IncomeRate> simulateRollout(IDeck deck, ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance) throws Exception;
 }

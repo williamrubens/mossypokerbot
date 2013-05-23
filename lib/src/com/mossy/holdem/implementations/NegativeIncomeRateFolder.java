@@ -2,13 +2,10 @@ package com.mossy.holdem.implementations;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import com.mossy.holdem.HoleCards;
 import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
-import com.mossy.holdem.interfaces.IHoleCardFolder;
-import org.apache.log4j.Logger;
+import com.mossy.holdem.interfaces.INegativeIncomeRateFolder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,20 +14,12 @@ import org.apache.log4j.Logger;
  * Time: 11:54
  * To change this template use File | Settings | File Templates.
  */
-public class NegativeIncomeRateFolder implements IHoleCardFolder
+public class NegativeIncomeRateFolder implements INegativeIncomeRateFolder
 {
-    static private Logger log = Logger.getLogger(NegativeIncomeRateFolder.class);
-    private final ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate;
-
-    @Inject
-    NegativeIncomeRateFolder(  ImmutableMap<PreFlopHandType, IncomeRate> _handTypeToIncomeRate)
-    {
-        handTypeToIncomeRate = _handTypeToIncomeRate;
-    }
 
 
     @Override
-    public ImmutableList<HoleCards> foldHoleCards(ImmutableList<HoleCards> holeCardsList)
+    public ImmutableList<HoleCards> foldHoleCards(ImmutableList<HoleCards> holeCardsList, ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate)
     {
         ImmutableList.Builder<HoleCards> builder =  ImmutableList.builder();
 
@@ -40,7 +29,8 @@ public class NegativeIncomeRateFolder implements IHoleCardFolder
             IncomeRate incomeRate = handTypeToIncomeRate.get(handType);
             if(incomeRate == null)
             {
-                log.debug(String.format("Could not find income rate for Hand %s don't know how to fold", handType));
+                // no need to log this for now, incomeRate == null is valid
+                //log.debug(String.format("Could not find income rate for Hand %s don't know how to fold", handType));
             }
             else if(incomeRate.incomeRate() < 0)
             {

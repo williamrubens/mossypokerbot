@@ -98,7 +98,7 @@ public class PreFlopLookupCalculator implements IPreFlopLookupCalculator
             dealingTimer.stopTimer();
              // find the winner
             handFactoryTimer.startTimer();
-            IHand myHand = handFactory.build(new HoleCards(holeCard1, holeCard2), boardCards);
+            IHand myHand = handFactory.getMap(new HoleCards(holeCard1, holeCard2), boardCards);
             handFactoryTimer.stopTimer();
             
             evaluateTimer.startTimer();
@@ -110,7 +110,7 @@ public class PreFlopLookupCalculator implements IPreFlopLookupCalculator
             for(ArrayList<Card> playerCards : playerHoleCards)
             {
                  handFactoryTimer.startTimer();
-                IHand opponentHand = handFactory.build(playerCards.get(0), playerCards.get(1), boardCards);
+                IHand opponentHand = handFactory.getMap(playerCards.get(0), playerCards.get(1), boardCards);
                 handFactoryTimer.stopTimer();
                 
                 evaluateTimer.startTimer();
