@@ -91,12 +91,11 @@ public class PreFlopIncomeRateSimulator implements IPreFlopIncomeRateSimulator
 
             stats.addValue(myWinnings);
 
+            numIterations++;
+            error = stats.getStandardDeviation() / Math.sqrt(stats.getN());
 
             statsTimer.stopTimer();
 
-
-            numIterations++;
-            error = stats.getStandardDeviation() / stats.getMean();
 
             if(stats.getMean() == 0)
             {
@@ -110,7 +109,7 @@ public class PreFlopIncomeRateSimulator implements IPreFlopIncomeRateSimulator
                 double percentEval = (double)evaluateTimer.totalTime / (double)totalTicks* 100.0d;
                 double percentDeal = (double)dealingTimer.totalTime / (double)totalTicks* 100.0d;
                 double percentStats = (double)statsTimer.totalTime / (double)totalTicks* 100.0d;
-                log.debug(String.format("sd %.2g Mean %.2g W: %.2g %% D: %.2g %% L: %.2g %% Iterations: %s of which Hand %.2g %% Evaluation %.2g %% Stats  %.2g %%, Dealing %.2g %%, Avg eval time: %s",stats.getStandardDeviation(), stats.getMean(), (double)numWins/(double)numIterations * 100.0d, (double)numDraws/(double)numIterations* 100.0d, (double)numLose/(double)numIterations* 100.0d,  numIterations, percentHand, percentEval,  percentStats ,percentDeal, evaluateTimer.avgTime() ));
+                log.debug(String.format("sd %.2g Mean %.4g EoM %.4g W: %.2g %% D: %.2g %% L: %.2g %% Iterations: %s of which Hand %.2g %% Evaluation %.2g %% Stats  %.2g %%, Dealing %.2g %%, Avg eval time: %s",stats.getStandardDeviation(), stats.getMean(), error, (double)numWins/(double)numIterations * 100.0d, (double)numDraws/(double)numIterations* 100.0d, (double)numLose/(double)numIterations* 100.0d,  numIterations, percentHand, percentEval,  percentStats ,percentDeal, evaluateTimer.avgTime() ));
             }
         }
         log.debug("num operations = " +  numIterations);

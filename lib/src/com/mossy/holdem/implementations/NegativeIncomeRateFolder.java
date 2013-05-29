@@ -26,16 +26,14 @@ public class NegativeIncomeRateFolder implements INegativeIncomeRateFolder
         for(HoleCards holeCards : holeCardsList)
         {
             PreFlopHandType handType = PreFlopHandType.fromHoleCards(holeCards);
-            IncomeRate incomeRate = handTypeToIncomeRate.get(handType);
-            if(incomeRate == null)
+            if(handTypeToIncomeRate != null)
             {
-                // no need to log this for now, incomeRate == null is valid
-                //log.debug(String.format("Could not find income rate for Hand %s don't know how to fold", handType));
-            }
-            else if(incomeRate.incomeRate() < 0)
-            {
-                // fold the hand, ie don;t add it to the new list
-                continue;
+                IncomeRate incomeRate = handTypeToIncomeRate.get(handType);
+                if(incomeRate != null && incomeRate.incomeRate() < 0)
+                {
+                    // fold the hand, ie don;t add it to the new list
+                    continue;
+                }
             }
             builder.add(holeCards);
         }

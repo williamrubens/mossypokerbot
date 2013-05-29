@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
 
+import java.io.PrintWriter;
+
 /**
  * Created with IntelliJ IDEA.
  * User: d80050
@@ -13,5 +15,5 @@ import com.mossy.holdem.PreFlopHandType;
  */
 public interface IPreFlopRolloutSimulator
 {
-    ImmutableMap<PreFlopHandType, IncomeRate> simulateRollout(IDeck deck, ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance) throws Exception;
+    ImmutableMap<PreFlopHandType, IncomeRate> simulateRollout(ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance, PrintWriter printWriter) throws Exception;
 }

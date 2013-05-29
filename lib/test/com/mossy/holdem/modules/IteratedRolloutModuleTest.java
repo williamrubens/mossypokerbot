@@ -42,19 +42,12 @@ public class IteratedRolloutModuleTest
             PreFlopIncomeRateSimulator perFlopSimulator = injector.getInstance(PreFlopIncomeRateSimulator.class);
             IDeckFactory deckFactory = injector.getInstance(IDeckFactory.class);
 
-            PreFlopIncomeRateStore incomeRateStore1 = injector.getInstance(PreFlopIncomeRateStore.class);
-            PreFlopIncomeRateStore incomeRateStore2 = injector.getInstance(PreFlopIncomeRateStore.class);
+            IncomeRate incomeRate1  =
+                    perFlopSimulator.simulateIncomeRate(deckFactory.build(), null, handType1, 0.01);
 
-            perFlopSimulator.simulateIncomeRate(deckFactory.build(),incomeRateStore1, handType1, 0.01);
+            IncomeRate incomeRate2  =
+                    perFlopSimulator.simulateIncomeRate(deckFactory.build(), null, handType2, 0.01);
 
-            perFlopSimulator.simulateIncomeRate(deckFactory.build(),incomeRateStore2, handType2, 0.01);
-
-
-            ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate1 = incomeRateStore1.getMap();
-            ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate2 = incomeRateStore2.getMap();
-
-            IncomeRate incomeRate1 = handTypeToIncomeRate1.get(handType1)   ;
-            IncomeRate incomeRate2 = handTypeToIncomeRate1.get(handType2)   ;
 
             boolean firstBigger = incomeRate1.incomeRate() > incomeRate2.incomeRate();
 

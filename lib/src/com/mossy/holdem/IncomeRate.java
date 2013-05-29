@@ -11,21 +11,30 @@ import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
  */
 final public class IncomeRate
 {
-    private double incomeRate;
-    private double standardDeviation;
+    private final double incomeRate;
+    private final double error;
+    private final double standardDeviation;
 
-    public IncomeRate(double ir, double sd)
+    public IncomeRate(double incomeRate, double error, double sd)
     {
-        incomeRate = ir;
-        standardDeviation = sd;
+        this.incomeRate = incomeRate;
+        this.error = error;
+        this.standardDeviation = sd;
     }
 
     public double incomeRate() { return incomeRate; }
     public double standardDeviation() { return standardDeviation; }
+    public double error() { return error; }
 
     static public IncomeRate fromStats(StatisticalSummary stats)
     {
-        return new IncomeRate(stats.getMean(), stats.getStandardDeviation());
+        double error = stats.getMean() / Math.sqrt(stats.getN());
+        return new IncomeRate(stats.getMean(), error, stats.getStandardDeviation());
+    }
+
+    String toCSVString()
+    {
+        return String.format("%.4g, %.4g, %.4g", incomeRate, error, standardDeviation);
     }
 
 }

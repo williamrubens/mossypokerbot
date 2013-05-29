@@ -27,7 +27,7 @@ public class RolloutWinningsCalculatorTest {
 
     RolloutWinningsCalculator winCalc;
     IHandEvaluator mockEvaluator;
-    ImmutableList mockFoldedCardsList;
+    ImmutableList holeCardList;
     INegativeIncomeRateFolder mockFolder;
 
     @Before
@@ -35,9 +35,8 @@ public class RolloutWinningsCalculatorTest {
 
         mockEvaluator = mock(IHandEvaluator.class) ;
         IHandFactory mockHandFactory = mock(HandFactory.class) ;
-        mockFolder = mock(INegativeIncomeRateFolder.class) ;
 
-        winCalc = new RolloutWinningsCalculator(mockEvaluator, mockHandFactory, mockFolder);
+        winCalc = new RolloutWinningsCalculator(mockEvaluator, mockHandFactory);
     }
 
     void setTestFor(List<Integer> evaluationResults) throws Exception
@@ -52,7 +51,7 @@ public class RolloutWinningsCalculatorTest {
              holeCardBuilder.add(HoleCards.from(Card.ACE_DIAMONDS, Card.ACE_CLUBS));
         }
 
-        when(mockFolder.foldHoleCards((ImmutableList<HoleCards>)any())).thenReturn(holeCardBuilder.build());
+        holeCardList = holeCardBuilder.build();
 
         when(mockEvaluator.evaluateHand((IHand)any())).thenReturn(evaluationResults.get(0), evaluationResults.subList(1, evaluationResults.size()).toArray(new Integer []{})) ;
         //when(mockEvaluator.evaluateHand((IHand)any())).thenReturn(evaluationResults[0], Arrays.copyOfRange(evaluationResults, 1, evaluationResults.length)) ;
@@ -67,25 +66,25 @@ public class RolloutWinningsCalculatorTest {
 
         setTestFor(Arrays.asList( new Integer[] {0,1})) ;
 
-        double myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), mockFoldedCardsList, null);
+        double myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), holeCardList, null);
 
         assertEquals(myWinnings, -1.0d);
 
         setTestFor(Arrays.asList( new Integer[] {1,1})) ;
 
-        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), mockFoldedCardsList, null);
+        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), holeCardList, null);
 
         assertEquals(myWinnings, 0.0d);
 
         setTestFor(Arrays.asList( new Integer[] {1,0})) ;
 
-        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), mockFoldedCardsList, null);
+        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), holeCardList, null);
 
         assertEquals(myWinnings, 1.0d);
 
         setTestFor(Arrays.asList( new Integer[] {1,1,1,0})) ;
 
-        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), mockFoldedCardsList, null);
+        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), holeCardList, null);
 
         double expectedWinnings = (double)4.0d/3.0d - 1.0;
 
@@ -93,7 +92,7 @@ public class RolloutWinningsCalculatorTest {
 
         setTestFor(Arrays.asList( new Integer[] {1,0,0,0,0})) ;
 
-        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), mockFoldedCardsList, null);
+        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), holeCardList, null);
 
         expectedWinnings = (double)4.0d;
 
@@ -101,7 +100,7 @@ public class RolloutWinningsCalculatorTest {
 
         setTestFor(Arrays.asList( new Integer[] {0,0,0,1,0})) ;
 
-        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), mockFoldedCardsList, null);
+        myWinnings = winCalc.calculate(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS), holeCardList, null);
 
         expectedWinnings = (double)-1.0d;
 

@@ -16,24 +16,21 @@ import com.mossy.holdem.interfaces.*;
 public class IteratedRolloutSimulator implements IIteratedRolloutSimulator
 {
     IPreFlopRolloutSimulator rolloutSimulator;
-    IDeck deck;
 
     @Inject
-    IteratedRolloutSimulator(IPreFlopRolloutSimulator rolloutSimulator, IDeck deck)
+    IteratedRolloutSimulator(IPreFlopRolloutSimulator rolloutSimulator)
     {
         this.rolloutSimulator = rolloutSimulator;
-        this.deck = deck;
-
     }
 
     @Override
-    public void iterateSimulation(double tolerance) throws Exception
+    public void iterateSimulation( double tolerance) throws Exception
     {
         ImmutableMap<PreFlopHandType, IncomeRate> oldIncomeRate = ImmutableMap.of();
 
         while(true)
         {
-            ImmutableMap<PreFlopHandType, IncomeRate>  newIncomeRate = rolloutSimulator.simulateRollout(deck, oldIncomeRate, tolerance);
+            ImmutableMap<PreFlopHandType, IncomeRate>  newIncomeRate = rolloutSimulator.simulateRollout( oldIncomeRate, tolerance, null);
 
             if(compareIncomeRates(oldIncomeRate, newIncomeRate))
             {

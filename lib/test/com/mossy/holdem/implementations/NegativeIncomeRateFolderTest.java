@@ -31,11 +31,12 @@ public class NegativeIncomeRateFolderTest {
         when(mockedHoleCardList.iterator()).thenReturn(mockedHoleCardIterator);
         when(mockedHoleCardIterator.hasNext()).thenReturn(true, true, false);
         when(mockedHoleCardIterator.next()).thenReturn(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS));
-        when(mockedMap.get(anyObject())).thenReturn(new IncomeRate(+1, 0)).thenReturn(new IncomeRate(-1, 0));
 
-        NegativeIncomeRateFolder folder = new NegativeIncomeRateFolder(mockedMap);
+        when(mockedMap.get(anyObject())).thenReturn(new IncomeRate(+1, 0, 0)).thenReturn(new IncomeRate(-1, 0, 0));
 
-        ImmutableList foldedCards = folder.foldHoleCards(mockedHoleCardList);
+        NegativeIncomeRateFolder folder = new NegativeIncomeRateFolder();
+
+        ImmutableList foldedCards = folder.foldHoleCards(mockedHoleCardList, mockedMap);
 
         verify(mockedHoleCardIterator, times(3)).hasNext();
         verify(mockedMap, times(2)).get(anyObject());

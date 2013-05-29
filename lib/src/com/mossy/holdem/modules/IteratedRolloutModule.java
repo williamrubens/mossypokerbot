@@ -41,6 +41,8 @@ public class IteratedRolloutModule extends AbstractModule
         bind(IPreFlopHandTypeAdaptor.class).to(PreFlopHandTypeAdaptor.class);
         bind(IPreFlopIncomeRateStore.class).to(PreFlopIncomeRateStore.class);
         bind(IPreFlopIncomeRateSimulator.class).to(PreFlopIncomeRateSimulator.class);
+        bind(IPreFlopRolloutSimulator.class).to(PreFlopRolloutSimulator.class);
+        bind(IIteratedRolloutSimulator.class).to(IteratedRolloutSimulator.class);
 
         bind(IHandEvaluator.class).to(HandEvaluator.class);
         bind(IHandEvaluator.class).annotatedWith(Annotations.FiveCardEvaluator.class).to(FiveCardHandEvaluator.class);

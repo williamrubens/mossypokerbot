@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
  * To change this template use File | Settings | File Templates.
  */
 public class PreFlopIncomeRateStoreTest {
-
+                                                  /*
     PreFlopIncomeRateStore incomeRateBuilder;
 
     @Before
@@ -56,5 +56,5 @@ public class PreFlopIncomeRateStoreTest {
         assertEquals(stats.getStandardDeviation(), handTypeToIncomeRate.get(handType).standardDeviation(), 0.01);
     }
 
-
+                                                 */
 }

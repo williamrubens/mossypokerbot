@@ -4,9 +4,12 @@
  */
 package com.mossy.holdem.runner;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.mossy.holdem.Card;
+import com.mossy.holdem.IncomeRate;
+import com.mossy.holdem.interfaces.IPreFlopRolloutSimulator;
 import com.mossy.holdem.modules.IteratedRolloutModule;
 import com.mossy.holdem.PreFlopHandType;
 import com.mossy.holdem.Rank;
@@ -32,34 +35,23 @@ public class MossyPokerRunner {
     {
         try
         {
-
-
-
             // Set up a simple configuration that logs on the console.
             BasicConfigurator.configure();
-           /*
-            //PreFlopLookupCalculator lookupCalculator = new PreFlopLookupCalculator();
-            StandardDeckFactory deckFactory = new StandardDeckFactory();
-            HandScoreFactory handScoreFactory = new HandScoreFactory();
-            IHandEvaluator fiveCardEvaluator = new FiveCardHandEvaluator(handScoreFactory);
-            IHandEvaluator handEval = new HandEvaluator(fiveCardEvaluator);
-            IHandFactory handFactory = new HandFactory();
-            SummaryStatistics stats = new SummaryStatistics();
-            PrintWriter writer = new PrintWriter("prefloplookup.csv");
-            PreFlopHandTypeAdaptor adaptor = new PreFlopHandTypeAdaptor();   */
+
 
             PrintWriter writer = new PrintWriter("prefloplookup.csv");
 
-            int numPlayers = 2;
+            int numPlayers = 10;
             int boardCards = 5;
 
             Injector injector = Guice.createInjector(new IteratedRolloutModule(numPlayers, boardCards));
-           // lookupCalculator.generatePreFlopLookup(stats, writer, 0.01, deckFactory.getMap(), adaptor, 2, handFactory, handEval);
 
-            IPreFlopIncomeRateSimulator perFlopSimulator = injector.getInstance(IPreFlopIncomeRateSimulator.class);
+            IPreFlopRolloutSimulator rolloutSimulator = injector.getInstance(IPreFlopRolloutSimulator.class);
             IDeckFactory deckFactory = injector.getInstance(IDeckFactory.class) ;
 
-            //perFlopSimulator.simulateIncomeRate(deckFactory.build(), PreFlopHandType.fromHoleCards(Card.ACE_CLUBS, Card.ACE_DIAMONDS), 0.01);
+            ImmutableMap<PreFlopHandType, IncomeRate> map = ImmutableMap.of();
+
+            rolloutSimulator.simulateRollout( map, 0.001, writer);
 
             writer.close();
 

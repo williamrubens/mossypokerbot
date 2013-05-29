@@ -11,5 +11,5 @@ import com.mossy.holdem.PreFlopHandType;
  */
 public interface IIteratedRolloutSimulator
 {
-    void iterateSimulation(double tolerance) throws Exception ;
+    void iterateSimulation( double tolerance) throws Exception ;
 }
