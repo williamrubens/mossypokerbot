@@ -15,5 +15,5 @@ import java.io.PrintWriter;
  */
 public interface IPreFlopRolloutSimulator
 {
-    ImmutableMap<PreFlopHandType, IncomeRate> simulateRollout(ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance, PrintWriter printWriter) throws Exception;
+    ImmutableMap<PreFlopHandType, IncomeRate> simulateRollout(ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance, PrintWriter printWriter, int iteration) throws Exception;
 }

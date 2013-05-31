@@ -39,7 +39,7 @@ public class MossyPokerRunner {
             BasicConfigurator.configure();
 
 
-            PrintWriter writer = new PrintWriter("prefloplookup.csv");
+
 
             int numPlayers = 10;
             int boardCards = 5;
@@ -47,13 +47,19 @@ public class MossyPokerRunner {
             Injector injector = Guice.createInjector(new IteratedRolloutModule(numPlayers, boardCards));
 
             IPreFlopRolloutSimulator rolloutSimulator = injector.getInstance(IPreFlopRolloutSimulator.class);
-            IDeckFactory deckFactory = injector.getInstance(IDeckFactory.class) ;
 
             ImmutableMap<PreFlopHandType, IncomeRate> map = ImmutableMap.of();
 
-            rolloutSimulator.simulateRollout( map, 0.001, writer);
+            PrintWriter writer = new PrintWriter("prefloplookup_iterated.csv");
+
+
+            for(int iterations = 0; iterations < 10; ++iterations)
+            {
+               map = rolloutSimulator.simulateRollout( map, 0.001, writer, iterations);
+            }
 
             writer.close();
+
 
         }
         catch (Exception ex)

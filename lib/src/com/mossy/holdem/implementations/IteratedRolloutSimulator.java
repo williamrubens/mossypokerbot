@@ -28,9 +28,11 @@ public class IteratedRolloutSimulator implements IIteratedRolloutSimulator
     {
         ImmutableMap<PreFlopHandType, IncomeRate> oldIncomeRate = ImmutableMap.of();
 
+        int iteration = 0;
+
         while(true)
         {
-            ImmutableMap<PreFlopHandType, IncomeRate>  newIncomeRate = rolloutSimulator.simulateRollout( oldIncomeRate, tolerance, null);
+            ImmutableMap<PreFlopHandType, IncomeRate>  newIncomeRate = rolloutSimulator.simulateRollout( oldIncomeRate, tolerance, null, iteration);
 
             if(compareIncomeRates(oldIncomeRate, newIncomeRate))
             {
@@ -38,6 +40,7 @@ public class IteratedRolloutSimulator implements IIteratedRolloutSimulator
             }
 
             oldIncomeRate = newIncomeRate;
+            iteration++;
 
         }
     }

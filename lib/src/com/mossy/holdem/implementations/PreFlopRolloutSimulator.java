@@ -3,6 +3,7 @@ package com.mossy.holdem.implementations;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.inject.Inject;
@@ -43,11 +44,15 @@ public class PreFlopRolloutSimulator implements IPreFlopRolloutSimulator
     }
 
     @Override
-    public ImmutableMap<PreFlopHandType, IncomeRate> simulateRollout( ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance, PrintWriter printWriter) throws Exception
+    public ImmutableMap<PreFlopHandType, IncomeRate> simulateRollout( ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance, PrintWriter printWriter, int iteration) throws Exception
     {
         if(printWriter != null)
         {
-            printWriter.println("HandType, Income Rate, Error, SD");
+            synchronized (printWriter)
+            {
+                printWriter.println("HandType, Income Rate, Error, SD, Iteration");
+                printWriter.flush();
+            }
         }
 
         ImmutableSortedSet<PreFlopHandType> preflopHands = adaptor.adaptDeck(deckFactory.build());
@@ -62,30 +67,38 @@ public class PreFlopRolloutSimulator implements IPreFlopRolloutSimulator
         {
             IDeck deck = deckFactory.build();
 
-            IncomeRateSimulationExecutor executor = new IncomeRateSimulationExecutor(handType, deck, handTypeToIncomeRate, tolerance, printWriter);
+            IncomeRateSimulationExecutor executor = new IncomeRateSimulationExecutor(handType, deck, handTypeToIncomeRate, tolerance, printWriter, iteration);
 
-            threadPool.submit(executor );
+            ListenableFuture<IncomeRate> future = threadPool.submit(( Callable<IncomeRate>) executor );
+
 
         }
+
+        threadPool.shutdown();
+        threadPool.awaitTermination(1, TimeUnit.DAYS);
 
         return newIncomeRateBuilder.build();
     }
 
     class IncomeRateSimulationExecutor implements  Callable<IncomeRate>
     {
-        PreFlopHandType handType;
-        IDeck deck;
-        ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate;
-        double tolerance;
-        PrintWriter printWriter;
+        final PreFlopHandType handType;
+        final IDeck deck;
+        final ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate;
+        final double tolerance;
+        final PrintWriter printWriter;
+        final int iteration;
 
-        IncomeRateSimulationExecutor(PreFlopHandType handType, IDeck deck, ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance, PrintWriter printWriter)
+        IncomeRate incomeRate;
+
+        IncomeRateSimulationExecutor(PreFlopHandType handType, IDeck deck, ImmutableMap<PreFlopHandType, IncomeRate> handTypeToIncomeRate, double tolerance, PrintWriter printWriter, int iteration)
         {
             this.handType = handType;
             this.deck = deck;
             this.handTypeToIncomeRate = handTypeToIncomeRate;
             this.tolerance = tolerance;
             this.printWriter = printWriter;
+            this.iteration = iteration;
 
         }
 
@@ -93,17 +106,24 @@ public class PreFlopRolloutSimulator implements IPreFlopRolloutSimulator
         public IncomeRate call()  throws Exception
         {
             log.info(String.format("Beginning income rate simulation for %s", handType));
-            IncomeRate incomeRate = incomeRateSimulator.simulateIncomeRate(deck, handTypeToIncomeRate, handType, tolerance);
+            incomeRate = incomeRateSimulator.simulateIncomeRate(deck, handTypeToIncomeRate, handType, tolerance);
 
+            log.info(String.format("Finished income rate simulation for %s, found %.4g, %.4g, %.4g ", handType, incomeRate.incomeRate(), incomeRate.error(), incomeRate.standardDeviation()));
             if(printWriter != null)
             {
-                printWriter.println(String.format("%s, %.4g, %.4g, %.4g", handType, incomeRate.incomeRate(), incomeRate.error(), incomeRate.standardDeviation()));
+                String temp = String.format("%s, %.4g, %.4g, %.4g, %s", handType, incomeRate.incomeRate(), incomeRate.error(), incomeRate.standardDeviation(), iteration) ;
+                synchronized (printWriter)
+                {
+                    printWriter.println(temp);
+                    printWriter.flush();
+
+                }
             }
-            log.info(String.format("Finished income rate simulation for %s, found %.4g, %.4g, %.4g ", handType, incomeRate.incomeRate(), incomeRate.error(), incomeRate.standardDeviation()));
 
             return incomeRate;
 
         }
+
 
     }
 

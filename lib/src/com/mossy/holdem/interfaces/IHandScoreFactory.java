@@ -1,5 +1,6 @@
 package com.mossy.holdem.interfaces;
 
+import com.google.common.collect.ImmutableSortedSet;
 import com.mossy.holdem.Rank;
 
 /**
@@ -18,7 +19,7 @@ public interface IHandScoreFactory {
 
     int buildFullHouseScore(Rank trips, Rank pairs);
 
-    int buildFlushScore(IHand allCards);
+    int buildFlushScore(IHand kickers);
 
     int buildStraightScore(Rank highestRank);
 

@@ -41,6 +41,11 @@ public enum Rank //implements Comparable<Rank>
     {
         return rank;
     }
+
+    public int index()
+    {
+        return rank - 2;
+    }
  
         
     public Rank addToRank(int delta)
@@ -149,6 +154,11 @@ public enum Rank //implements Comparable<Rank>
             case 14: return ACE;                
         }
         throw new Exception("Dodgy rank number");
+    }
+
+    static public Rank fromIndex(int index) throws Exception
+    {
+        return numberToRank(index + 2);
     }
     
     

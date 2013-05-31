@@ -6,6 +6,8 @@ package com.mossy.holdem.implementations;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.mossy.holdem.Card;
+import com.mossy.holdem.Rank;
+import com.mossy.holdem.Suit;
 import com.mossy.holdem.interfaces.IHand;
 
 /**
@@ -55,6 +57,22 @@ public final class Hand implements IHand
     public ImmutableSortedSet<Card> cards()
     {
         return cards;
+    }
+
+    @Override
+    public ImmutableSortedSet<Rank> getRanks(Suit suit)
+    {
+        ImmutableSortedSet.Builder<Rank> builder = ImmutableSortedSet.naturalOrder();
+
+        for(Card card : cards)
+        {
+            if(card.suit() == suit)
+            {
+                builder.add(card.rank());
+            }
+        }
+
+        return builder.build();
     }
 
     @Override

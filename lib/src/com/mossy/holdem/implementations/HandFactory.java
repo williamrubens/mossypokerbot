@@ -326,6 +326,19 @@ public class HandFactory implements IHandFactory
         return new Hand(builder.build());
     }
 
+    @Override
+    public IHand build(List<Card> cards) throws Exception
+    {
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+
+        for(Card card : cards)
+        {
+            builder.add(card);
+        }
+
+        return new Hand(builder.build());
+    }
+
    
     
 }

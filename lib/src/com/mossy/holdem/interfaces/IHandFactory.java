@@ -18,4 +18,6 @@ public interface IHandFactory
     //IHand generateRandom(HandType handType)  throws Exception;
     IHand build(String handString) throws Exception;
     IHand build(HoleCards holeCards, List<Card> boardCards) throws Exception;
+
+    IHand build(List<Card> cards) throws Exception;
 }
