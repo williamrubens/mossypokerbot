@@ -98,7 +98,7 @@ public class FiveCardHandEvaluator implements IHandEvaluator
             // depending on configurations, could have trips, four of a kind, two pair or pair
             if(trips != null)
             {
-                return scoreFactory.buildFourOfAKindScore(card4.rank());
+                return scoreFactory.buildFourOfAKindScore(card4.rank(), card5.rank());
             }
             else if(pair1 != null)
             {
@@ -128,7 +128,7 @@ public class FiveCardHandEvaluator implements IHandEvaluator
              // depending on configurations, could have trips, four of a kind, two pair or pair
             if(trips != null && trips == card5.rank())
             {
-                return scoreFactory.buildFourOfAKindScore(card5.rank());
+                return scoreFactory.buildFourOfAKindScore(card5.rank(), card1.rank());
             }
             else if(pair2 != null)
             {

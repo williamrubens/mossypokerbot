@@ -4,11 +4,16 @@
  */
 package com.mossy.holdem.implementations;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.UnmodifiableIterator;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.Rank;
 import com.mossy.holdem.Suit;
 import com.mossy.holdem.interfaces.IHand;
+
+import java.util.Iterator;
 
 /**
  *
@@ -47,10 +52,15 @@ public final class Hand implements IHand
     {
         cards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).add(c1,c2, c3, c4).build();
     }
-    
+
     Hand(ImmutableSortedSet<Card> c)
     {
         cards = c;
+    }
+
+    private Hand(ImmutableList<Card> c)
+    {
+        cards = ImmutableSortedSet.copyOf(c);
     }
     
     @Override
@@ -87,7 +97,25 @@ public final class Hand implements IHand
         // SortedSet stores cards from lowest to highest
         return cards.last();
     }
-   
+
+    @Override
+    public IHand getHighestFiveCardHand()
+    {
+        if(cards.size() < 5)
+        {
+            return this;
+        }
+        return new Hand(cards.asList().reverse().subList(0,5));
+//
+//        UnmodifiableIterator iter = cards.iterator();
+//        int offset = cards.size() - 5;
+//        while(offset-- > 0)
+//        {
+//            iter.next();
+//        }
+//        return new Hand(cards.tailSet((Card)iter.next()) );
+    }
+
     @Override
     public IHand addCard(Card card)
     {        

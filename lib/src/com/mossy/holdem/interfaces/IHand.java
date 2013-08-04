@@ -22,7 +22,9 @@ public interface IHand {
     ImmutableSortedSet<Rank> getRanks(Suit suit);
     
     int cardCount();
-    
+
     Card highestCard();
+
+    IHand getHighestFiveCardHand();
     
 }

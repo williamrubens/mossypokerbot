@@ -1,8 +1,13 @@
 package com.mossy.holdem.implementations.FastEvaluator;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.UnmodifiableIterator;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.Rank;
 import com.mossy.holdem.Suit;
+import com.mossy.holdem.implementations.FastEvaluator.tables.TopCardTable;
+import com.mossy.holdem.implementations.FastEvaluator.tables.TopFiveCardsTable;
 import com.mossy.holdem.implementations.HandScoreFactory;
 import com.mossy.holdem.interfaces.IHand;
 import com.mossy.holdem.interfaces.IHandEvaluator;
@@ -24,7 +29,7 @@ public class FastHandEvaluator implements IHandEvaluator
     final HandScoreFactory scoreFactory;
     final HandBitsAdaptor adaptor;
 
-    FastHandEvaluator(HandScoreFactory scoreFactory, HandBitsAdaptor adaptor)
+    public FastHandEvaluator(HandScoreFactory scoreFactory, HandBitsAdaptor adaptor)
     {
         this.scoreFactory = scoreFactory;
         this.adaptor = adaptor;
@@ -58,7 +63,7 @@ public class FastHandEvaluator implements IHandEvaluator
             else if (NBitsTable.table[cards.clubs] >= 5) {
                 byte straightHighCard = StraightTable.table[cards.clubs];
                 if (straightHighCard > 0)
-                    return scoreFactory.buildStraightFlushScore(Rank.fromIndex(straightHighCard));
+                        return scoreFactory.buildStraightFlushScore(Rank.fromIndex(straightHighCard));
                 else
                     score = scoreFactory.buildFlushScore(adaptor.adaptSuitBits(cards.clubs, Suit.CLUBS));
             }
@@ -79,7 +84,7 @@ public class FastHandEvaluator implements IHandEvaluator
             else {
                 byte straightHighCard = StraightTable.table[ranks];
                 if (straightHighCard > 0)
-                    score = scoreFactory.buildStraightScore(Rank.fromIndex(straightHighCard);
+                    score = scoreFactory.buildStraightScore(Rank.fromIndex(straightHighCard));
 
             }
         }
@@ -101,68 +106,83 @@ public class FastHandEvaluator implements IHandEvaluator
         {
             case 0:
                 //  It's a no-pair hand
-                int topFiveCardsBits = T
-                IHand topFiveCards = adaptor.adaptSuitBits()
-                return scoreFactory.buildHighCardScore(hand);
+                //int topFiveCardsBits = TopFiveCardsTable.table[ranks];
+                //IHand topFiveCards = adaptor.adaptSuitBits(topFiveCardsBits);
+                return scoreFactory.buildHighCardScore(hand.getHighestFiveCardHand());
 
 
-                        HandVal_HANDTYPE_VALUE(StdRules_HandType_NOPAIR)
-                        + topFiveCardsTable[ranks];
-            break;
+            case 1:
+            {
+                //It's a one-pair hand
 
-            case 1: {
-      /* It's a one-pair hand */
-                uint32 t, kickers;
+                // will have non-zero bit at location of pair
+                int pairMask   = ranks ^ (cards.clubs ^ cards.spades ^ cards.diamonds ^ cards.hearts);
 
-                two_mask   = ranks ^ (SC ^ SD ^ SH ^ SS);
+                int kickerMask = ranks ^ pairMask;      // Only one bit set in two_mask
 
-                retval = HandVal_HANDTYPE_VALUE(StdRules_HandType_ONEPAIR)
-                        + HandVal_TOP_CARD_VALUE(topCardTable[two_mask]);
-                t = ranks ^ two_mask;      /* Only one bit set in two_mask */
-      /* Get the top five cards in what is left, drop all but the top three
-       * cards, and shift them by one to get the three desired kickers */
-                kickers = (topFiveCardsTable[t] >> HandVal_CARD_WIDTH)
-                        & ~HandVal_FIFTH_CARD_MASK;
-                retval += kickers;
+                ImmutableSet<Rank> kickers = adaptor.bitsToRanks(kickerMask);
 
-                return retval;
+                UnmodifiableIterator<Rank> iKicker = kickers.asList().reverse().iterator();
+
+                return scoreFactory.buildPairScore(adaptor.bitToRank(pairMask), iKicker.next(), iKicker.next(), iKicker.next() );
+
             }
-            break;
-
             case 2:
-      /* Either two pair or trips */
+            {
+                //Either two pair or trips
 
-                two_mask   = ranks ^ (SC ^ SD ^ SH ^ SS);
-                if (two_mask) {
-                    uint32 t;
+                int pairMask   = ranks ^ (cards.clubs ^ cards.spades ^ cards.diamonds ^ cards.hearts);
+                if (pairMask != 0)
+                {
+                    //two pair
 
-                    t = ranks ^ two_mask; /* Exactly two bits set in two_mask */
-                    retval = HandVal_HANDTYPE_VALUE(StdRules_HandType_TWOPAIR)
-                            + (topFiveCardsTable[two_mask]
-                            & (HandVal_TOP_CARD_MASK | HandVal_SECOND_CARD_MASK))
-                            + HandVal_THIRD_CARD_VALUE(topCardTable[t]);
+                    int kickerMask = ranks ^ pairMask;      // Only one bit set in two_mask
 
-                    return retval;
+                    ImmutableSortedSet<Rank> pairs = adaptor.bitsToRanks(pairMask);
+                    ImmutableSortedSet<Rank> kickers = adaptor.bitsToRanks(kickerMask);
+
+                    Rank lowPair = pairs.first();
+                    Rank highPair = pairs.last();
+
+                    return scoreFactory.buildTwoPairScore(highPair, lowPair, kickers.first()) ;
+
                 }
-                else {
+                else
+                {
+                    // trips
+
                     int t, second;
 
-                    three_mask = (( SC&SD )|( SH&SS )) & (( SC&SH )|( SD&SS ));
+                    int threeMask = ((cards.clubs & cards.diamonds) | (cards.hearts & cards.spades)) &
+                                    ((cards.clubs & cards.hearts) | (cards.diamonds & cards.spades));
 
-                    retval = HandVal_HANDTYPE_VALUE(StdRules_HandType_TRIPS)
-                            + HandVal_TOP_CARD_VALUE(topCardTable[three_mask]);
 
-                    t = ranks ^ three_mask; /* Only one bit set in three_mask */
-                    second = topCardTable[t];
-                    retval += HandVal_SECOND_CARD_VALUE(second);
-                    t ^= (1 << second);
-                    retval += HandVal_THIRD_CARD_VALUE(topCardTable[t]);
-                    return retval;
+                    int nonTripsRanks = ranks ^ threeMask; // only one bit set in threeMask
+
+                    int topKicker = TopCardTable.table[nonTripsRanks];
+
+                    int remainingRanks = nonTripsRanks ^ (1 << topKicker);
+
+                    int bottomKicker = TopCardTable.table[remainingRanks];
+
+                    return scoreFactory.buildThreeOfAKindScore(adaptor.bitToRank(threeMask), Rank.fromIndex(topKicker), Rank.fromIndex(bottomKicker));
                 }
-                break;
+            }
 
             default:
-      /* Possible quads, fullhouse, straight or flush, or two pair */
+                // Possible quads, fullhouse, straight or flush, or two pair
+                int fourMask = cards.clubs & cards.diamonds & cards.hearts & cards.spades;
+
+                if(fourMask != 0)
+                {
+                    Rank quadRank = adaptor.bitToRank(fourMask);
+
+
+
+                    //return scoreFactory.buildFourOfAKindScore(quadRank, )
+                }
+                         /*
+
                 four_mask  = SH & SD & SC & SS;
                 if (four_mask) {
                     int tc;
@@ -174,16 +194,16 @@ public class FastHandEvaluator implements IHandEvaluator
                     return retval;
                 };
 
-      /* Technically, three_mask as defined below is really the set of
-         bits which are set in three or four of the suits, but since
-         we've already eliminated quads, this is OK */
-      /* Similarly, two_mask is really two_or_four_mask, but since we've
-         already eliminated quads, we can use this shortcut */
+//       Technically, three_mask as defined below is really the set of
+//         bits which are set in three or four of the suits, but since
+//         we've already eliminated quads, this is OK
+//       Similarly, two_mask is really two_or_four_mask, but since we've
+//         already eliminated quads, we can use this shortcut
 
                 two_mask   = ranks ^ (SC ^ SD ^ SH ^ SS);
                 if (nBitsTable[two_mask] != n_dups) {
-        /* Must be some trips then, which really means there is a
-           full house since n_dups >= 3 */
+//         Must be some trips then, which really means there is a
+//           full house since n_dups >= 3 3
                     int tc, t;
 
                     three_mask = (( SC&SD )|( SH&SS )) & (( SC&SH )|( SD&SS ));
@@ -195,10 +215,10 @@ public class FastHandEvaluator implements IHandEvaluator
                     return retval;
                 };
 
-                if (retval) /* flush and straight */
+                if (retval) // flush and straight
                     return retval;
                 else {
-        /* Must be two pair */
+        // Must be two pair
                     int top, second;
 
                     retval = HandVal_HANDTYPE_VALUE(StdRules_HandType_TWOPAIR);
@@ -211,11 +231,11 @@ public class FastHandEvaluator implements IHandEvaluator
                     return retval;
                 };
 
-                break;
+                break;                    */
         };
 
-  /* Should never happen */
-        assert(!"Logic error in StdDeck_StdRules_EVAL_N");
+  //Should never happen
+        //assert(!"Logic error in StdDeck_StdRules_EVAL_N");
 
 
 

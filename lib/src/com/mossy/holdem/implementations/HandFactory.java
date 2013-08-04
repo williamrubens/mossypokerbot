@@ -49,7 +49,7 @@ public class HandFactory implements IHandFactory
 
         TreeSet<Rank> ranks = new TreeSet<Rank>();
 
-        ArrayList<Card> cards = new ArrayList<>();
+        ArrayList<Card> cards = new ArrayList<Card>();
 
         while(ranks.size() != nCards)
         {

@@ -31,15 +31,7 @@
     <orderEntry type="library" name="mockito-all-1.9.5" level="project" />
     <orderEntry type="library" name="guice-assistedinject-3.0" level="project" />
     <orderEntry type="library" name="javax.inject" level="application" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../third-party/guava/guava-11.0.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="guava-11.0.2" level="project" />
   </component>
 </module>
 

@@ -15,7 +15,7 @@ public interface IHandScoreFactory {
 
     int buildStraightFlushScore(Rank highestRank);
 
-    int buildFourOfAKindScore(Rank fourOfAKindRank);
+    int buildFourOfAKindScore(Rank fourOfAKindRank, Rank kicker);
 
     int buildFullHouseScore(Rank trips, Rank pairs);
 
@@ -28,6 +28,8 @@ public interface IHandScoreFactory {
     int buildTwoPairScore(Rank highPair, Rank lowPair, Rank kicker);
 
     int buildPairScore(Rank pair, Rank highKicker, Rank medKicker, Rank lowKicker);
+
+    int buildPairScore(Rank pair, ImmutableSortedSet<Rank> kickers);
 
     int buildHighCardScore(IHand kickers);
 }

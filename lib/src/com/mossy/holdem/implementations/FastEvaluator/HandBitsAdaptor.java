@@ -1,8 +1,11 @@
 package com.mossy.holdem.implementations.FastEvaluator;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.Rank;
 import com.mossy.holdem.Suit;
+import com.mossy.holdem.implementations.FastEvaluator.tables.TopCardTable;
 import com.mossy.holdem.implementations.Hand;
 import com.mossy.holdem.implementations.HandFactory;
 import com.mossy.holdem.interfaces.IHand;
@@ -26,7 +29,7 @@ public class HandBitsAdaptor
 
     final HandFactory handFactory;
 
-    HandBitsAdaptor(HandFactory handFactory)
+    public HandBitsAdaptor(HandFactory handFactory)
     {
         this.handFactory = handFactory;
     }
@@ -63,6 +66,50 @@ public class HandBitsAdaptor
         cardBits.nCards = hand.cardCount();
 
         return cardBits;
+    }
+
+    public Rank bitToRank(int rank) throws Exception
+    {
+        return Rank.fromIndex(TopCardTable.table[rank]);
+        /*
+        for(int i = 0; i < 13; ++i)
+        {
+            if((rank & (1 << i)) != 0)
+            {
+                return Rank.fromIndex(i);
+            }
+        }    */
+        //throw new Exception("Failed to convert rank");
+    }
+
+    // immutablesortedset sorts from LOWEST to HIGHEST
+    public ImmutableSortedSet<Rank> bitsToRanks(int rank) throws Exception
+    {
+        int cardsTriedMask = 0;
+        ImmutableSortedSet.Builder<Rank> rankBuilder = ImmutableSortedSet.naturalOrder();
+        int rankBitsSet = rank;
+        while(rankBitsSet != 0)
+        {
+            int topCardIndex;
+            topCardIndex = TopCardTable.table[rankBitsSet];
+            rankBuilder.add(Rank.fromIndex(topCardIndex));
+            rankBitsSet ^= (1 << topCardIndex);
+
+        }
+        /*
+        for(int i = 0; i < 13; ++i)
+        {
+            if((rank & (1 << i)) != 0)
+            {
+                rankBuilder.add(Rank.fromIndex(i));
+            }
+            cardsTriedMask |= (1 << i);
+            if((rank & (~cardsTriedMask)) == 0)
+            {
+                return rankBuilder.build();
+            }
+        }                               */
+        return rankBuilder.build();
     }
 
     IHand adaptSuitBits(int suitBits, Suit suit)  throws Exception

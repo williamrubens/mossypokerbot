@@ -69,11 +69,11 @@ public class HandBitsAdaptorTest {
         String string = adaptor.adaptSuitBits(aceKing, Suit.DIAMONDS).toString();
 
         assertEquals(string, "AdKd");
+    }
 
-
-
-
-
+    @Test
+    public void testBitsToRank()
+    {
 
     }
 }
