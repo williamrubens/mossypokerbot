@@ -6,14 +6,11 @@ package com.mossy.holdem.implementations;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.UnmodifiableIterator;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.Rank;
 import com.mossy.holdem.Suit;
 import com.mossy.holdem.interfaces.IHand;
-
-import java.util.Iterator;
 
 /**
  *
@@ -26,31 +23,31 @@ public final class Hand implements IHand
     
     Hand()
     {
-        cards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).build();
+        cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).build();
     }
     
      Hand(Card c1)
     {
-        cards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).add(c1).build();
+        cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1).build();
     }
     
     Hand(Card c1, Card c2)
     {
-       cards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).add(c1, c2).build();
+       cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1, c2).build();
     }
     Hand(Card c1, Card c2, Card c3)
     {
-        cards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).add(c1, c2, c3).build();
+        cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1, c2, c3).build();
     }
     
     Hand(Card c1, Card c2, Card c3, Card c4)
     {
-        cards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).add(c1, c2, c3, c4).build();
+        cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1, c2, c3, c4).build();
     }
      
     Hand(Card c1, Card c2, Card c3, Card c4, Card c5)
     {
-        cards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).add(c1,c2, c3, c4).build();
+        cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1,c2, c3, c4, c5).build();
     }
 
     Hand(ImmutableSortedSet<Card> c)
@@ -101,32 +98,32 @@ public final class Hand implements IHand
     @Override
     public IHand getHighestFiveCardHand()
     {
-        if(cards.size() < 5)
-        {
-            return this;
-        }
-        return new Hand(cards.asList().reverse().subList(0,5));
-//
-//        UnmodifiableIterator iter = cards.iterator();
-//        int offset = cards.size() - 5;
-//        while(offset-- > 0)
+//        if(cards.size() < 5)
 //        {
-//            iter.next();
+//            return this;
 //        }
-//        return new Hand(cards.tailSet((Card)iter.next()) );
+//        return new Hand(cards.asList().reverse().subList(0,5));
+
+        UnmodifiableIterator iter = cards.iterator();
+        int offset = cards.size() - 5;
+        while(offset-- > 0)
+        {
+            iter.next();
+        }
+        return new Hand(cards.tailSet((Card)iter.next()) );
     }
 
     @Override
     public IHand addCard(Card card)
     {        
-        ImmutableSortedSet<Card> moreCards = ImmutableSortedSet.orderedBy(new Card.HandCardComparer()).addAll(cards).add(card).build();
+        ImmutableSortedSet<Card> moreCards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).addAll(cards).add(card).build();
         return new Hand(moreCards);
     }
 
     @Override
     public IHand removeCard(Card card)
     {
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         for(Card myCard : cards)
         {
             if(!myCard.equals(card))

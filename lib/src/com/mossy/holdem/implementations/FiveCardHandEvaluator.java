@@ -25,6 +25,7 @@ public class FiveCardHandEvaluator implements IHandEvaluator
     final IHandScoreFactory scoreFactory;
 
     @Inject
+    public
     FiveCardHandEvaluator(IHandScoreFactory sf)
     {
         scoreFactory = sf;
@@ -174,13 +175,16 @@ public class FiveCardHandEvaluator implements IHandEvaluator
         
         if(straight && flush)
         {
+            // check if it's a ace low straight
+
+            if(card1.rank() == Rank.TWO && card5.rank() == Rank.ACE)
+            {
+                return scoreFactory.buildStraightFlushScore(card4.rank());
+            }
+
             return scoreFactory.buildStraightFlushScore(card5.rank());
         }
-        
-//        if(card5.rank() ==  card2.rank() || card4.rank() == card1.rank() )
-//        {
-//            return scoreFactory.buildFourOfAKindScore(card3); 
-//        }
+
         
         if(trips != null && pair1 != null)
         {
@@ -194,7 +198,14 @@ public class FiveCardHandEvaluator implements IHandEvaluator
         
         if(straight)
         {
-            return scoreFactory.buildStraightScore(hand.highestCard().rank());
+            // check if it's a ace low straight
+
+            if(card1.rank() == Rank.TWO && card5.rank() == Rank.ACE)
+            {
+                return scoreFactory.buildStraightScore(card4.rank());
+            }
+
+            return scoreFactory.buildStraightScore(card5.rank());
         }
         
         if(trips != null)

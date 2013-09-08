@@ -32,4 +32,6 @@ public interface IHandScoreFactory {
     int buildPairScore(Rank pair, ImmutableSortedSet<Rank> kickers);
 
     int buildHighCardScore(IHand kickers);
+
+    int buildFlushScore(ImmutableSortedSet<Rank> allRanks);
 }

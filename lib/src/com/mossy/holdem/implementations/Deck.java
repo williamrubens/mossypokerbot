@@ -104,7 +104,7 @@ public class Deck implements IDeck
     @Override
     public ImmutableSortedSet<Card> allCards()
     {
-        ImmutableSortedSet.Builder<Card> setBuilder = ImmutableSortedSet.orderedBy(new Card.CardCollectionComparer());
+        ImmutableSortedSet.Builder<Card> setBuilder = ImmutableSortedSet.orderedBy(new Card.SuitThenRankComparer());
         
         setBuilder.addAll(undealtCards).addAll(dealtCards);
         

@@ -116,7 +116,7 @@ public class HandFactory implements IHandFactory
         Rank randomRank = Rank.getRandomRank(Rank.TEN);
         Suit randomSuit = Suit.getRandomSuit();
         
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         
         builder.add(Card.from(randomRank, randomSuit));
         builder.add(Card.from(randomRank.addToRank(1), randomSuit));
@@ -135,7 +135,7 @@ public class HandFactory implements IHandFactory
         Rank randomRank = Rank.getRandomRank();
         
         IDeck deck = deckFactory.build();
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         
         builder.add(deck.pickRandom(randomRank));
         builder.add(deck.pickRandom(randomRank));
@@ -157,7 +157,7 @@ public class HandFactory implements IHandFactory
         while((randomPair = Rank.getRandomRank()) == randomTrips) {}
         
         IDeck deck = deckFactory.build();
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         
         builder.add(deck.pickRandom(randomTrips));
         builder.add(deck.pickRandom(randomTrips));
@@ -176,7 +176,7 @@ public class HandFactory implements IHandFactory
         Suit randomSuit = Suit.getRandomSuit();
         
         IDeck deck = deckFactory.build();
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
 
         builder.add(Card.from(cards.get(0).rank(), randomSuit));
         builder.add(Card.from(cards.get(1).rank(), randomSuit));
@@ -193,7 +193,7 @@ public class HandFactory implements IHandFactory
         
         Rank randomRank = Rank.getRandomRank(Rank.TEN);
         
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         
         builder.add(Card.from(randomRank, Suit.getRandomSuit()));
         builder.add(Card.from(randomRank.addToRank(1), Suit.getRandomSuit()));
@@ -212,7 +212,7 @@ public class HandFactory implements IHandFactory
         IDeck deck = deckFactory.build();
         deck.shuffle();
         
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         
         builder.add(deck.pickRandom(cards.get(0).rank()));
         builder.add(deck.pickRandom(cards.get(0).rank()));
@@ -232,7 +232,7 @@ public class HandFactory implements IHandFactory
         ArrayList<Card> cards = pickNRandomDifferentCards(3);
         
         IDeck deck = deckFactory.build();
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         
         builder.add(deck.pickRandom(cards.get(0).rank()));
         builder.add(deck.pickRandom(cards.get(0).rank()));
@@ -251,7 +251,7 @@ public class HandFactory implements IHandFactory
         ArrayList<Card> cards = pickNRandomDifferentCards(4);
         
         IDeck deck = deckFactory.build();
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         
         builder.add(deck.pickRandom(cards.get(0).rank()));
         builder.add(deck.pickRandom(cards.get(0).rank()));
@@ -268,7 +268,7 @@ public class HandFactory implements IHandFactory
                 
         ArrayList<Card> cards = pickNRandomDifferentCards(5);
         
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         builder.add(cards.get(0));
         builder.add(cards.get(1));
         builder.add(cards.get(2));
@@ -301,7 +301,7 @@ public class HandFactory implements IHandFactory
             strIndex -= 2;                        
         }
         
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
                 
         for(String cardString : cardStrings)
         {
@@ -314,7 +314,7 @@ public class HandFactory implements IHandFactory
     @Override
     public IHand build(HoleCards holeCards, List<Card> boardCards) throws Exception
     {
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
         builder.add(holeCards.card1());
         builder.add(holeCards.card2());
                 
@@ -329,7 +329,7 @@ public class HandFactory implements IHandFactory
     @Override
     public IHand build(List<Card> cards) throws Exception
     {
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.HandCardComparer());
+        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
 
         for(Card card : cards)
         {

@@ -1,16 +1,12 @@
 package com.mossy.holdem.implementations.FastEvaluator;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.inject.Inject;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.Rank;
-import com.mossy.holdem.Suit;
 import com.mossy.holdem.implementations.FastEvaluator.tables.TopCardTable;
-import com.mossy.holdem.implementations.Hand;
 import com.mossy.holdem.implementations.HandFactory;
 import com.mossy.holdem.interfaces.IHand;
-
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,6 +25,7 @@ public class HandBitsAdaptor
 
     final HandFactory handFactory;
 
+    @Inject
     public HandBitsAdaptor(HandFactory handFactory)
     {
         this.handFactory = handFactory;
@@ -68,9 +65,9 @@ public class HandBitsAdaptor
         return cardBits;
     }
 
-    public Rank bitToRank(int rank) throws Exception
+    public Rank bitMaskToRank(int rank) throws Exception
     {
-        return Rank.fromIndex(TopCardTable.table[rank]);
+        return Rank.fromIndex(TopCardTable.ranksToIndex[rank]);
         /*
         for(int i = 0; i < 13; ++i)
         {
@@ -83,7 +80,7 @@ public class HandBitsAdaptor
     }
 
     // immutablesortedset sorts from LOWEST to HIGHEST
-    public ImmutableSortedSet<Rank> bitsToRanks(int rank) throws Exception
+    public ImmutableSortedSet<Rank> bitMasksToRanks(int rank) throws Exception
     {
         int cardsTriedMask = 0;
         ImmutableSortedSet.Builder<Rank> rankBuilder = ImmutableSortedSet.naturalOrder();
@@ -91,7 +88,7 @@ public class HandBitsAdaptor
         while(rankBitsSet != 0)
         {
             int topCardIndex;
-            topCardIndex = TopCardTable.table[rankBitsSet];
+            topCardIndex = TopCardTable.ranksToIndex[rankBitsSet];
             rankBuilder.add(Rank.fromIndex(topCardIndex));
             rankBitsSet ^= (1 << topCardIndex);
 
@@ -111,7 +108,7 @@ public class HandBitsAdaptor
         }                               */
         return rankBuilder.build();
     }
-
+    /*
     IHand adaptSuitBits(int suitBits, Suit suit)  throws Exception
     {
         ArrayList<Card> cards = new ArrayList<Card>();
@@ -125,4 +122,5 @@ public class HandBitsAdaptor
 
         return handFactory.build(cards);
     }
+    */
 }

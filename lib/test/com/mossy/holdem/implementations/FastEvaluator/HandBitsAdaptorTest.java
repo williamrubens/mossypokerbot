@@ -1,6 +1,7 @@
 package com.mossy.holdem.implementations.FastEvaluator;
 
-import com.mossy.holdem.Suit;
+import com.google.common.collect.ImmutableSortedSet;
+import com.mossy.holdem.Rank;
 import com.mossy.holdem.implementations.HandFactory;
 import com.mossy.holdem.interfaces.IHand;
 import org.junit.Test;
@@ -59,16 +60,31 @@ public class HandBitsAdaptorTest {
     }
 
     @Test
-    public void testAdaptSuitBits() throws Exception
+    public void testAdaptBits() throws Exception
     {
         HandFactory handFactory = new HandFactory();
         HandBitsAdaptor adaptor = new HandBitsAdaptor(handFactory);
 
-        int  aceKing = ((1 << 12) |  (1 << 11));
+        int cards = ((1 << 12) |  (1 << 11));
 
-        String string = adaptor.adaptSuitBits(aceKing, Suit.DIAMONDS).toString();
+        ImmutableSortedSet<Rank> ranks = adaptor.bitMasksToRanks(cards);
 
-        assertEquals(string, "AdKd");
+        assertEquals(ranks.first(), Rank.KING );
+        assertEquals(ranks.last(), Rank.ACE );
+
+        cards = ((1 << 12) |  (1 << 0));
+
+         ranks = adaptor.bitMasksToRanks(cards);
+
+        assertEquals(ranks.first(), Rank.TWO );
+        assertEquals(ranks.last(), Rank.ACE );
+
+        cards = ((1 << 9) |  (1 << 5));
+
+        ranks = adaptor.bitMasksToRanks(cards);
+
+        assertEquals(ranks.first(), Rank.SEVEN );
+        assertEquals(ranks.last(), Rank.JACK );
     }
 
     @Test

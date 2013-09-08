@@ -21,7 +21,7 @@ is no such thing as a deuce-high straight, that's OK.
  */
 
 
-    static public final byte table[] =
+    static public final byte ranksToIndex[] =
      {
             0x00 ,
             0x00 ,

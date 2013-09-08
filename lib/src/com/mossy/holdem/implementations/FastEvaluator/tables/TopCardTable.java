@@ -15,7 +15,7 @@ a card rank.  The output value is the rank of the highest card set
 in the input mask.  
  */
 
-    final static public byte[] table = {
+    final static public byte[] ranksToIndex = {
             0x00 ,
             0x00 ,
             0x01 ,

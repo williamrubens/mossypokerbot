@@ -31,28 +31,28 @@ public class HandScoreFactory implements IHandScoreFactory {
     static final int PAIR              = HAND_SCORE_DELTA * 2;
     static final int HIGH_CARD         = HAND_SCORE_DELTA * 1;
     */
-    
-    static final int HAND_TYPE_SHIFT    = 24;
-    static final int FIRST_CARD_SHIFT   = 16;
-    static final int SECOND_CARD_SHIFT  = 12;
-    static final int THIRD_CARD_SHIFT   = 8;
-    static final int FOURTH_CARD_SHIFT  = 4;
-    static final int FIFTH_CARD_SHIFT   = 0;
-    
-    
-    
-    
-    static final int STRAIGHT_FLUSH    = (9 << HAND_TYPE_SHIFT);
-    static final int FOUR_OF_A_KIND    = (8 << HAND_TYPE_SHIFT);
-    static final int FULL_HOUSE        = (7 << HAND_TYPE_SHIFT);
-    static final int FLUSH             = (6 << HAND_TYPE_SHIFT);
-    static final int STRAIGHT          = (5 << HAND_TYPE_SHIFT);
-    static final int THREE_OF_A_KIND   = (4 << HAND_TYPE_SHIFT);
-    static final int TWO_PAIR          = (3 << HAND_TYPE_SHIFT);
-    static final int PAIR              = (2 << HAND_TYPE_SHIFT);
-    static final int HIGH_CARD         = (1 << HAND_TYPE_SHIFT);
-    
-    static final int HAND_TYPE_MASK = 0xFF000000;
+
+    public static final int HAND_TYPE_SHIFT    = 24;
+    public static final int FIRST_CARD_SHIFT   = 16;
+    public static final int SECOND_CARD_SHIFT  = 12;
+    public static final int THIRD_CARD_SHIFT   = 8;
+    public static final int FOURTH_CARD_SHIFT  = 4;
+    public static final int FIFTH_CARD_SHIFT   = 0;
+
+
+
+
+    public static final int STRAIGHT_FLUSH    = (9 << HAND_TYPE_SHIFT);
+    public static final int FOUR_OF_A_KIND    = (8 << HAND_TYPE_SHIFT);
+    public static final int FULL_HOUSE        = (7 << HAND_TYPE_SHIFT);
+    public static final int FLUSH             = (6 << HAND_TYPE_SHIFT);
+    public static final int STRAIGHT          = (5 << HAND_TYPE_SHIFT);
+    public static final int THREE_OF_A_KIND   = (4 << HAND_TYPE_SHIFT);
+    public static final int TWO_PAIR          = (3 << HAND_TYPE_SHIFT);
+    public static final int PAIR              = (2 << HAND_TYPE_SHIFT);
+    public static final int HIGH_CARD         = (1 << HAND_TYPE_SHIFT);
+
+    public static final int HAND_TYPE_MASK = 0xFF000000;
     
     
     @Override
@@ -74,6 +74,11 @@ public class HandScoreFactory implements IHandScoreFactory {
     public int buildFlushScore(IHand allCards)
     {
         return FLUSH + buildKickerScore(allCards);
+    }
+    @Override
+    public int buildFlushScore(ImmutableSortedSet<Rank> allRanks)
+    {
+        return FLUSH + buildKickerScore(allRanks);
     }
     @Override
     public int buildStraightScore(Rank highestRank)
@@ -122,26 +127,63 @@ public class HandScoreFactory implements IHandScoreFactory {
     {
         return HIGH_CARD + buildKickerScore(kickers);
     }
-    
-    
+
+
     private int buildKickerScore(IHand kickers)
     {
-        
-        if(kickers.cardCount() != 5)
-        {
-            throw new IllegalArgumentException("Must have 5 card hand.");
-        }
-        
+
+        //if(kickers.cardCount() != 5)
+        //{
+        //    throw new IllegalArgumentException("Must have 5 card hand.");
+        //}
+
         int kickerAdjustment = 0;
-        
-        Iterator<Card> iKicker = kickers.cards().iterator();
-        
-        kickerAdjustment += iKicker.next().rank().number() << FIFTH_CARD_SHIFT;
-        kickerAdjustment += iKicker.next().rank().number() << FOURTH_CARD_SHIFT;
-        kickerAdjustment += iKicker.next().rank().number() << THIRD_CARD_SHIFT;
-        kickerAdjustment += iKicker.next().rank().number() << SECOND_CARD_SHIFT;
+
+        Iterator<Card> iKicker = kickers.cards().asList().reverse().iterator();
+
         kickerAdjustment += iKicker.next().rank().number() << FIRST_CARD_SHIFT;
-      
+        kickerAdjustment += iKicker.next().rank().number() << SECOND_CARD_SHIFT;
+        kickerAdjustment += iKicker.next().rank().number() << THIRD_CARD_SHIFT;
+        kickerAdjustment += iKicker.next().rank().number() << FOURTH_CARD_SHIFT;
+        kickerAdjustment += iKicker.next().rank().number() << FIFTH_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().rank().number() << FIFTH_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().rank().number() << FOURTH_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().rank().number() << THIRD_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().rank().number() << SECOND_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().rank().number() << FIRST_CARD_SHIFT;
+
+        return kickerAdjustment;
+    }
+
+    private int buildKickerScore(ImmutableSortedSet<Rank> kickers)
+    {
+
+        Iterator<Rank> iKicker = kickers.asList().reverse().iterator();
+
+        int kickerAdjustment = 0;
+
+        kickerAdjustment += iKicker.next().number() << FIRST_CARD_SHIFT;
+        kickerAdjustment += iKicker.next().number() << SECOND_CARD_SHIFT;
+        kickerAdjustment += iKicker.next().number() << THIRD_CARD_SHIFT;
+        kickerAdjustment += iKicker.next().number() << FOURTH_CARD_SHIFT;
+        kickerAdjustment += iKicker.next().number() << FIFTH_CARD_SHIFT;
+
+//        if(kickers.size() != 5)
+//        {
+//            throw new IllegalArgumentException("Must have 5 card hand.");
+//        }
+//
+//        int kickerAdjustment = 0;
+//
+//        // lowest to highets iterator
+//        Iterator<Rank> iKicker = kickers.iterator();
+//
+//        kickerAdjustment += iKicker.next().number() << FIFTH_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().number() << FOURTH_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().number() << THIRD_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().number() << SECOND_CARD_SHIFT;
+//        kickerAdjustment += iKicker.next().number() << FIRST_CARD_SHIFT;
+
         return kickerAdjustment;
     }
     

@@ -7,6 +7,7 @@ import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
 import com.mossy.holdem.annotations.Annotations;
 import com.mossy.holdem.implementations.*;
+import com.mossy.holdem.implementations.FastEvaluator.FastHandEvaluator;
 import com.mossy.holdem.interfaces.*;
 
 /**
@@ -44,8 +45,9 @@ public class IteratedRolloutModule extends AbstractModule
         bind(IPreFlopRolloutSimulator.class).to(PreFlopRolloutSimulator.class);
         bind(IIteratedRolloutSimulator.class).to(IteratedRolloutSimulator.class);
 
-        bind(IHandEvaluator.class).to(HandEvaluator.class);
-        bind(IHandEvaluator.class).annotatedWith(Annotations.FiveCardEvaluator.class).to(FiveCardHandEvaluator.class);
+        bind(IHandEvaluator.class).to(FastHandEvaluator.class);
+        //bind(IHandEvaluator.class).to(HandEvaluator.class);
+        //bind(IHandEvaluator.class).annotatedWith(Annotations.FiveCardEvaluator.class).to(FiveCardHandEvaluator.class);
 
         bind(IBoardCardDealer.class).to(BoardCardDealer.class);
         bind(IHoleCardDealer.class).to(HoleCardDealer.class);

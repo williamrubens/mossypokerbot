@@ -110,15 +110,15 @@ public class FiveCardHandEvaluatorTest {
      * Test of evaluateHand method, of class FiveCardHandEvaluator.
      */
     @Test
-    public void testEvaluateRandomHand() throws Exception 
+    public void testEvaluateRandomHand() throws Exception
     {
-        
-        
-        HandFactory handFactory = new HandFactory();    
+
+
+        HandFactory handFactory = new HandFactory();
         HandScoreFactory scoreFactory = new HandScoreFactory();
         FiveCardHandEvaluator handEvaluator = new FiveCardHandEvaluator(scoreFactory);
         StandardDeckFactory deckFactory = new StandardDeckFactory();
-        
+
         for(HandType handType : HandType.values())
         {
             int iterations = 0;
@@ -126,12 +126,12 @@ public class FiveCardHandEvaluatorTest {
             {
                 IHand randomHand = handFactory.generateRandom(handType, deckFactory);
                 int handScore = handEvaluator.evaluateHand(randomHand);
-                
+
                 if((handScore & HandScoreFactory.HAND_TYPE_MASK) != ( (handType.ordinal() + 1) << HandScoreFactory.HAND_TYPE_SHIFT) )
                 {
                     fail(String.format("Failed to correctly evaluate Hand %s, found score 0x%x", randomHand, handScore));
                 }
-            }                  
+            }
         }
     }
 }

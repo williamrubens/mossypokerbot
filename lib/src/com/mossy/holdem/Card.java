@@ -147,7 +147,7 @@ final public class Card{
 
 
 
-    public static class CardCollectionComparer implements Comparator<Card>
+    public static class SuitThenRankComparer implements Comparator<Card>
     {
         @Override
         public int compare(Card lhs, Card rhs)
@@ -166,7 +166,7 @@ final public class Card{
      *
      * @author d80050
      */
-    public static class HandCardComparer implements Comparator<Card>
+    public static class RankThenSuitComparer implements Comparator<Card>
     {
         @Override
         public int compare(Card lhs, Card rhs)
