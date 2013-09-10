@@ -60,6 +60,22 @@ final public class PreFlopHandType implements Comparable<PreFlopHandType>
     @Override
     public String toString() { return name; }
 
+    public static PreFlopHandType fromString(String source)  throws Exception
+    {
+        if(source.length() != 2 || source.length() != 3)
+        {
+            throw new Exception(String.format("Don't know how to convert string %s to PreflopHandType", source));
+        }
+        Rank rank1 = Rank.fromChar(source.charAt(0));
+        Rank rank2 = Rank.fromChar(source.charAt(1));
+        boolean suited = false;
+        if(source.length() == 3 && source.charAt(2) == 's')
+        {
+            suited = true;
+        }
+        return new PreFlopHandType(rank1, rank2, suited);
+    }
+
 
     @Override
     public int hashCode() {
