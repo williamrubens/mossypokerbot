@@ -13,5 +13,5 @@ import com.mossy.holdem.PreFlopHandType;
 public interface IPreFlopIncomeRateVendor
 {
 
-    IncomeRate getIncomeRate(PreFlopHandType preFlopHand);
+    IncomeRate getIncomeRate(int numPlayers, PreFlopHandType preFlopHand);
 }

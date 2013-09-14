@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="meerkat-api">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../third-party/Meerkat-API/meerkat-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

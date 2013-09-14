@@ -26,8 +26,12 @@ public class PreFlopIncomeRateLookup implements IPreFlopIncomeRateVendor
 
 
     @Override
-    public IncomeRate getIncomeRate(PreFlopHandType preFlopHand)
+    public IncomeRate getIncomeRate(int numPlayers, PreFlopHandType preFlopHand)
     {
+        if(numPlayers != 10)
+        {
+            return null;
+        }
         return lookup.get(preFlopHand);
     }
 }
