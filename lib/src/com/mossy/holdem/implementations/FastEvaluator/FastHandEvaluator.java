@@ -11,6 +11,7 @@ import com.mossy.holdem.interfaces.IHand;
 import com.mossy.holdem.interfaces.IHandEvaluator;
 import com.mossy.holdem.implementations.FastEvaluator.tables.NBitsTable;
 import com.mossy.holdem.implementations.FastEvaluator.tables.StraightTable;
+import com.mossy.holdem.interfaces.IHandScoreFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,11 +25,11 @@ import com.mossy.holdem.implementations.FastEvaluator.tables.StraightTable;
 public class FastHandEvaluator implements IHandEvaluator
 {
 
-    final HandScoreFactory scoreFactory;
+    final IHandScoreFactory scoreFactory;
     final HandBitsAdaptor adaptor;
 
     @Inject
-    public FastHandEvaluator(HandScoreFactory scoreFactory, HandBitsAdaptor adaptor)
+    public FastHandEvaluator(IHandScoreFactory scoreFactory, HandBitsAdaptor adaptor)
     {
         this.scoreFactory = scoreFactory;
         this.adaptor = adaptor;

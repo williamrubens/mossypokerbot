@@ -9,6 +9,7 @@ import com.google.inject.Injector;
 import com.mossy.holdem.HoleCards;
 import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
+import com.mossy.holdem.interfaces.IKnowledgeBasedHoldemPlayer;
 import com.mossy.holdem.interfaces.IPreFlopIncomeRateVendor;
 import com.mossy.holdem.modules.GamePlayModule;
 import org.apache.log4j.Logger;
@@ -24,10 +25,9 @@ public class MeerkatPlayer implements Player
     final static private Logger log = Logger.getLogger(MeerkatPlayer.class);
 
     Injector injector;
-    IPreFlopIncomeRateVendor preFlopIncomeRateVendor;
+    IKnowledgeBasedHoldemPlayer knowledgePlayer;
     GameInfo gameInfo;
     MeerkatToMossyAdaptor adaptor;
-    HoleCards holeCards;
     int ourSeat;
 
 
@@ -35,7 +35,7 @@ public class MeerkatPlayer implements Player
     public void init(Preferences preferences)
     {
         injector = Guice.createInjector(new GamePlayModule());
-        preFlopIncomeRateVendor = injector.getInstance(IPreFlopIncomeRateVendor.class);
+        knowledgePlayer = injector.getInstance(IKnowledgeBasedHoldemPlayer.class);
 
         adaptor = new MeerkatToMossyAdaptor();
     }
@@ -46,7 +46,7 @@ public class MeerkatPlayer implements Player
         try
         {
             ourSeat = seat;
-            holeCards = HoleCards.from(adaptor.adaptCard(card1), adaptor.adaptCard(card2));
+            knowledgePlayer.setHoleCards(adaptor.adaptCard(card1), adaptor.adaptCard(card2));
         }
         catch (Exception ex)
         {
@@ -58,22 +58,9 @@ public class MeerkatPlayer implements Player
     public Action getAction()
     {
         double callAmount = gameInfo.getAmountToCall(ourSeat);
-        if(gameInfo.isPreFlop())
-        {
-            IncomeRate ir = preFlopIncomeRateVendor.getIncomeRate(gameInfo.getNumPlayers(), PreFlopHandType.fromHoleCards(holeCards));
-            if(ir.incomeRate() > 0)
-            {
-                Action.callAction(callAmount);
-            }
-            else
-            {
-                Action.muckAction();
-            }
-        }
-        else
-        {
 
-        }
+        knowledgePlayer.getNextAction();
+
         return null;
     }
 
@@ -99,6 +86,7 @@ public class MeerkatPlayer implements Player
     public void gameStartEvent(GameInfo gameInfo)
     {
         this.gameInfo = gameInfo;
+        knowledgePlayer.startGame(gameInfo.getNumPlayers());
     }
 
     @Override

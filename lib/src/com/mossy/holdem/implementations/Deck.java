@@ -111,4 +111,14 @@ public class Deck implements IDeck
         return setBuilder.build();
     }
 
+    @Override
+    public ImmutableSortedSet<Card> undealtCards()
+    {
+        ImmutableSortedSet.Builder<Card> setBuilder = ImmutableSortedSet.orderedBy(new Card.SuitThenRankComparer());
+
+        setBuilder.addAll(undealtCards);
+
+        return setBuilder.build();
+    }
+
 }

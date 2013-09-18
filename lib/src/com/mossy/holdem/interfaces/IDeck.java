@@ -21,6 +21,7 @@ public interface IDeck
     Card pickRandom(Suit suit);
     
     ImmutableSortedSet<Card> allCards();
+    ImmutableSortedSet<Card> undealtCards();
     
     void dealCard(Card card);
     

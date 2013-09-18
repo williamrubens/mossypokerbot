@@ -10,5 +10,5 @@ package com.mossy.holdem.interfaces;
  */
 public interface IDeckFactory
 {
-    IDeck build();    
+    IDeck build();
 }

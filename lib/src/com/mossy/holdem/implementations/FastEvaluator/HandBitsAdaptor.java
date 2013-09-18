@@ -7,6 +7,7 @@ import com.mossy.holdem.Rank;
 import com.mossy.holdem.implementations.FastEvaluator.tables.TopCardTable;
 import com.mossy.holdem.implementations.HandFactory;
 import com.mossy.holdem.interfaces.IHand;
+import com.mossy.holdem.interfaces.IHandFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,10 +24,10 @@ public class HandBitsAdaptor
     static final int DIAMONDS_BIT_SHIFT = 32;
     static final int SPADES_BIT_SHIFT = 48;
 
-    final HandFactory handFactory;
+    final IHandFactory handFactory;
 
     @Inject
-    public HandBitsAdaptor(HandFactory handFactory)
+    public HandBitsAdaptor(IHandFactory handFactory)
     {
         this.handFactory = handFactory;
     }
