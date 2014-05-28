@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="meerkat-api">
+  <library name="junit-4.111">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/meerkat-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-4.11.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

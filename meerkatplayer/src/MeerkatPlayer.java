@@ -46,7 +46,7 @@ public class MeerkatPlayer implements Player
         try
         {
             ourSeat = seat;
-            knowledgePlayer.setHoleCards(adaptor.adaptCard(card1), adaptor.adaptCard(card2));
+            knowledgePlayer.setHoleCards(adaptor.adaptCard(card1), adaptor.adaptCard(card2), ourSeat);
         }
         catch (Exception ex)
         {
