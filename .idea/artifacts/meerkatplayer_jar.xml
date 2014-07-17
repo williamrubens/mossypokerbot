@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="meerkatplayer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/meerkatplayer_jar</output-path>
+    <properties id="ant-postprocessing">
+      <options enabled="true" />
+    </properties>
+    <root id="root">
+      <element id="archive" name="meerkatplayer.jar">
+        <element id="module-output" name="meerkatplayer" />
+        <element id="module-output" name="mossyholdemlib" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/mossyholdemlib/res/prefloplookup_iterated.csv" />
+      </element>
+      <element id="library" level="project" name="opencsv-2.3" />
+      <element id="library" level="project" name="commons-math3-3.2" />
+      <element id="library" level="project" name="mockito-all-1.9.5" />
+      <element id="library" level="project" name="meerkat-api" />
+      <element id="library" level="project" name="log4j-1.2.17" />
+      <element id="library" level="application" name="guice-4" />
+      <element id="library" level="application" name="guava-17.0" />
+    </root>
+  </artifact>
+</component>

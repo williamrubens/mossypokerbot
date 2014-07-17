@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/meerkatplayer/meerkatplayer.iml" filepath="$PROJECT_DIR$/src/meerkatplayer/meerkatplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/meerkatplayer/meerkatplayer.iml" filepath="$PROJECT_DIR$/meerkatplayer/meerkatplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/mossyholdemlib/mossyholdemlib.iml" filepath="$PROJECT_DIR$/src/mossyholdemlib/mossyholdemlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mossyholdemlib/mossyholdemlib.iml" filepath="$PROJECT_DIR$/mossyholdemlib/mossyholdemlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test/mossyholdemlibtest/mossyholdemlibtest.iml" filepath="$PROJECT_DIR$/test/mossyholdemlibtest/mossyholdemlibtest.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/runner/runner.iml" filepath="$PROJECT_DIR$/src/runner/runner.iml" />
-      <module fileurl="file://$PROJECT_DIR$/runner/runner.iml" filepath="$PROJECT_DIR$/runner/runner.iml" />
     </modules>
   </component>
 </project>
