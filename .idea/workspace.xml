@@ -6,14 +6,117 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f9948b90-08a9-42d9-9e6c-96fb639fbc0f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/meerkatplayer/src/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/meerkatplayer_jar.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/guava_11_0_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/mossyholdemlibtest/mossyholdemlibtest.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+    <list default="true" id="f9948b90-08a9-42d9-9e6c-96fb639fbc0f" name="Default" comment="Some more project restructurings">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/aopalliance.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/commons-math3-3.2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guava-11.0.2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guava-17.0.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-assistedinject-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-grapher-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-jmx-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-jndi-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-multibindings-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-persist-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-servlet-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-spring-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-struts2-plugin-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/guice-throwingproviders-4.0-beta2.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/javax.inject.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/junit-4.11.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/log4j-1.2.17.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/meerkat-api.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/mockito-all-1.9.5.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/opencsv-2.3.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Action.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/annotations/Annotations.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/BoardCardDealer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guice-4.0-beta2/COPYING" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Card.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FastEvaluator/CardBits.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/Deck.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/Engine.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FastEvaluator/FastHandEvaluator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/FastEvaluator/FastHandEvaluatorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FiveCardHandEvaluator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/FiveCardHandEvaluatorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/GamePlayModule.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/modules/GamePlayModuleTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/GameStage.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/Hand.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FastEvaluator/HandBitsAdaptor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/FastEvaluator/HandBitsAdaptorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/HandEvaluator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/HandEvaluatorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/HandFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/HandScoreFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/HandStrengthCalculator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/HandStrengthCalculatorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/HandTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/HandType.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/HoleCardDealer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/HoleCardDealerTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/HoleCards.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IBoardCardDealer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/ICard.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IDeck.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IDeckFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IEngine.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IHand.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IHandEvaluator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IHandFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IHandScoreFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IHandStrengthCalculator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IHoleCardDealer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IIteratedRolloutSimulator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IKnowledgeBasedHoldemPlayer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/INegativeIncomeRateFolder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/factories/INegativeIncomeRateFolderFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IPreFlopHandTypeAdaptor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IPreFlopIncomeRateSimulator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IPreFlopIncomeRateStore.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IPreFlopIncomeRateVendor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IPreFlopLookupCalculator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IPreFlopRolloutSimulator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IRolloutWinningsCalculator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IStatisticsFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/IncomeRate.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/IteratedRolloutModule.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/modules/IteratedRolloutModuleTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/IteratedRolloutSimulator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/KnowledgeBasedHoldemPlayer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/meerkatplayer/src/MeerkatPlayer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/meerkatplayer/src/MeerkatToMossyAdaptor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/runner/src/com/mossy/holdem/runner/MossyPokerRunner.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FastEvaluator/tables/NBitsTable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/NegativeIncomeRateFolder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/NegativeIncomeRateFolderTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/PreFlopHandType.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopHandTypeAdaptor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/PreFlopHandTypeAdaptorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookup.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateSimulator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateStore.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/PreFlopIncomeRateStoreTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopLookupCalculator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/PreFlopLookupCalculatorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopRolloutSimulator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Rank.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/RolloutWinningsCalculator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/RolloutWinningsCalculatorTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/StandardDeckFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FastEvaluator/tables/StraightTable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Suit.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/SummaryStatisticsFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/Timer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FastEvaluator/tables/TopCardTable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/FastEvaluator/tables/TopFiveCardsTable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/meerkatplayer/meerkatplayer.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/mossyholdemlib.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mossyholdemlib/res/prefloplookup_iterated.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/runner/runner.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/meerkatplayer/src/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/meerkatplayer/src/META-INF/MANIFEST.MF" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MossyHoldem.iws" />
@@ -70,7 +173,7 @@
     </breakpoint_any>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/GamePlayModule.java" line="18" class="com.mossy.holdem.modules.GamePlayModule" package="com.mossy.holdem.modules">
+      <breakpoint url="file://$PROJECT_DIR$/src/runner/src/com/mossy/holdem/runner/MossyPokerRunner.java" line="46" class="com.mossy.holdem.runner.MossyPokerRunner" package="com.mossy.holdem.runner">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -85,7 +188,37 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/runner/src/com/mossy/holdem/runner/MossyPokerRunner.java" line="46" class="com.mossy.holdem.runner.MossyPokerRunner" package="com.mossy.holdem.runner">
+      <breakpoint url="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/GamePlayModule.java" line="27" class="com.mossy.holdem.modules.GamePlayModule" package="com.mossy.holdem.modules">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java" line="53" class="com.mossy.holdem.implementations.PreFlopIncomeRateLookupFactory" package="com.mossy.holdem.implementations">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java" line="57" class="com.mossy.holdem.implementations.PreFlopIncomeRateLookupFactory" package="com.mossy.holdem.implementations">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -110,55 +243,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="prefloplookup_iterated.csv" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/res/prefloplookup_iterated.csv">
+      <file leaf-file-name="MeerkatPlayer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="25590">
+            <state line="63" column="37" selection-start="1650" selection-end="1650" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1665">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IKnowledgeBasedHoldemPlayer.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="IKnowledgeBasedHoldemPlayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IKnowledgeBasedHoldemPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="44" selection-start="178" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="390">
+            <state line="18" column="7" selection-start="423" selection-end="423" vertical-scroll-proportion="0.3469388" vertical-offset="0" max-vertical-offset="735">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KnowledgeBasedHoldemPlayer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/KnowledgeBasedHoldemPlayer.java">
+      <file leaf-file-name="Action.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Action.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="55" selection-start="602" selection-end="626" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1605">
+            <state line="12" column="26" selection-start="176" selection-end="176" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1425">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GamePlayModule.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GamePlayModule.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/GamePlayModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="21" selection-start="514" selection-end="514" vertical-scroll-proportion="0.1474719" vertical-offset="0" max-vertical-offset="712">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IPreFlopIncomeRateVendor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IPreFlopIncomeRateVendor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="35" selection-start="307" selection-end="307" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="345">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PreFlopIncomeRateLookup.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookup.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="24" selection-start="479" selection-end="479" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="645">
+            <state line="27" column="0" selection-start="878" selection-end="878" vertical-scroll-proportion="0.0" vertical-offset="52" max-vertical-offset="450">
               <folding />
             </state>
           </provider>
@@ -167,34 +282,52 @@
       <file leaf-file-name="PreFlopIncomeRateLookupFactory.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="43" selection-start="500" selection-end="530" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="945">
+            <state line="34" column="0" selection-start="1085" selection-end="1085" vertical-scroll-proportion="0.0" vertical-offset="201" max-vertical-offset="900">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IteratedRolloutModule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/IteratedRolloutModule.java">
+      <file leaf-file-name="KnowledgeBasedHoldemPlayer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/KnowledgeBasedHoldemPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="0" selection-start="868" selection-end="868" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1065">
+            <state line="40" column="5" selection-start="1063" selection-end="1063" vertical-scroll-proportion="0.0" vertical-offset="795" max-vertical-offset="1530">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="URLClassLoader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home/src.zip!/java/net/URLClassLoader.java">
+      <file leaf-file-name="PreFlopHandType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/PreFlopHandType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="364" column="32" selection-start="13549" selection-end="13549" vertical-scroll-proportion="0.0" vertical-offset="5460" max-vertical-offset="11955">
+            <state line="64" column="34" selection-start="1534" selection-end="1534" vertical-scroll-proportion="0.0" vertical-offset="738" max-vertical-offset="2025">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MossyPokerRunner.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/runner/src/com/mossy/holdem/runner/MossyPokerRunner.java">
+      <file leaf-file-name="prefloplookup_iterated.csv" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/res/prefloplookup_iterated.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="1207" selection-end="1207" vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="1185">
+            <state line="860" column="29" selection-start="29039" selection-end="29039" vertical-scroll-proportion="0.0" vertical-offset="12836" max-vertical-offset="25590">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PreFlopLookupCalculatorTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/PreFlopLookupCalculatorTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="13" selection-start="185" selection-end="185" vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="825">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HandTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/HandTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="13" selection-start="350" selection-end="350" vertical-scroll-proportion="0.0" vertical-offset="982" max-vertical-offset="1380">
               <folding />
             </state>
           </provider>
@@ -227,9 +360,13 @@
         <option value="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/HoleCardDealer.java" />
         <option value="$PROJECT_DIR$/test/mossyholdemlibtest/test/com/mossy/holdem/holdem/implementations/HoleCardDealerTest.java" />
         <option value="$PROJECT_DIR$/test/mossyholdemlibtest/test/com/mossy/holdem/implementations/HoleCardDealerTest.java" />
-        <option value="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java" />
-        <option value="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/GamePlayModule.java" />
         <option value="$PROJECT_DIR$/src/mossyholdemlib/res/prefloplookup_iterated.csv" />
+        <option value="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/modules/IteratedRolloutModuleTest.java" />
+        <option value="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/GamePlayModule.java" />
+        <option value="$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/modules/GamePlayModuleTest.java" />
+        <option value="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/PreFlopHandType.java" />
+        <option value="$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java" />
+        <option value="$PROJECT_DIR$/src/meerkatplayer/src/MeerkatPlayer.java" />
       </list>
     </option>
   </component>
@@ -265,7 +402,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -327,6 +464,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="holdem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MossyHoldem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mossyholdemlib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="holdem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="implementations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -410,7 +573,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -420,12 +583,12 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/mossyholdemlib/res/prefloplookup_iterated.csv" />
     <property name="FullScreen" value="false" />
-    <property name="options.lastSelected" value="appearance" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -448,7 +611,7 @@
       <recent name="com.mossy.holdem" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.runner">
+  <component name="RunManager" selected="JUnit.GamePlayModuleTest.getInstance_returns_whenRun">
     <configuration default="false" name="HandStrengthCalculatorTest.testHandStrengthCalculator" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="mossyholdemlib" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -460,6 +623,80 @@
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
+      <method />
+    </configuration>
+    <configuration default="false" name="IteratedRolloutModuleTest.providePreFlopIncomeRateVendorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mossyholdemlib" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.mossy.holdem.modules" />
+      <option name="MAIN_CLASS_NAME" value="com.mossy.holdem.modules.IteratedRolloutModuleTest" />
+      <option name="METHOD_NAME" value="providePreFlopIncomeRateVendorTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GamePlayModuleTest.GamePlayModuleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mossyholdemlib" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.mossy.holdem.modules" />
+      <option name="MAIN_CLASS_NAME" value="com.mossy.holdem.modules.GamePlayModuleTest" />
+      <option name="METHOD_NAME" value="GamePlayModuleTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GamePlayModuleTest.getInstance_returns_whenRun" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mossyholdemlib" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.mossy.holdem.modules" />
+      <option name="MAIN_CLASS_NAME" value="com.mossy.holdem.modules.GamePlayModuleTest" />
+      <option name="METHOD_NAME" value="getInstance_returns_whenRun" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
@@ -509,6 +746,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -534,19 +784,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -622,13 +859,19 @@
       <ConfigurationWrapper RunnerId="Debug" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.runner" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.HandStrengthCalculatorTest.testHandStrengthCalculator" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.IteratedRolloutModuleTest.providePreFlopIncomeRateVendorTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.GamePlayModuleTest.GamePlayModuleTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.GamePlayModuleTest.getInstance_returns_whenRun" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.HandStrengthCalculatorTest.testHandStrengthCalculator" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.GamePlayModuleTest.getInstance_returns_whenRun" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.GamePlayModuleTest.GamePlayModuleTest" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.IteratedRolloutModuleTest.providePreFlopIncomeRateVendorTest" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.HandStrengthCalculatorTest.testHandStrengthCalculator" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -664,7 +907,11 @@
       <created>1404666612068</created>
       <updated>1404666612068</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Some more project restructurings">
+      <created>1405572285869</created>
+      <updated>1405572285869</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -676,8 +923,9 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32824427" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3994911" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -688,12 +936,11 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21460506" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32951653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -709,7 +956,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Some project restructurings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some project restructurings" />
+    <MESSAGE value="Some more project restructurings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some more project restructurings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -719,113 +967,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="2" selection-end="607" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1815">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MossyHoldem.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/GameStage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="12" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="315" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/HandType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="12" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="420" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/IncomeRate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="19" selection-start="269" selection-end="269" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="690">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/HoleCardDealer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="4" selection-start="575" selection-end="575" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="645" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/runner/runner.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/mossyholdemlib.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatToMossyAdaptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="750">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/meerkatplayer.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="100" selection-end="100" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="1425" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/runner/runner.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/mossyholdemlib.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatToMossyAdaptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="750">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/meerkatplayer.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="100" selection-end="100" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1425" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/runner/runner.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/mossyholdemlib.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatToMossyAdaptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="750">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/meerkatplayer/meerkatplayer.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390" />
@@ -883,11 +1024,6 @@
         <state line="21" column="4" selection-start="575" selection-end="575" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="100" selection-end="100" vertical-scroll-proportion="0.17077799" vertical-offset="15" max-vertical-offset="1425" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/GameStage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="12" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315" />
@@ -932,30 +1068,9 @@
         <state line="21" column="13" selection-start="593" selection-end="593" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatToMossyAdaptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IKnowledgeBasedHoldemPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="44" selection-start="178" selection-end="205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home/src.zip!/java/net/URLClassLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="364" column="32" selection-start="13549" selection-end="13549" vertical-scroll-proportion="0.0" vertical-offset="4495" max-vertical-offset="10905">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/KnowledgeBasedHoldemPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="55" selection-start="602" selection-end="626" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
           <folding />
         </state>
       </provider>
@@ -988,32 +1103,193 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/modules/IteratedRolloutModuleTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="43" selection-start="500" selection-end="530" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="840">
+        <state line="25" column="35" selection-start="649" selection-end="668" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="900">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatPlayer.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home/src.zip!/java/io/FileReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="62" selection-start="996" selection-end="996" vertical-scroll-proportion="0.7346939" vertical-offset="0" max-vertical-offset="1815">
+        <state line="46" column="6" selection-start="848" selection-end="848" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/AbstractModule.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="22" selection-start="169" selection-end="169" vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="975">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/internal/ProviderMethod.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="13" selection-start="1423" selection-end="1423" vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="600">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/internal/InternalFactoryToInitializableAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="16" selection-start="1051" selection-end="1051" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="345">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/internal/ProviderInternalFactory.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="16" selection-start="457" selection-end="457" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/internal/SingleParameterInjector.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="30" selection-start="785" selection-end="785" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="330">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/internal/ConstructorInjector.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="21" selection-start="1193" selection-end="1193" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="405">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/internal/FactoryProxy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="13" selection-start="893" selection-end="893" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="390">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../opentestbed/lib/guice-4.0-beta2/guice-4.0-beta2.jar!/com/google/inject/internal/InjectorImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3165">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home/src.zip!/java/lang/ClassLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1345" column="7" selection-start="50217" selection-end="50217" vertical-scroll-proportion="0.0" vertical-offset="19030" max-vertical-offset="32730">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/modules/GamePlayModuleTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="68" selection-start="796" selection-end="796" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/PreFlopHandTypeAdaptorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="13" selection-start="338" selection-end="338" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/PreFlopIncomeRateStoreTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="13" selection-start="255" selection-end="255" vertical-scroll-proportion="0.0" vertical-offset="299" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/RolloutWinningsCalculatorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="13" selection-start="733" selection-end="733" vertical-scroll-proportion="0.0" vertical-offset="307" max-vertical-offset="1590">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/HandStrengthCalculatorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="13" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/HandTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="13" selection-start="350" selection-end="350" vertical-scroll-proportion="0.0" vertical-offset="982" max-vertical-offset="1380">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/test/com/mossy/holdem/implementations/PreFlopLookupCalculatorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="185" selection-end="185" vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="825">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/PreFlopHandType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="34" selection-start="1534" selection-end="1534" vertical-scroll-proportion="0.0" vertical-offset="738" max-vertical-offset="2025">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/res/prefloplookup_iterated.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="25590">
+        <state line="860" column="29" selection-start="29039" selection-end="29039" vertical-scroll-proportion="0.0" vertical-offset="12836" max-vertical-offset="25590">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/modules/GamePlayModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="21" selection-start="514" selection-end="514" vertical-scroll-proportion="0.1474719" vertical-offset="0" max-vertical-offset="712">
+        <state line="27" column="0" selection-start="878" selection-end="878" vertical-scroll-proportion="0.0" vertical-offset="52" max-vertical-offset="450">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/PreFlopIncomeRateLookupFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="1085" selection-end="1085" vertical-scroll-proportion="0.0" vertical-offset="201" max-vertical-offset="900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/implementations/KnowledgeBasedHoldemPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="5" selection-start="1063" selection-end="1063" vertical-scroll-proportion="0.0" vertical-offset="795" max-vertical-offset="1530">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatToMossyAdaptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="1" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/meerkatplayer/src/MeerkatPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="37" selection-start="1650" selection-end="1650" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="26" selection-start="176" selection-end="176" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mossyholdemlib/src/com/mossy/holdem/interfaces/IKnowledgeBasedHoldemPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="7" selection-start="423" selection-end="423" vertical-scroll-proportion="0.3469388" vertical-offset="0" max-vertical-offset="735">
           <folding />
         </state>
       </provider>
@@ -1082,6 +1358,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
