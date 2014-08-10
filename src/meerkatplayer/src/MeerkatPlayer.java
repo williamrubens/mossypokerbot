@@ -60,8 +60,8 @@ public class MeerkatPlayer implements Player
         double callAmount = gameInfo.getAmountToCall(ourSeat);
 
 
-        return adaptor
-        return knowledgePlayer.getNextAction();
+        //return adaptor
+        //return knowledgePlayer.getNextAction();
 
         return null;
     }

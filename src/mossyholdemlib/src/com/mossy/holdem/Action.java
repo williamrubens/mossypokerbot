@@ -1,5 +1,7 @@
 package com.mossy.holdem;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * User: William
  * Date: 14/09/2013
@@ -7,7 +9,7 @@ package com.mossy.holdem;
  */
 public class Action
 {
-    enum ActionType
+    public enum ActionType
     {
         CHECK,
         BET, // not sure if need bet? could be just raise?
@@ -20,6 +22,9 @@ public class Action
         ALL_IN,
         SIT_OUT,
         POST_ANTE,
+        DEAL_FLOP,
+        DEAL_TURN,
+        DEAL_RIVER
     }
     static public class Factory
     {
@@ -28,11 +33,11 @@ public class Action
         {
             return new Action(ActionType.CHECK);
         }
-        static public Action betAction(double amount)
+        static public Action betAction(ChipStack amount)
         {
             return new Action(ActionType.BET, amount);
         }
-        static public Action checkAction(double amount)
+        static public Action checkAction(ChipStack amount)
         {
             return new Action(ActionType.RAISE, amount);
         }
@@ -68,22 +73,51 @@ public class Action
         {
             return new Action(ActionType.POST_ANTE);
         }
+        static public Action dealFlopAction(Card c1, Card c2, Card c3)
+        {
+            return new Action(ActionType.DEAL_FLOP, ImmutableList.of(c1, c2, c3));
+        }
+        static public Action dealTurnAction(Card t)
+        {
+            return new Action(ActionType.DEAL_TURN, ImmutableList.of(t));
+        }
+        static public Action dealRiverAction(Card r)
+        {
+            return new Action(ActionType.DEAL_RIVER, ImmutableList.of(r));
+        }
+    }
+
+    public ActionType type()
+    {
+        return actionType;
+    }
+
+    public ImmutableList<Card> cards()
+    {
+        return cards;
     }
 
     ActionType actionType;
-    double amount;
+    ChipStack amount = ChipStack.NO_CHIPS;
+    ImmutableList<Card> cards = ImmutableList.of();
 
     private Action(ActionType a)
     {
         this.actionType = a;
-        this.amount = 0;
     }
 
-    private Action(ActionType a, double amount)
+    private Action(ActionType a, ChipStack amount)
     {
         this.actionType = a;
         this.amount = amount;
     }
+
+    private Action(ActionType a, ImmutableList<Card> cards)
+    {
+        this.actionType = a;
+        this.cards = cards;
+    }
+
 
 
 }
