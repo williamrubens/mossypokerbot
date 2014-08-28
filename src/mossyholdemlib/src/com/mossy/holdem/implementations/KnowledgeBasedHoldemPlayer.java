@@ -83,7 +83,8 @@ public class KnowledgeBasedHoldemPlayer implements IKnowledgeBasedHoldemPlayer
         IncomeRate ir = preFlopIncomeRateVendor.getIncomeRate(numPlayers, PreFlopHandType.fromHoleCards(holeCards));
         if(ir.incomeRate() > 0)
         {
-            return Action.Factory.callAction();
+            //return Action.Factory.callAction();
+            return null;
 
         }
         else

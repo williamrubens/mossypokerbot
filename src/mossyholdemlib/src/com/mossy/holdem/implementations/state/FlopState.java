@@ -3,31 +3,24 @@ package com.mossy.holdem.implementations.state;
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.Card;
-import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.GameStage;
 import com.mossy.holdem.interfaces.state.IGameState;
-import com.mossy.holdem.interfaces.state.IPlayerState;
 import com.mossy.holdem.interfaces.state.IPotManager;
 
-import java.math.BigDecimal;
-/*
-public class FLPreFlopState implements IGameState
+/**
+ * Created by williamrubens on 18/08/2014.
+ *//*
+public class FlopState implements IGameState
 {
-
-
-    final IPotManager potManager;
-
-    FLPreFlopState(IPotManager potManager)
+    public FlopState(ImmutableList<Card> cards, IPotManager potManager)
     {
-        this.potManager = potManager;
     }
 
     @Override
     public GameStage stage()
     {
-        return GameStage.PRE_FLOP;
+         return GameStage.FLOP
     }
-
 
     @Override
     public IGameState nextState(Action a) throws Exception
@@ -41,8 +34,6 @@ public class FLPreFlopState implements IGameState
             throw new Exception(String.format("Unexpected preflop action %s", a.type()))
         }
         return new FlopState(a.cards(), potManager);
-
     }
-
 }
 */

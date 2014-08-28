@@ -33,6 +33,11 @@ public class ChipStack implements Comparable<ChipStack>
         return new ChipStack(amount.subtract(rhs.amount));
     }
 
+    public ChipStack divide(int divisor)
+    {
+        return new ChipStack(amount.divide(new BigDecimal(divisor)));
+    }
+
     public final static ChipStack NO_CHIPS = new ChipStack();
     public final static ChipStack ONE_CHIP = new ChipStack(1);
     public final static ChipStack TWO_CHIPS = new ChipStack(2);

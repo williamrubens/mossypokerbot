@@ -1,7 +1,7 @@
-package com.mossy.holdem.implementations;
+package com.mossy.holdem.implementations.state;
 
 import com.mossy.holdem.ChipStack;
-import com.mossy.holdem.interfaces.IPlayerState;
+import com.mossy.holdem.interfaces.state.IPlayerState;
 
 
 /**
@@ -30,16 +30,6 @@ public class PlayerState implements IPlayerState
     public ChipStack pot()
     {
         return pot;
-    }
-
-    @Override
-    public IPlayerState play(ChipStack chips) throws Exception
-    {
-        if(bank.compareTo(chips) < 0)
-        {
-            throw new Exception(String.format("Cannot play amount %s as only have %s in bank", chips.toString(), bank.toString()));
-        }
-        return new PlayerState(bank.subtract(chips), pot.add(chips), isOut);
     }
 
     @Override

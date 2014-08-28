@@ -1,4 +1,4 @@
-package com.mossy.holdem.interfaces;
+package com.mossy.holdem.interfaces.state;
 
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
@@ -14,12 +14,15 @@ public interface IGameState
 
     GameStage stage();
 
-    int       numPlayers();
-    ChipStack potSize();
-    ImmutableList<Action> actionHistory();
-    ImmutableList<Card> boardCards();
+    int dealerPosition();
+    int nextToPlay();
 
-    IGameState nextState(Action a) throws Exception;
+    ImmutableList<IPlayerState> playerStates();
+    ImmutableList<Action> possibleActions();
+
+    IPlayerState getNextPlayer();
+    ChipStack getCurrentRaise();
+    boolean isPotOpen();
 
 }
 

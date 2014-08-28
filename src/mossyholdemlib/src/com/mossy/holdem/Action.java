@@ -45,9 +45,9 @@ public class Action
         {
             return new Action(ActionType.FOLD);
         }
-        static public Action callAction()
+        static public Action callAction(ChipStack amount)
         {
-            return new Action(ActionType.CALL);
+            return new Action(ActionType.CALL, amount);
         }
         static public Action smallBlindAction()
         {
@@ -97,26 +97,48 @@ public class Action
         return cards;
     }
 
+    public ChipStack amount()
+    {
+        return amount;
+    }
+
+    public boolean isPlayerAction()
+    {
+        return isPlayerAction;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%s %s", actionType, amount);
+    }
+
     ActionType actionType;
     ChipStack amount = ChipStack.NO_CHIPS;
     ImmutableList<Card> cards = ImmutableList.of();
+    boolean isPlayerAction;
 
     private Action(ActionType a)
     {
         this.actionType = a;
+        isPlayerAction = true;
     }
 
     private Action(ActionType a, ChipStack amount)
     {
         this.actionType = a;
         this.amount = amount;
+        isPlayerAction = true;
     }
 
     private Action(ActionType a, ImmutableList<Card> cards)
     {
         this.actionType = a;
         this.cards = cards;
+        isPlayerAction = false;
     }
+
+
 
 
 

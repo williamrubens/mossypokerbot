@@ -2,28 +2,17 @@ package com.mossy.holdem.gametree;
 
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
-import com.mossy.holdem.interfaces.IGameState;
-import com.mossy.holdem.interfaces.IGameStateFactory;
-
-import javax.swing.plaf.basic.BasicSliderUI;
-import java.util.ArrayList;
+import com.mossy.holdem.interfaces.state.IGameState;
+import com.mossy.holdem.interfaces.state.IGameStateFactory;
 
 /**
  * Created by williamrubens on 09/08/2014.
  */
 
-/*
 public class HoldemTreeBuilder
 {
-
-    IHoldemTreeDataFactory treeDataFactory;
-    INextActionFactory actionFactory;
     IGameStateFactory stateFactory;
 
-    HoldemTreeBuilder(IHoldemTreeDataFactory treeDataFactory)
-    {
-        this.treeDataFactory = treeDataFactory;
-    }
 
     ITreeNode<IHoldemTreeData> buildTree(IGameState initialState)
     {
@@ -34,9 +23,9 @@ public class HoldemTreeBuilder
     ITreeNode<IHoldemTreeData> recursiveBuildTree(IGameState parentState)
     {
 
-        ArrayList<Action> possibleActions = actionFactory.buildNextActions(parentState);
+        ImmutableList<Action> possibleActions = parentState.possibleActions();
 
-        ImmutableList.Builder<IHoldemTreeData> listBuilder = ImmutableList.builder();
+        ImmutableList.Builder<ITreeNode<IHoldemTreeData> > listBuilder = ImmutableList.builder();
         for(Action a : possibleActions)
         {
 
@@ -45,16 +34,13 @@ public class HoldemTreeBuilder
             listBuilder.add(recursiveBuildTree(childState));
         }
 
-        IHoldemTreeData data =
+      //  IHoldemTreeData data =
 
-        TreeNode<IHoldemTreeData> rootNode = new TreeNode<IHoldemTreeData>(, listBuilder.build());
+        //ITreeNode<IHoldemTreeData> rootNode = new TreeNode<IHoldemTreeData>(, listBuilder.build());
 
-
-
-
+        return null;
     }
 
 
 }
 
-*/
