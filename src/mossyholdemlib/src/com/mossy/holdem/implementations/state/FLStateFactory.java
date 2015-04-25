@@ -3,28 +3,33 @@ package com.mossy.holdem.implementations.state;
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.ChipStack;
+import com.mossy.holdem.GameStage;
 import com.mossy.holdem.interfaces.state.IGameState;
-import com.mossy.holdem.interfaces.state.IPlayerState;
-import com.mossy.holdem.interfaces.state.IPlayerStateFactory;
+import com.mossy.holdem.interfaces.state.IPlayerInfo;
+import com.mossy.holdem.interfaces.state.IPlayerInfoFactory;
 
 /**
  * Created by williamrubens on 18/08/2014.
  */
 public class FLStateFactory
 {
-    IPlayerStateFactory playerStateFactory;
+    final IPlayerInfoFactory playerStateFactory;
+    final ChipStack lowerLimit;
+    final ChipStack higherLimit;
 
-    public FLStateFactory(IPlayerStateFactory playerStateFactory)
+    public FLStateFactory(IPlayerInfoFactory playerStateFactory, ChipStack lowerLimit, ChipStack higherLimit)
     {
         this.playerStateFactory = playerStateFactory;
+        this.lowerLimit = lowerLimit;
+        this.higherLimit = higherLimit;
     }
 
-    private ImmutableList<IPlayerState> updatePlayerList(ImmutableList<IPlayerState> playerStates, IPlayerState oldPlayer, IPlayerState newPlayer)
+    private ImmutableList<IPlayerInfo> updatePlayerList(ImmutableList<IPlayerInfo> playerStates, IPlayerInfo oldPlayer, IPlayerInfo newPlayer)
     {
         // update player list
-        ImmutableList.Builder<IPlayerState> playerStatesBuilder = ImmutableList.builder();
+        ImmutableList.Builder<IPlayerInfo> playerStatesBuilder = ImmutableList.builder();
 
-        for(IPlayerState player : playerStates)
+        for(IPlayerInfo player : playerStates)
         {
             if(player == oldPlayer)
             {
@@ -39,6 +44,12 @@ public class FLStateFactory
         return playerStatesBuilder.build();
     }
 
+    IGameState buildNewState(ImmutableList<IPlayerInfo> playerStates, int dealerPosition)
+    {
+        return new FixedLimitState(lowerLimit, higherLimit, playerStates, GameStage.PRE_FLOP, dealerPosition);
+    }
+
+
     IGameState buildNextState(IGameState currentState, Action nextAction) throws Exception
     {
         if(!(currentState instanceof FixedLimitState))
@@ -48,8 +59,9 @@ public class FLStateFactory
 
         FixedLimitState currentFLState = (FixedLimitState)currentState;
 
-        IPlayerState nextPlayer = currentFLState.getNextPlayer();
+        IPlayerInfo nextPlayer = currentFLState.getNextPlayer();
         int numPlayers = currentFLState.playerStates().size();
+        int dealerPosition = currentState.dealerPosition();
 
         if(nextAction.type() == Action.ActionType.CALL)
         {
@@ -58,30 +70,30 @@ public class FLStateFactory
                 throw new Exception(String.format("Cannot call a pot with no raise"));
             }
 
-            IPlayerState nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
+            IPlayerInfo nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
 
-            ImmutableList<IPlayerState> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
+            ImmutableList<IPlayerInfo> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
 
-            return new FixedLimitState(currentFLState.lowerLimit(), currentFLState.higherLimit(), newPlayerStates, currentFLState.stage(), currentFLState.dealerPosition(), currentFLState.nextToPlay() + 1 % numPlayers);
+            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, currentFLState.stage(), dealerPosition);
         }
         if(nextAction.type() == Action.ActionType.BET)
         {
             // todo check bet is appropriate size
 
-            IPlayerState nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
+            IPlayerInfo nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
 
-            ImmutableList<IPlayerState> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
+            ImmutableList<IPlayerInfo> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
 
-            return new FixedLimitState(currentFLState.lowerLimit(), currentFLState.higherLimit(), newPlayerStates, currentFLState.stage(), currentFLState.dealerPosition(), currentFLState.nextToPlay() + 1 % numPlayers);
+            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, currentFLState.stage(), dealerPosition);
         }
         if(nextAction.type() == Action.ActionType.FOLD)
         {
 
-            IPlayerState nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
+            IPlayerInfo nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
 
-            ImmutableList<IPlayerState> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
+            ImmutableList<IPlayerInfo> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
 
-            return new FixedLimitState(currentFLState.lowerLimit(), currentFLState.higherLimit(), newPlayerStates, currentFLState.stage(), currentFLState.dealerPosition(), currentFLState.nextToPlay() + 1 % numPlayers);
+            return new FixedLimitState(lowerLimit, higherLimit,  newPlayerStates, currentFLState.stage(), dealerPosition);
         }
         if(nextAction.type() == Action.ActionType.CHECK)
         {
@@ -89,7 +101,7 @@ public class FLStateFactory
             {
                 throw new Exception("Cannot check pot that has a raise in it already");
             }
-            return new FixedLimitState(currentFLState.lowerLimit(), currentFLState.higherLimit(), currentState.playerStates(), currentFLState.stage(), currentFLState.dealerPosition(), currentFLState.nextToPlay() + 1 % numPlayers);
+            return new FixedLimitState(lowerLimit, higherLimit,  currentState.playerStates(), currentFLState.stage(), dealerPosition);
         }
 
         throw new Exception(String.format("Unexpected  action %s", nextAction.type()));

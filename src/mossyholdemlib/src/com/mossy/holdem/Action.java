@@ -113,6 +113,50 @@ public class Action
         return String.format("%s %s", actionType, amount);
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        Action action = (Action) o;
+
+        if (isPlayerAction != action.isPlayerAction)
+        {
+            return false;
+        }
+        if (actionType != action.actionType)
+        {
+            return false;
+        }
+        if (amount != null ? !amount.equals(action.amount) : action.amount != null)
+        {
+            return false;
+        }
+        if (cards != null ? !cards.equals(action.cards) : action.cards != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = actionType.hashCode();
+        result = 31 * result + (amount != null ? amount.hashCode() : 0);
+        result = 31 * result + (cards != null ? cards.hashCode() : 0);
+        result = 31 * result + (isPlayerAction ? 1 : 0);
+        return result;
+    }
+
     ActionType actionType;
     ChipStack amount = ChipStack.NO_CHIPS;
     ImmutableList<Card> cards = ImmutableList.of();

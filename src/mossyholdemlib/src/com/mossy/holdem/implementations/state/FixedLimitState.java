@@ -1,42 +1,41 @@
 package com.mossy.holdem.implementations.state;
 
 import com.google.common.collect.ImmutableList;
-import com.mossy.holdem.Action;
 import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.GameStage;
-import com.mossy.holdem.interfaces.state.IGameState;
-import com.mossy.holdem.interfaces.state.IPlayerState;
+import com.mossy.holdem.interfaces.state.IFixedLimitState;
+import com.mossy.holdem.interfaces.state.IPlayerInfo;
 
 /**
  * Created by williamrubens on 18/08/2014.
  */
-public class FixedLimitState implements IGameState
+public class FixedLimitState implements IFixedLimitState
 {
-    final private int nextToPlay;
     final private int dealerPos;
     final private ChipStack lowerLimit;
     final private ChipStack higherLimit;
-    final ImmutableList<IPlayerState> playerStates;
+    final ImmutableList<IPlayerInfo> playerStates;
     final private GameStage gameStage;
 
     FixedLimitState(ChipStack lowerLimit, ChipStack higherLimit,
-                 ImmutableList<IPlayerState> playerStates,
+                 ImmutableList<IPlayerInfo> playerStates,
                  GameStage gameStage,
-                 int dealerPos, int nextToPlay)
+                 int dealerPos)
     {
         this.lowerLimit = lowerLimit;
         this.higherLimit = higherLimit;
         this.playerStates = playerStates;
-        this.nextToPlay = nextToPlay;
         this.dealerPos = dealerPos;
         this.gameStage = gameStage;
     }
 
+    @Override
     public ChipStack lowerLimit()
     {
         return lowerLimit;
     }
 
+    @Override
     public ChipStack higherLimit()
     {
         return higherLimit;
@@ -55,41 +54,77 @@ public class FixedLimitState implements IGameState
         return dealerPos;
     }
 
-    @Override
-    public int nextToPlay()
+    private int numPlayers()
     {
-        return nextToPlay;
+        return playerStates.size();
+    }
+
+
+    public int nextPlayerSeat() throws Exception
+    {
+        ChipStack lastPlayerBet = ChipStack.NO_CHIPS;
+        // start with next player after dealer, work out who is next
+        int nextPlayeSeat = playerAfter(dealerPos);
+        boolean fullCircle = false;
+
+        while(nextPlayeSeat != dealerPos || fullCircle == false)
+        {
+            IPlayerInfo nextPlayerInfo = playerStates.get(nextPlayeSeat);
+            if(isPotOpen() && !nextPlayerInfo.hasChecked())
+            {
+                return nextPlayeSeat;
+            }
+            else if(!isPotOpen() && !nextPlayerInfo.isOut() && nextPlayerInfo.pot().compareTo(lastPlayerBet) < 0)
+            {
+                return nextPlayeSeat;
+            }
+
+            lastPlayerBet = nextPlayerInfo.pot();
+            nextPlayeSeat = playerAfter(nextPlayeSeat);
+            if(nextPlayeSeat == playerAfter(dealerPos))
+            {
+                fullCircle = true;
+            }
+        }
+
+
+        // if we get here, it means that everyone has put in the same amount of money, which means it's a dealer action OR
+        // we are pre flop and it's the big blind's turn to check or bet
+        if(gameStage == GameStage.PRE_FLOP && !playerStates.get(playerAfter(playerAfter(dealerPos))).hasChecked() )
+        {
+            return playerAfter(playerAfter(dealerPos));
+        }
+        // it's a dealer action
+        // return -1;
+        throw new Exception("Cannot determine next player");
     }
 
     @Override
-    public ImmutableList<IPlayerState> playerStates()
+    public int playerAfter(int currentPlayer)
+    {
+        return (currentPlayer + 1) % playerStates().size();
+    }
+
+    @Override
+    public ImmutableList<IPlayerInfo> playerStates()
     {
         return playerStates;
     }
 
-    @Override
-    public ImmutableList<Action> possibleActions()
-    {
-        if(isPotOpen())
-        {
-            return ImmutableList.of(Action.Factory.checkAction(), Action.Factory.foldAction(), Action.Factory.betAction(getCurrentBetLimit()));
-        }
-        return ImmutableList.of(Action.Factory.callAction(getCurrentCall()), Action.Factory.foldAction(), Action.Factory.betAction(getCurrentBetLimit()));
 
-    }
 
     @Override
-    public IPlayerState getNextPlayer()
+    public IPlayerInfo getNextPlayer() throws Exception
     {
-        return playerStates.get(nextToPlay);
+        return playerStates.get(nextPlayerSeat());
     }
 
 
     @Override
-    public ChipStack getCurrentRaise()
+    public ChipStack getHighestBet()
     {
         ChipStack currentRaise = ChipStack.NO_CHIPS;
-        for (IPlayerState p : playerStates)
+        for (IPlayerInfo p : playerStates)
         {
             if(p.pot().compareTo(currentRaise) > 0)
             {
@@ -99,18 +134,19 @@ public class FixedLimitState implements IGameState
         return currentRaise;
     }
 
-    public ChipStack getCurrentCall()
+    @Override
+    public ChipStack getAmountToCall() throws  Exception
     {
-        return getCurrentRaise().subtract(getNextPlayer().pot());
+        return getHighestBet().subtract(getNextPlayer().pot());
     }
 
     @Override
     public boolean isPotOpen()
     {
-        return getCurrentRaise().equals(ChipStack.NO_CHIPS);
+        return getHighestBet().equals(ChipStack.NO_CHIPS);
     }
 
-
+    @Override
     public ChipStack getCurrentBetLimit()
     {
         if(gameStage == GameStage.RIVER || gameStage == GameStage.TURN)

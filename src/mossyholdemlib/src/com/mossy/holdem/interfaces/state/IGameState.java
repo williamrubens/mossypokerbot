@@ -2,7 +2,6 @@ package com.mossy.holdem.interfaces.state;
 
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
-import com.mossy.holdem.Card;
 import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.GameStage;
 
@@ -15,13 +14,15 @@ public interface IGameState
     GameStage stage();
 
     int dealerPosition();
-    int nextToPlay();
 
-    ImmutableList<IPlayerState> playerStates();
-    ImmutableList<Action> possibleActions();
+    ImmutableList<IPlayerInfo> playerStates();
+    IPlayerInfo getNextPlayer() throws Exception;
 
-    IPlayerState getNextPlayer();
-    ChipStack getCurrentRaise();
+    int nextPlayerSeat() throws Exception;
+    int playerAfter(int seat);
+
+    ChipStack getAmountToCall() throws  Exception;
+    ChipStack getHighestBet();
     boolean isPotOpen();
 
 }

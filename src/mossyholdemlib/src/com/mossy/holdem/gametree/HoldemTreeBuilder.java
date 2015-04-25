@@ -2,6 +2,7 @@ package com.mossy.holdem.gametree;
 
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
+import com.mossy.holdem.interfaces.IActionBuilder;
 import com.mossy.holdem.interfaces.state.IGameState;
 import com.mossy.holdem.interfaces.state.IGameStateFactory;
 
@@ -12,33 +13,36 @@ import com.mossy.holdem.interfaces.state.IGameStateFactory;
 public class HoldemTreeBuilder
 {
     IGameStateFactory stateFactory;
+    IActionBuilder actionBuilder;
 
-
-    ITreeNode<IHoldemTreeData> buildTree(IGameState initialState)
+    ITreeNode<IHoldemTreeData> buildTree(IGameState initialState) throws Exception
     {
-        return recursiveBuildTree(initialState);
+        return recursiveBuildNode(initialState);
     }
 
 
-    ITreeNode<IHoldemTreeData> recursiveBuildTree(IGameState parentState)
+    ITreeNode<IHoldemTreeData> recursiveBuildNode(IGameState parentState) throws Exception
     {
 
-        ImmutableList<Action> possibleActions = parentState.possibleActions();
+        // first build the children, then the node
+
+        // should work for both dealer and player actions
+        ImmutableList<Action> actions = actionBuilder.buildAllChildActions(parentState);
 
         ImmutableList.Builder<ITreeNode<IHoldemTreeData> > listBuilder = ImmutableList.builder();
-        for(Action a : possibleActions)
+        for(Action a : actions)
         {
-
             IGameState childState = stateFactory.NextState(parentState, a);
 
-            listBuilder.add(recursiveBuildTree(childState));
+            ITreeNode<IHoldemTreeData> childNode = recursiveBuildNode(childState);
+
+            listBuilder.add(childNode);
+
         }
 
-      //  IHoldemTreeData data =
+        return new TreeNode<>(new HoldemTreeData(parentState), listBuilder.build());
 
-        //ITreeNode<IHoldemTreeData> rootNode = new TreeNode<IHoldemTreeData>(, listBuilder.build());
 
-        return null;
     }
 
 

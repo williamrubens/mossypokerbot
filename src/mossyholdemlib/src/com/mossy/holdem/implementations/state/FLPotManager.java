@@ -1,12 +1,5 @@
 package com.mossy.holdem.implementations.state;
 
-import com.google.common.collect.ImmutableList;
-import com.mossy.holdem.Action;
-import com.mossy.holdem.ChipStack;
-import com.mossy.holdem.GameStage;
-import com.mossy.holdem.interfaces.state.IPotManager;
-import com.mossy.holdem.interfaces.state.IPlayerState;
-
 /**
  * Created by williamrubens on 16/08/2014.
  *//*
@@ -16,11 +9,11 @@ public class FLPotManager implements IPotManager
     final private int dealerPos;
     final private ChipStack lowerLimit;
     final private ChipStack higherLimit;
-    final ImmutableList<IPlayerState> playerStates;
+    final ImmutableList<IPlayerInfo> playerStates;
     final private GameStage gameStage;
 
     FLPotManager(ChipStack lowerLimit, ChipStack higherLimit,
-                 ImmutableList<IPlayerState> playerStates,
+                 ImmutableList<IPlayerInfo> playerStates,
                  GameStage gameStage,
                  int dealerPos, int nextToPlay)
     {
@@ -40,12 +33,12 @@ public class FLPotManager implements IPotManager
     }
 
 
-    private ImmutableList<IPlayerState> updatePlayerList(IPlayerState oldPlayer, IPlayerState newPlayer)
+    private ImmutableList<IPlayerInfo> updatePlayerList(IPlayerInfo oldPlayer, IPlayerInfo newPlayer)
     {
         // update player list
-        ImmutableList.Builder<IPlayerState> playerStatesBuilder = ImmutableList.builder();
+        ImmutableList.Builder<IPlayerInfo> playerStatesBuilder = ImmutableList.builder();
 
-        for(IPlayerState player : playerStates)
+        for(IPlayerInfo player : playerStates)
         {
             if(player == oldPlayer)
             {
@@ -60,7 +53,7 @@ public class FLPotManager implements IPotManager
         return playerStatesBuilder.build();
     }
 
-    private IPlayerState getLastPlayerState()
+    private IPlayerInfo getLastPlayerState()
     {
         int lastPlayer = nextToPlay - 1;
         if(lastPlayer < 0)
@@ -73,7 +66,7 @@ public class FLPotManager implements IPotManager
     private boolean areAllPlayersEven()
     {
         ChipStack playerPot = ChipStack.NO_CHIPS;
-        for(IPlayerState p : playerStates)
+        for(IPlayerInfo p : playerStates)
         {
             if(p.isOut())
             {
@@ -92,10 +85,10 @@ public class FLPotManager implements IPotManager
         return true;
     }
 
-    private ChipStack getCurrentRaise()
+    private ChipStack getHighestBet()
     {
         ChipStack currentRaise = ChipStack.NO_CHIPS;
-        for (IPlayerState p : playerStates)
+        for (IPlayerInfo p : playerStates)
         {
             if(p.pot().compareTo(currentRaise) > 0)
             {
@@ -107,7 +100,7 @@ public class FLPotManager implements IPotManager
 
     private boolean isPotOpen()
     {
-        return getCurrentRaise().equals(ChipStack.NO_CHIPS);
+        return getHighestBet().equals(ChipStack.NO_CHIPS);
     }
 
     @Override
