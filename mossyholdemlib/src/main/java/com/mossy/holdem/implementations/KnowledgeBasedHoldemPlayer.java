@@ -16,7 +16,7 @@ public class KnowledgeBasedHoldemPlayer implements IKnowledgeBasedHoldemPlayer
     IPreFlopIncomeRateVendor preFlopIncomeRateVendor;
     HoleCards holeCards;
     int numPlayers;
-    GameStage gameStage;
+    Street street;
     ArrayList<Card> communityCards;
 
     @Inject
@@ -30,7 +30,7 @@ public class KnowledgeBasedHoldemPlayer implements IKnowledgeBasedHoldemPlayer
     public void startGame(int numPlayers)
     {
         this.numPlayers = numPlayers;
-        gameStage = GameStage.PRE_FLOP;
+        street = Street.PRE_FLOP;
         communityCards = new ArrayList<Card>();
     }
 
@@ -47,7 +47,7 @@ public class KnowledgeBasedHoldemPlayer implements IKnowledgeBasedHoldemPlayer
         communityCards.add(card2);
         communityCards.add(card3);
 
-        gameStage = GameStage.FLOP;
+        street = Street.FLOP;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class KnowledgeBasedHoldemPlayer implements IKnowledgeBasedHoldemPlayer
     {
         communityCards.add(turn);
 
-        gameStage = GameStage.TURN;
+        street = Street.TURN;
     }
 
     @Override
@@ -63,13 +63,13 @@ public class KnowledgeBasedHoldemPlayer implements IKnowledgeBasedHoldemPlayer
     {
         communityCards.add(river);
 
-        gameStage = GameStage.RIVER;
+        street = Street.RIVER;
     }
 
     @Override
     public Action getNextAction()
     {
-        switch (gameStage)
+        switch (street)
         {
             case PRE_FLOP:
                 return getPreFlopAction();

@@ -7,5 +7,5 @@ import com.mossy.holdem.Action;
  */
 public interface IPlayerInfoFactory
 {
-    IPlayerInfo updatePlayer(IPlayerInfo currentState, Action action) throws  Exception;
+    IPlayerState updatePlayer(IPlayerState currentState, Action action, IGameState gameState) throws  Exception;
 }

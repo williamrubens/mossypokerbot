@@ -1,12 +1,5 @@
 package com.mossy.holdem.implementations.state;
 
-import com.google.common.collect.ImmutableList;
-import com.mossy.holdem.Action;
-import com.mossy.holdem.Card;
-import com.mossy.holdem.GameStage;
-import com.mossy.holdem.interfaces.state.IGameState;
-import com.mossy.holdem.interfaces.state.IPotManager;
-
 /**
  * Created by williamrubens on 18/08/2014.
  *//*
@@ -17,9 +10,9 @@ public class FlopState implements IGameState
     }
 
     @Override
-    public GameStage stage()
+    public Street street()
     {
-         return GameStage.FLOP
+         return Street.FLOP
     }
 
     @Override

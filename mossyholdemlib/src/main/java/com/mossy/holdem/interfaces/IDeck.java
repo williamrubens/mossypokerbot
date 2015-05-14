@@ -5,10 +5,6 @@ import com.mossy.holdem.Rank;
 import com.mossy.holdem.Suit;
 import com.mossy.holdem.Card;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *

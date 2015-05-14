@@ -8,8 +8,7 @@ public class  NLHoldemStateFactory implements IGameStateFactory
 {
 
     @Override
-    public IGameState NextState(IGameState currentState, Action action)
-    {
+    public IGameState buildNextState(IGameState currentState, Action action) throws Exception {
         return null;
     }
 }

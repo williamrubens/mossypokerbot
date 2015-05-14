@@ -9,12 +9,12 @@ public class FLPotManager implements IPotManager
     final private int dealerPos;
     final private ChipStack lowerLimit;
     final private ChipStack higherLimit;
-    final ImmutableList<IPlayerInfo> playerStates;
-    final private GameStage gameStage;
+    final ImmutableList<IPlayerState> playerStates;
+    final private Street gameStage;
 
     FLPotManager(ChipStack lowerLimit, ChipStack higherLimit,
-                 ImmutableList<IPlayerInfo> playerStates,
-                 GameStage gameStage,
+                 ImmutableList<IPlayerState> playerStates,
+                 Street gameStage,
                  int dealerPos, int nextToPlay)
     {
         this.lowerLimit = lowerLimit;
@@ -33,12 +33,12 @@ public class FLPotManager implements IPotManager
     }
 
 
-    private ImmutableList<IPlayerInfo> updatePlayerList(IPlayerInfo oldPlayer, IPlayerInfo newPlayer)
+    private ImmutableList<IPlayerState> updatePlayerList(IPlayerState oldPlayer, IPlayerState newPlayer)
     {
         // update player list
-        ImmutableList.Builder<IPlayerInfo> playerStatesBuilder = ImmutableList.builder();
+        ImmutableList.Builder<IPlayerState> playerStatesBuilder = ImmutableList.builder();
 
-        for(IPlayerInfo player : playerStates)
+        for(IPlayerState player : playerStates)
         {
             if(player == oldPlayer)
             {
@@ -53,7 +53,7 @@ public class FLPotManager implements IPotManager
         return playerStatesBuilder.build();
     }
 
-    private IPlayerInfo getLastPlayerState()
+    private IPlayerState getLastPlayerState()
     {
         int lastPlayer = nextToPlay - 1;
         if(lastPlayer < 0)
@@ -66,7 +66,7 @@ public class FLPotManager implements IPotManager
     private boolean areAllPlayersEven()
     {
         ChipStack playerPot = ChipStack.NO_CHIPS;
-        for(IPlayerInfo p : playerStates)
+        for(IPlayerState p : playerStates)
         {
             if(p.isOut())
             {
@@ -88,7 +88,7 @@ public class FLPotManager implements IPotManager
     private ChipStack getHighestBet()
     {
         ChipStack currentRaise = ChipStack.NO_CHIPS;
-        for (IPlayerInfo p : playerStates)
+        for (IPlayerState p : playerStates)
         {
             if(p.pot().compareTo(currentRaise) > 0)
             {
@@ -98,7 +98,7 @@ public class FLPotManager implements IPotManager
         return currentRaise;
     }
 
-    private boolean isPotOpen()
+    private boolean hasBets()
     {
         return getHighestBet().equals(ChipStack.NO_CHIPS);
     }
@@ -112,7 +112,7 @@ public class FLPotManager implements IPotManager
 
     private ChipStack getCurentBetLimit()
     {
-        if(gameStage == GameStage.RIVER || gameStage == GameStage.TURN)
+        if(gameStage == Street.RIVER || gameStage == Street.TURN)
         {
             return higherLimit;
         }

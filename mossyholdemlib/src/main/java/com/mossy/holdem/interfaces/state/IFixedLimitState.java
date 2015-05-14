@@ -1,5 +1,6 @@
 package com.mossy.holdem.interfaces.state;
 
+import com.mossy.holdem.Action;
 import com.mossy.holdem.ChipStack;
 
 /**
@@ -11,5 +12,11 @@ public interface IFixedLimitState extends IGameState
 
     ChipStack higherLimit();
 
+    int raiseCap();
+    int numberOfRaises();
+
     ChipStack getCurrentBetLimit();
+
+    //mainly for debugging purposes
+    Action lastAction();
 }

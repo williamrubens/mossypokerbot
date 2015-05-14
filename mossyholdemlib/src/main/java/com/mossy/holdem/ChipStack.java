@@ -1,40 +1,35 @@
 package com.mossy.holdem;
 
 import java.math.BigDecimal;
+import java.util.function.BinaryOperator;
 
 /**
  * Created by williamrubens on 10/08/2014.
  */
-public class ChipStack implements Comparable<ChipStack>
-{
+public class ChipStack implements Comparable<ChipStack> {
     private BigDecimal amount;
 
-    public ChipStack(BigDecimal amount)
-    {
+    public ChipStack(BigDecimal amount) {
         this.amount = amount;
     }
-    public ChipStack(int amount)
-    {
+
+    public ChipStack(int amount) {
         this.amount = new BigDecimal(amount);
     }
 
-    public ChipStack()
-    {
+    public ChipStack() {
         this(BigDecimal.ZERO);
     }
 
-    public ChipStack add(ChipStack rhs)
-    {
+    public ChipStack add(ChipStack rhs) {
         return new ChipStack(amount.add(rhs.amount));
     }
 
-    public ChipStack subtract(ChipStack rhs)
-    {
+    public ChipStack subtract(ChipStack rhs) {
         return new ChipStack(amount.subtract(rhs.amount));
     }
 
-    public ChipStack divide(int divisor)
-    {
+    public ChipStack divide(int divisor) {
         return new ChipStack(amount.divide(new BigDecimal(divisor)));
     }
 
@@ -42,34 +37,32 @@ public class ChipStack implements Comparable<ChipStack>
     public final static ChipStack ONE_CHIP = new ChipStack(1);
     public final static ChipStack TWO_CHIPS = new ChipStack(2);
 
+    public final static ChipStack as(int i) {
+        return new ChipStack(i);
+    }
+
     @Override
-    public int compareTo(ChipStack rhs)
-    {
+    public int compareTo(ChipStack rhs) {
         return amount.compareTo(rhs.amount);
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        return equals((ChipStack)o);
+        return equals((ChipStack) o);
 
     }
 
-    public boolean equals(ChipStack rhs)
-    {
+    public boolean equals(ChipStack rhs) {
         ChipStack chipStack = rhs;
 
-        if (!amount.equals(rhs.amount))
-        {
+        if (!amount.equals(rhs.amount)) {
             return false;
         }
 
@@ -77,15 +70,21 @@ public class ChipStack implements Comparable<ChipStack>
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return amount.hashCode();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "ChipStack{" + amount.toString() +
                 '}';
     }
+
+    public static final BinaryOperator<ChipStack> adder = new BinaryOperator<ChipStack>() {
+        @Override
+        public ChipStack apply(ChipStack lhs, ChipStack rhs) {
+            return lhs.add(rhs);
+        }
+    };
+
 }

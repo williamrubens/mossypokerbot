@@ -1,22 +1,11 @@
 package com.mossy.holdem.nn;
 
-import org.deeplearning4j.datasets.iterator.DataSetIterator;
-import org.deeplearning4j.datasets.iterator.impl.IrisDataSetIterator;
-import org.deeplearning4j.eval.Evaluation;
-import org.deeplearning4j.nn.api.Layer;
-import org.deeplearning4j.nn.api.OptimizationAlgorithm;
-import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
-import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
-import org.deeplearning4j.nn.conf.distribution.UniformDistribution;
-import org.deeplearning4j.nn.conf.override.ClassifierOverride;
-import org.deeplearning4j.nn.layers.factory.LayerFactories;
-import org.deeplearning4j.nn.layers.feedforward.rbm.RBM;
-import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
-import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.api.IterationListener;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
-import org.junit.Test;
+import com.googlecode.fannj.Fann;
+import com.googlecode.fannj.Trainer;
+import com.googlecode.fannj.Layer;
+import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -28,16 +17,21 @@ public class NNTests {
     public void play() throws Exception
     {
 
-        Layer inLayer = Layer.create(2);
-        Layer outLayer = Layer.create(2);
+        Layer inLayer = Layer.create(4);
+        Layer middleLayer = Layer.create(8);
+        Layer outLayer = Layer.create(4);
 
-        Fann fann = new Fann(new ArrayList(inLayer, outLayer));
+        Fann fann = new Fann(Arrays.asList(inLayer,middleLayer,  outLayer));
 
         Trainer trainer = new Trainer(fann);
 
+        trainer.train("/Users/willrubens/dev/poker-hhdb/mydb/fann_data0.txt", 1000, 1, 0.01f);
 
+
+        fann.save("/Users/willrubens/dev/mossyholdem/mossyholdemlib/src/test/resources/nn.txt");
 
 
 
     }
 }
+

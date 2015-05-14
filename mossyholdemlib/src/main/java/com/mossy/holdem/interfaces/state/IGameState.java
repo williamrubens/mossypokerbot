@@ -1,9 +1,10 @@
 package com.mossy.holdem.interfaces.state;
 
 import com.google.common.collect.ImmutableList;
-import com.mossy.holdem.Action;
+import com.google.common.collect.ImmutableMap;
+import com.mossy.holdem.Card;
 import com.mossy.holdem.ChipStack;
-import com.mossy.holdem.GameStage;
+import com.mossy.holdem.Street;
 
 /**
  * Created by williamrubens on 19/07/2014.
@@ -11,19 +12,27 @@ import com.mossy.holdem.GameStage;
 public interface IGameState
 {
 
-    GameStage stage();
+    Street street();
 
     int dealerPosition();
 
-    ImmutableList<IPlayerInfo> playerStates();
-    IPlayerInfo getNextPlayer() throws Exception;
+    ImmutableList<IPlayerState> playerStates();
+    ImmutableList<IPlayerState> playersStillIn();
+
+    ImmutableList<Card> communityCards();
+    ImmutableMap<Street, ChipStack> pots();
+    ChipStack totalPot();
+    IPlayerState getNextPlayer() throws Exception;
 
     int nextPlayerSeat() throws Exception;
     int playerAfter(int seat);
 
+    ChipStack smallBlind() ;
+    ChipStack bigBlind();
     ChipStack getAmountToCall() throws  Exception;
     ChipStack getHighestBet();
-    boolean isPotOpen();
+    boolean hasBets();
+    boolean isBettingClosed();
 
 }
 

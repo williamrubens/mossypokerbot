@@ -13,9 +13,9 @@ public class FLPreFlopState implements IGameState
     }
 
     @Override
-    public GameStage stage()
+    public Street street()
     {
-        return GameStage.PRE_FLOP;
+        return Street.PRE_FLOP;
     }
 
 

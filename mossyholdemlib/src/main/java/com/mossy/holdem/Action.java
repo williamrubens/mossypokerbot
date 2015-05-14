@@ -22,6 +22,8 @@ public class Action
         ALL_IN,
         SIT_OUT,
         POST_ANTE,
+        WIN,
+        DEALER_ACTION,
         DEAL_FLOP,
         DEAL_TURN,
         DEAL_RIVER
@@ -37,6 +39,10 @@ public class Action
         {
             return new Action(ActionType.BET, amount);
         }
+        static public Action raiseAction(ChipStack amount)
+        {
+            return new Action(ActionType.RAISE, amount);
+        }
         static public Action checkAction(ChipStack amount)
         {
             return new Action(ActionType.RAISE, amount);
@@ -45,9 +51,9 @@ public class Action
         {
             return new Action(ActionType.FOLD);
         }
-        static public Action callAction(ChipStack amount)
+        static public Action callAction()
         {
-            return new Action(ActionType.CALL, amount);
+            return new Action(ActionType.CALL);
         }
         static public Action smallBlindAction()
         {
@@ -72,6 +78,14 @@ public class Action
         static public Action postAnteAction()
         {
             return new Action(ActionType.POST_ANTE);
+        }
+        static public Action dealerAction()
+        {
+            return new Action(ActionType.DEALER_ACTION);
+        }
+        static public Action winAction()
+        {
+            return new Action(ActionType.WIN);
         }
         static public Action dealFlopAction(Card c1, Card c2, Card c3)
         {
@@ -102,10 +116,10 @@ public class Action
         return amount;
     }
 
-    public boolean isPlayerAction()
-    {
-        return isPlayerAction;
-    }
+//    public boolean isPlayerAction()
+//    {
+//        return isPlayerAction;
+//    }
 
     @Override
     public String toString()
@@ -139,10 +153,10 @@ public class Action
         {
             return false;
         }
-        if (cards != null ? !cards.equals(action.cards) : action.cards != null)
-        {
-            return false;
-        }
+//        if (cards != null ? !cards.equals(action.cards) : action.cards != null)
+//        {
+//            return false;
+//        }
 
         return true;
     }
@@ -152,7 +166,7 @@ public class Action
     {
         int result = actionType.hashCode();
         result = 31 * result + (amount != null ? amount.hashCode() : 0);
-        result = 31 * result + (cards != null ? cards.hashCode() : 0);
+//        result = 31 * result + (cards != null ? cards.hashCode() : 0);
         result = 31 * result + (isPlayerAction ? 1 : 0);
         return result;
     }

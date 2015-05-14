@@ -3,7 +3,7 @@ package com.mossy.holdem.implementations.state;
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.ChipStack;
-import com.mossy.holdem.GameStage;
+import com.mossy.holdem.Street;
 import com.mossy.holdem.interfaces.state.IGameState;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import static org.testng.Assert.assertEqualsNoOrder;
 //import static org.junit.Assert.assertEquals;
 
 
-import com.mossy.holdem.interfaces.state.IPlayerInfo;
+import com.mossy.holdem.interfaces.state.IPlayerState;
 import com.mossy.holdem.interfaces.state.IPlayerInfoFactory;
 import org.testng.annotations.*;
 
@@ -71,7 +71,7 @@ public class FixedLimitStateFactoryTest
 //    {
 //        for(int p = 0; p < numPlayers; p++)
 //        {
-//            IPlayerInfo playerState = mock(IPlayerInfo.class);
+//            IPlayerState playerState = mock(IPlayerState.class);
 //            stub(playerState.pot()).toReturn(ChipStack.NO_CHIPS);
 //            players.add(playerState);
 //        }
@@ -94,11 +94,11 @@ public class FixedLimitStateFactoryTest
     @DataProvider(name = "firstActionPreFlop")
     public Object[][] createData1() {
         return new Object[][] {
-                {2, 0, 1, Action.Factory.callAction(ChipStack.ONE_CHIP)},
-                {3, 0, 0, Action.Factory.callAction(ChipStack.TWO_CHIPS)},
-                {3, 1, 1, Action.Factory.callAction(ChipStack.TWO_CHIPS)},
-                {2, 1, 0, Action.Factory.callAction(ChipStack.ONE_CHIP)},
-                {3, 2, 2, Action.Factory.callAction(ChipStack.TWO_CHIPS)},
+                {2, 0, 1, Action.Factory.callAction()},
+                {3, 0, 0, Action.Factory.callAction()},
+                {3, 1, 1, Action.Factory.callAction()},
+                {2, 1, 0, Action.Factory.callAction()},
+                {3, 2, 2, Action.Factory.callAction()},
                 {2, 1, 0, Action.Factory.betAction(lowerLimit)},
                 {2, 0, 1, Action.Factory.betAction(lowerLimit)},
                 {3, 0, 0, Action.Factory.betAction(lowerLimit)},
@@ -115,37 +115,77 @@ public class FixedLimitStateFactoryTest
 
 
     @Test(dataProvider = "firstActionPreFlop")
-    public void NewPreFlopState_nextAction_AdjustsPlayerPot(int numPlayers, int dealerPosition, int nextToPlay, Action action) throws Exception
+    public void NewPreFlopState_nextAction_UpdatesNextPlayerState(int numPlayers, int dealerPosition, int nextToPlay, Action action) throws Exception
     {
         //given
-        int smallBlindPos = (dealerPosition + 1) % numPlayers;
-        int bigBlindPos = (dealerPosition + 2) % numPlayers;
-
-        ArrayList<IPlayerInfo> players = new ArrayList<IPlayerInfo>();
-
-        for(int p = 0; p < numPlayers; p++)
-        {
-            IPlayerInfo playerState = mock(IPlayerInfo.class);
-            stub(playerState.pot()).toReturn(ChipStack.NO_CHIPS);
-            players.add(playerState);
-        }
-
+        ArrayList<IPlayerState> players = new ArrayList<IPlayerState>();
         IPlayerInfoFactory playerFactory = mock(IPlayerInfoFactory.class);
         IGameState gameState = mock(FixedLimitState.class);
-        IPlayerInfo nextPlayer = mock(IPlayerInfo.class);
+
+        prepareTestState(numPlayers, nextToPlay, action, players, playerFactory, gameState);
 
         FLStateFactory stateFactory = new FLStateFactory(playerFactory, lowerLimit, higherLimit);
-
-        stub(gameState.stage()).toReturn(GameStage.PRE_FLOP);
-        stub(gameState.getNextPlayer()).toReturn(nextPlayer);
-        stub(gameState.playerStates()).toReturn(ImmutableList.copyOf(players));
 
 
         // when
         stateFactory.buildNextState(gameState, action);
 
         // then
-        verify(playerFactory).updatePlayer(nextPlayer, action);
+        verify(playerFactory).updatePlayer(gameState.getNextPlayer(), action, gameState);
+    }
+
+    private void prepareTestState(int numPlayers, int nextToPlay, Action action, ArrayList<IPlayerState> players, IPlayerInfoFactory playerFactory, IGameState gameState) throws Exception {
+        stub(gameState.street()).toReturn(Street.PRE_FLOP);
+        stub(gameState.hasBets()).toReturn(true);
+
+        for(int p = 0; p < numPlayers; p++)
+        {
+            IPlayerState playerState = mock(IPlayerState.class);
+            stub(playerState.id()).toReturn(p);
+            stub(playerState.pot()).toReturn(ChipStack.NO_CHIPS);
+            stub(playerState.bank()).toReturn(ChipStack.NO_CHIPS);
+            players.add(playerState);
+
+            if(nextToPlay == p) {
+                stub(gameState.getNextPlayer()).toReturn(playerState);
+            }
+            stub(playerFactory.updatePlayer(playerState, action, gameState)).toReturn(playerState);
+        }
+
+        stub(gameState.playerStates()).toReturn(ImmutableList.copyOf(players));
+    }
+
+    @DataProvider(name = "winActions")
+    public Object[][] createWinActions() {
+        return new Object[][] {
+                {2, 0, 1, Action.Factory.winAction()},
+                {3, 0, 0, Action.Factory.winAction()},
+                {3, 1, 1, Action.Factory.winAction()},
+                {2, 1, 0, Action.Factory.winAction()},
+                {3, 2, 2, Action.Factory.winAction()},
+        };
+    }
+
+    @Test(dataProvider = "winActions")
+    public void NewPreFlopState_winAction_UpdatesAllPlayerState(int numPlayers, int dealerPosition, int nextToPlay, Action action) throws Exception
+    {
+        //given
+        ArrayList<IPlayerState> players = new ArrayList<IPlayerState>();
+        IPlayerInfoFactory playerFactory = mock(IPlayerInfoFactory.class);
+        IGameState gameState = mock(FixedLimitState.class);
+
+        prepareTestState(numPlayers, nextToPlay, action, players, playerFactory, gameState);
+
+        FLStateFactory stateFactory = new FLStateFactory(playerFactory, lowerLimit, higherLimit);
+
+        // when
+        stateFactory.buildNextState(gameState, action);
+
+        // then
+        for(IPlayerState player: players) {
+            verify(playerFactory).updatePlayer(player, action, gameState);
+        }
+
     }
 
 /*
@@ -173,13 +213,13 @@ public class FixedLimitStateFactoryTest
 
 
         // post small blind
-        IPlayerInfo nextPlayer = players.get(nextToPlay);
+        IPlayerState nextPlayer = players.get(nextToPlay);
 
         stub(players.get(smallBlindPos).pot()).toReturn(smallBlind);
         stub(players.get(bigBlindPos).pot()).toReturn(bigBlind);
 
-        stub(nextPlayer.play(amountToPlay)).toReturn(mock(IPlayerInfo.class));
-        stub(nextPlayer.fold()).toReturn(mock(IPlayerInfo.class));
+        stub(nextPlayer.play(amountToPlay)).toReturn(mock(IPlayerState.class));
+        stub(nextPlayer.fold()).toReturn(mock(IPlayerState.class));
 
         IPlayerInfoFactory playerFactory = mock(IPlayerInfoFactory.class);
 
@@ -197,16 +237,16 @@ public class FixedLimitStateFactoryTest
         int smallBlindPos = (dealerPosition + 1) % numPlayers;
         int bigBlindPos = (dealerPosition + 2) % numPlayers;
 
-        ArrayList<IPlayerInfo> players = new ArrayList<IPlayerInfo>();
+        ArrayList<IPlayerState> players = new ArrayList<IPlayerState>();
 
         for(int p = 0; p < numPlayers; p++)
         {
-            IPlayerInfo playerState = mock(IPlayerInfo.class);
+            IPlayerState playerState = mock(IPlayerState.class);
             stub(playerState.pot()).toReturn(ChipStack.NO_CHIPS);
             players.add(playerState);
         }
 
-        IPotManager potManager = new FLPotManager(lowerLimit, higherLimit, ImmutableList.copyOf(players), GameStage.FLOP, dealerPosition, nextToPlay );
+        IPotManager potManager = new FLPotManager(lowerLimit, higherLimit, ImmutableList.copyOf(players), Street.FLOP, dealerPosition, nextToPlay );
 
         // when
         ImmutableList<Action> possibleActions = potManager.possibleActions();
@@ -221,16 +261,16 @@ public class FixedLimitStateFactoryTest
     public void PostFlopStage_callAction_throwsException() throws Exception
     {
         //given
-        ArrayList<IPlayerInfo> players = new ArrayList<IPlayerInfo>();
+        ArrayList<IPlayerState> players = new ArrayList<IPlayerState>();
 
         for(int p = 0; p < 4; p++)
         {
-            IPlayerInfo playerState = mock(IPlayerInfo.class);
+            IPlayerState playerState = mock(IPlayerState.class);
             stub(playerState.pot()).toReturn(ChipStack.NO_CHIPS);
             players.add(playerState);
         }
 
-        IPotManager nextbet = new FLPotManager(lowerLimit, higherLimit, ImmutableList.copyOf(players), GameStage.FLOP, 0, 1 );
+        IPotManager nextbet = new FLPotManager(lowerLimit, higherLimit, ImmutableList.copyOf(players), Street.FLOP, 0, 1 );
 
         // when
         nextbet.nextAction(Action.Factory.callAction());
@@ -264,19 +304,19 @@ public class FixedLimitStateFactoryTest
     public void PostFlopStage_nextAction_AdjustsPlayerPot(int numPlayers, int dealerPosition, int nextToPlay, Action action, ChipStack amountToPlay) throws Exception
     {
         //given
-        ArrayList<IPlayerInfo> players = new ArrayList<IPlayerInfo>();
+        ArrayList<IPlayerState> players = new ArrayList<IPlayerState>();
 
         for(int p = 0; p < numPlayers; p++)
         {
-            IPlayerInfo playerState = mock(IPlayerInfo.class);
+            IPlayerState playerState = mock(IPlayerState.class);
             stub(playerState.pot()).toReturn(ChipStack.NO_CHIPS);
             players.add(playerState);
         }
-        IPlayerInfo nextPlayer = players.get(nextToPlay);
-        stub(nextPlayer.play(amountToPlay)).toReturn(mock(IPlayerInfo.class));
-        stub(nextPlayer.fold()).toReturn(mock(IPlayerInfo.class));
+        IPlayerState nextPlayer = players.get(nextToPlay);
+        stub(nextPlayer.play(amountToPlay)).toReturn(mock(IPlayerState.class));
+        stub(nextPlayer.fold()).toReturn(mock(IPlayerState.class));
 
-        IPotManager currentPot = new FLPotManager(lowerLimit, higherLimit, ImmutableList.copyOf(players), GameStage.FLOP, dealerPosition, nextToPlay );
+        IPotManager currentPot = new FLPotManager(lowerLimit, higherLimit, ImmutableList.copyOf(players), Street.FLOP, dealerPosition, nextToPlay );
 
         // when
         IPotManager nextPot = currentPot.nextAction(action);
@@ -294,7 +334,7 @@ public class FixedLimitStateFactoryTest
         //given
 
         // post small blind
-        IPlayerInfo nextPlayer = players.get(nextToPlay);
+        IPlayerState nextPlayer = players.get(nextToPlay);
 
         stub(players.get(smallBlindPos).pot()).toReturn(smallBlind);
         stub(players.get(bigBlindPos).pot()).toReturn(bigBlind);
@@ -327,7 +367,7 @@ public class FixedLimitStateFactoryTest
             amountToPlay = ChipStack.NO_CHIPS;
         }
 
-        stub(nextPlayer.play(amountToPlay)).toReturn(mock(IPlayerInfo.class));
+        stub(nextPlayer.play(amountToPlay)).toReturn(mock(IPlayerState.class));
 
         IPotManager nextbet = new FLPotManager(smallBlind, bigBlind, ImmutableList.copyOf(players), dealerPosition, nextToPlay );
 
@@ -345,13 +385,13 @@ public class FixedLimitStateFactoryTest
     public void BetState_nextAction_AdjustsPlayerPot() throws Exception
     {
         //given
-        IPlayerInfo nextPlayer = players.get(nextToPlay);
-        IPlayerInfo nextPlayer2 = players.get((nextToPlay + 1) % numPlayers);
+        IPlayerState nextPlayer = players.get(nextToPlay);
+        IPlayerState nextPlayer2 = players.get((nextToPlay + 1) % numPlayers);
 
         stub(players.get(smallBlindPos).pot()).toReturn(smallBlind);
         stub(players.get(bigBlindPos).pot()).toReturn(bigBlind);
-        stub(nextPlayer.play(bigBlind)).toReturn(mock(IPlayerInfo.class));
-        stub(nextPlayer2.play(amountToPlayForSecondPlayer)).toReturn(mock(IPlayerInfo.class));
+        stub(nextPlayer.play(bigBlind)).toReturn(mock(IPlayerState.class));
+        stub(nextPlayer2.play(amountToPlayForSecondPlayer)).toReturn(mock(IPlayerState.class));
 
         IPotManager nextbet = new FLPotManager(smallBlind, bigBlind, ImmutableList.copyOf(players), dealerPosition, nextToPlay );
         nextbet.nextAction(Action.Factory.betAction(bigBlind));

@@ -3,15 +3,19 @@ package com.mossy.holdem.implementations.state;
 import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.ChipStack;
-import com.mossy.holdem.GameStage;
+import com.mossy.holdem.Street;
+import com.mossy.holdem.implementations.ImmutableListCollector;
 import com.mossy.holdem.interfaces.state.IGameState;
-import com.mossy.holdem.interfaces.state.IPlayerInfo;
+import com.mossy.holdem.interfaces.state.IGameStateFactory;
+import com.mossy.holdem.interfaces.state.IPlayerState;
 import com.mossy.holdem.interfaces.state.IPlayerInfoFactory;
+
+import java.util.stream.Stream;
 
 /**
  * Created by williamrubens on 18/08/2014.
  */
-public class FLStateFactory
+public class FLStateFactory implements IGameStateFactory
 {
     final IPlayerInfoFactory playerStateFactory;
     final ChipStack lowerLimit;
@@ -24,14 +28,14 @@ public class FLStateFactory
         this.higherLimit = higherLimit;
     }
 
-    private ImmutableList<IPlayerInfo> updatePlayerList(ImmutableList<IPlayerInfo> playerStates, IPlayerInfo oldPlayer, IPlayerInfo newPlayer)
+    private ImmutableList<IPlayerState> updatePlayerList(ImmutableList<IPlayerState> playerStates, IPlayerState newPlayer)
     {
         // update player list
-        ImmutableList.Builder<IPlayerInfo> playerStatesBuilder = ImmutableList.builder();
+        ImmutableList.Builder<IPlayerState> playerStatesBuilder = ImmutableList.builder();
 
-        for(IPlayerInfo player : playerStates)
+        for(IPlayerState player : playerStates)
         {
-            if(player == oldPlayer)
+            if(player.id() == newPlayer.id())
             {
                 playerStatesBuilder.add(newPlayer);
             }
@@ -44,13 +48,34 @@ public class FLStateFactory
         return playerStatesBuilder.build();
     }
 
-    IGameState buildNewState(ImmutableList<IPlayerInfo> playerStates, int dealerPosition)
+    private ImmutableList<IPlayerState> updatePlayers(ImmutableList<IPlayerState> playerStates, IPlayerState newPlayer)
     {
-        return new FixedLimitState(lowerLimit, higherLimit, playerStates, GameStage.PRE_FLOP, dealerPosition);
+        // update player list
+        ImmutableList.Builder<IPlayerState> playerStatesBuilder = ImmutableList.builder();
+
+        for(IPlayerState player : playerStates)
+        {
+            if(player.id() == newPlayer.id())
+            {
+                playerStatesBuilder.add(newPlayer);
+            }
+            else
+            {
+                playerStatesBuilder.add(player);
+            }
+
+        }
+        return playerStatesBuilder.build();
+    }
+
+    public IGameState buildNewState(ImmutableList<IPlayerState> playerStates, int dealerPosition, int raiseCap)
+    {
+        return new FixedLimitState(lowerLimit, higherLimit, playerStates, Street.PRE_FLOP, dealerPosition, 0, raiseCap, Action.Factory.anteAction());
     }
 
 
-    IGameState buildNextState(IGameState currentState, Action nextAction) throws Exception
+    @Override
+    public IGameState buildNextState(IGameState currentState, Action nextAction) throws Exception
     {
         if(!(currentState instanceof FixedLimitState))
         {
@@ -59,51 +84,64 @@ public class FLStateFactory
 
         FixedLimitState currentFLState = (FixedLimitState)currentState;
 
-        IPlayerInfo nextPlayer = currentFLState.getNextPlayer();
-        int numPlayers = currentFLState.playerStates().size();
+        IPlayerState nextPlayer = currentFLState.getNextPlayer();
         int dealerPosition = currentState.dealerPosition();
+        int numberOfRaises = currentFLState.numberOfRaises();
+
 
         if(nextAction.type() == Action.ActionType.CALL)
         {
-            if(currentState.isPotOpen())
+            if(!currentState.hasBets())
             {
                 throw new Exception(String.format("Cannot call a pot with no raise"));
             }
-
-            IPlayerInfo nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
-
-            ImmutableList<IPlayerInfo> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
-
-            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, currentFLState.stage(), dealerPosition);
-        }
-        if(nextAction.type() == Action.ActionType.BET)
+         }
+        else if(nextAction.type() == Action.ActionType.BET)
         {
             // todo check bet is appropriate size
-
-            IPlayerInfo nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
-
-            ImmutableList<IPlayerInfo> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
-
-            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, currentFLState.stage(), dealerPosition);
         }
-        if(nextAction.type() == Action.ActionType.FOLD)
-        {
-
-            IPlayerInfo nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction);
-
-            ImmutableList<IPlayerInfo> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayer, nextPlayerUpdated);
-
-            return new FixedLimitState(lowerLimit, higherLimit,  newPlayerStates, currentFLState.stage(), dealerPosition);
+        else if(nextAction.type() == Action.ActionType.RAISE) {
+            numberOfRaises++;
         }
-        if(nextAction.type() == Action.ActionType.CHECK)
+        else if(nextAction.type() == Action.ActionType.FOLD)
         {
-            if(!currentFLState.isPotOpen())
+        }
+         else if(nextAction.type() == Action.ActionType.CHECK)
+        {
+            if(currentFLState.hasBets() && currentFLState.street() != Street.PRE_FLOP)
             {
                 throw new Exception("Cannot check pot that has a raise in it already");
             }
-            return new FixedLimitState(lowerLimit, higherLimit,  currentState.playerStates(), currentFLState.stage(), dealerPosition);
+        }
+        else if(nextAction.type() == Action.ActionType.SMALL_BLIND)
+        {
+            if(currentFLState.hasBets())
+            {
+                throw new Exception("Cannot post small blind when bets already open");
+            }
+
+        }
+        else if(nextAction.type() == Action.ActionType.WIN)
+        {
+            ImmutableList<IPlayerState> newPlayerStates = currentState.playerStates().stream()
+                    .map(player -> {
+                        try {
+                            return playerStateFactory.updatePlayer(player, nextAction, currentState);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(new ImmutableListCollector<>());
+
+            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, Street.FINISHED, currentState.playerAfter(dealerPosition), numberOfRaises, currentFLState.raiseCap(), nextAction );
         }
 
-        throw new Exception(String.format("Unexpected  action %s", nextAction.type()));
+        IPlayerState nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction, currentState);
+
+        ImmutableList<IPlayerState> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayerUpdated);
+
+        return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, currentFLState.street(), dealerPosition, numberOfRaises, currentFLState.raiseCap(), nextAction );
+
+        //throw new Exception(String.format("Unexpected  action %s", nextAction.type()));
     }
 }
