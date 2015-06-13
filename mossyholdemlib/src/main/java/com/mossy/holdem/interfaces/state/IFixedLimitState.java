@@ -17,6 +17,4 @@ public interface IFixedLimitState extends IGameState
 
     ChipStack getCurrentBetLimit();
 
-    //mainly for debugging purposes
-    Action lastAction();
 }

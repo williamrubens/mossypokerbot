@@ -1,16 +1,16 @@
 package com.mossy.holdem.implementations.state;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.mossy.holdem.Action;
+import com.mossy.holdem.Card;
 import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.Street;
 import com.mossy.holdem.implementations.ImmutableListCollector;
 import com.mossy.holdem.interfaces.state.IGameState;
 import com.mossy.holdem.interfaces.state.IGameStateFactory;
-import com.mossy.holdem.interfaces.state.IPlayerState;
-import com.mossy.holdem.interfaces.state.IPlayerInfoFactory;
-
-import java.util.stream.Stream;
+import com.mossy.holdem.interfaces.player.IPlayerState;
+import com.mossy.holdem.interfaces.player.IPlayerInfoFactory;
 
 /**
  * Created by williamrubens on 18/08/2014.
@@ -70,8 +70,14 @@ public class FLStateFactory implements IGameStateFactory
 
     public IGameState buildNewState(ImmutableList<IPlayerState> playerStates, int dealerPosition, int raiseCap)
     {
-        return new FixedLimitState(lowerLimit, higherLimit, playerStates, Street.PRE_FLOP, dealerPosition, 0, raiseCap, Action.Factory.anteAction());
+        return new FixedLimitState(lowerLimit, higherLimit, playerStates, ImmutableMap.<Street, ChipStack>of(),Street.PRE_FLOP, dealerPosition, 0, raiseCap, Action.Factory.dealHoleCards());
     }
+
+    public IGameState buildState(Street street, ImmutableList<IPlayerState> playerStates, int dealerPosition, ImmutableList<Card> communityCards, Action lastAction, int raiseCap)
+    {
+        return new FixedLimitState(lowerLimit, higherLimit, playerStates, street, dealerPosition, communityCards, ImmutableMap.<Street, ChipStack>of(), 0, raiseCap,lastAction);
+    }
+
 
 
     @Override
@@ -84,9 +90,10 @@ public class FLStateFactory implements IGameStateFactory
 
         FixedLimitState currentFLState = (FixedLimitState)currentState;
 
-        IPlayerState nextPlayer = currentFLState.getNextPlayer();
+
         int dealerPosition = currentState.dealerPosition();
         int numberOfRaises = currentFLState.numberOfRaises();
+        ImmutableMap pots = currentState.pots();
 
 
         if(nextAction.type() == Action.ActionType.CALL)
@@ -100,47 +107,59 @@ public class FLStateFactory implements IGameStateFactory
         {
             // todo check bet is appropriate size
         }
-        else if(nextAction.type() == Action.ActionType.RAISE) {
+        else if(nextAction.type() == Action.ActionType.RAISE_TO) {
             numberOfRaises++;
         }
         else if(nextAction.type() == Action.ActionType.FOLD)
         {
         }
-         else if(nextAction.type() == Action.ActionType.CHECK)
-        {
-            if(currentFLState.hasBets() && currentFLState.street() != Street.PRE_FLOP)
-            {
+         else if(nextAction.type() == Action.ActionType.CHECK) {
+            if (currentFLState.hasBets() && currentFLState.street() != Street.PRE_FLOP) {
                 throw new Exception("Cannot check pot that has a raise in it already");
             }
         }
-        else if(nextAction.type() == Action.ActionType.SMALL_BLIND)
-        {
-            if(currentFLState.hasBets())
-            {
+        else if(nextAction.type() == Action.ActionType.SMALL_BLIND) {
+            if (currentFLState.hasBets()) {
                 throw new Exception("Cannot post small blind when bets already open");
             }
-
         }
-        else if(nextAction.type() == Action.ActionType.WIN)
-        {
+        else if(nextAction.type() == Action.ActionType.SHOWDOWN) {
+
+
+            return new FixedLimitState(lowerLimit, higherLimit, currentState.playerStates(), currentState.pots(), Street.SHOWDOWN, currentState.playerSeatAfter(dealerPosition), numberOfRaises, currentFLState.raiseCap(), nextAction);
+        }
+        else if(nextAction.type() == Action.ActionType.WIN) {
             ImmutableList<IPlayerState> newPlayerStates = currentState.playerStates().stream()
-                    .map(player -> {
-                        try {
-                            return playerStateFactory.updatePlayer(player, nextAction, currentState);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    })
+                    .map(player -> playerStateFactory.updatePlayer(player, nextAction, currentState))
                     .collect(new ImmutableListCollector<>());
 
-            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, Street.FINISHED, currentState.playerAfter(dealerPosition), numberOfRaises, currentFLState.raiseCap(), nextAction );
+            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, ImmutableMap.<Street, ChipStack>of(), Street.FINISHED, currentState.playerSeatAfter(dealerPosition), numberOfRaises, currentFLState.raiseCap(), nextAction);
         }
+        else if (nextAction.isDealerAction()) {
+            // clear away chips any bets
+            ImmutableList.Builder<IPlayerState> playersBuilder = ImmutableList.builder();
+            ChipStack pot = ChipStack.NO_CHIPS;
+
+            for(IPlayerState player : currentState.playerStates()) {
+                pot = pot.add(player.pot());
+                playersBuilder.add(playerStateFactory.updatePlayer(player, nextAction, currentState));
+            }
+            // build new state
+
+            ImmutableMap newPot = ImmutableMap.builder().putAll(currentState.pots()).put(currentState.street(), pot).build();
+
+            return new FixedLimitState(lowerLimit, higherLimit, playersBuilder.build(), Street.nextStreet(currentState.street()), currentState.playerSeatAfter(dealerPosition), nextAction.cards(), newPot, numberOfRaises,  currentFLState.raiseCap(), nextAction);
+
+        }
+
+
+        IPlayerState nextPlayer = currentFLState.nextPlayer();
 
         IPlayerState nextPlayerUpdated = playerStateFactory.updatePlayer(nextPlayer, nextAction, currentState);
 
         ImmutableList<IPlayerState> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayerUpdated);
 
-        return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, currentFLState.street(), dealerPosition, numberOfRaises, currentFLState.raiseCap(), nextAction );
+        return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates,pots, currentFLState.street(), dealerPosition, numberOfRaises, currentFLState.raiseCap(), nextAction );
 
         //throw new Exception(String.format("Unexpected  action %s", nextAction.type()));
     }

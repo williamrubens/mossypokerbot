@@ -48,7 +48,7 @@ public class RolloutWinningsCalculatorTest {
         int numOpponents = evaluationResults.size() - 1;
         while (numOpponents-- != 0)
         {
-            // the actual hole cards don't matter as we are mocking the evaluation results
+            // the actual hole cards don't matter of we are mocking the evaluation results
              holeCardBuilder.add(HoleCards.from(Card.ACE_DIAMONDS, Card.ACE_CLUBS));
         }
 

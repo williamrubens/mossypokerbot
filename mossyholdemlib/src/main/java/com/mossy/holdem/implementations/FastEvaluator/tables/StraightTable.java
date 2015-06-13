@@ -17,7 +17,7 @@ public class StraightTable
 straightTable[].  Maps 13-bit rank masks to a value indicating if a
 straight is present, and if so, the rank of the high card.  Zero means
 no straight, even though zero corresponds to deuce, but since there
-is no such thing as a deuce-high straight, that's OK.
+is no such thing of a deuce-high straight, that's OK.
  */
 
 

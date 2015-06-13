@@ -18,11 +18,12 @@ public enum Street
         switch(street) {
             case PRE_FLOP: return FLOP;
             case FLOP: return TURN;
+            case TURN: return RIVER;
             case RIVER: return SHOWDOWN;
             case SHOWDOWN: return SHOWDOWN;
             case FINISHED: return PRE_FLOP;
         }
-        return PRE_FLOP;
+        throw new RuntimeException("Invalid street: " + street.toString()  );
     }
 
 }

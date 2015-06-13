@@ -184,7 +184,7 @@ public class FastHandEvaluator implements IHandEvaluator
 
 
 
-//              Technically, three_mask as defined below is really the set of
+//              Technically, three_mask of defined below is really the set of
 //              bits which are set in three or four of the suits, but since
 //              we've already eliminated quads, this is OK
 //              Similarly, two_mask is really two_or_four_mask, but since we've

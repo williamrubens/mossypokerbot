@@ -27,4 +27,10 @@ public class TreeNode<T> implements ITreeNode<T>
     {
         return children;
     }
+
+    @Override
+    public String toString()  {
+        return data.toString();
+    }
+
 }

@@ -37,7 +37,7 @@ public class ChipStack implements Comparable<ChipStack> {
     public final static ChipStack ONE_CHIP = new ChipStack(1);
     public final static ChipStack TWO_CHIPS = new ChipStack(2);
 
-    public final static ChipStack as(int i) {
+    public final static ChipStack of(int i) {
         return new ChipStack(i);
     }
 
@@ -76,8 +76,7 @@ public class ChipStack implements Comparable<ChipStack> {
 
     @Override
     public String toString() {
-        return "ChipStack{" + amount.toString() +
-                '}';
+        return amount.toString() + " chips ";
     }
 
     public static final BinaryOperator<ChipStack> adder = new BinaryOperator<ChipStack>() {

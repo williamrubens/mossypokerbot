@@ -7,6 +7,7 @@ import com.mossy.holdem.interfaces.state.IGameState;
  */
 public interface IHoldemTreeData
 {
+    double probability();
     IGameState state();
 
 }

@@ -7,16 +7,26 @@ import com.mossy.holdem.interfaces.state.IGameState;
  */
 public class HoldemTreeData implements  IHoldemTreeData
 {
-    public HoldemTreeData(IGameState state)
+    final double probability;
+
+    public HoldemTreeData(IGameState state, double probabliity)
     {
         this.state = state;
+        this.probability = probabliity;
     }
 
     IGameState state;
 
     @Override
+    public double probability() {return probability;}
+
+    @Override
     public IGameState state()
     {
         return state;
+    }
+    @Override
+    public String toString() {
+        return state.toString();
     }
 }

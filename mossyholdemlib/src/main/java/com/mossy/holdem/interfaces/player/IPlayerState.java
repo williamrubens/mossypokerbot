@@ -1,4 +1,4 @@
-package com.mossy.holdem.interfaces.state;
+package com.mossy.holdem.interfaces.player;
 
 import com.mossy.holdem.ChipStack;
 

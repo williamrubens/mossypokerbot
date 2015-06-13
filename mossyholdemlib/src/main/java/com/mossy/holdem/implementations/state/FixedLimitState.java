@@ -1,16 +1,14 @@
 package com.mossy.holdem.implementations.state;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.*;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.Street;
 import com.mossy.holdem.interfaces.state.IFixedLimitState;
-import com.mossy.holdem.interfaces.state.IPlayerState;
+import com.mossy.holdem.interfaces.player.IPlayerState;
 import com.mossy.holdem.implementations.ImmutableListCollector;
 
-import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
 
 /**
@@ -24,7 +22,7 @@ public class FixedLimitState implements IFixedLimitState
     final ImmutableList<IPlayerState> playerStates;
     final ImmutableList<Card> communityCards;
     final private Street street;
-    final private ImmutableMap<Street, ChipStack> pots = ImmutableMap.of();
+    final private ImmutableMap<Street, ChipStack> pots;
     final private int raiseCap;
     final private int numberOfRaises;
     final private Action lastAction;
@@ -33,6 +31,7 @@ public class FixedLimitState implements IFixedLimitState
                  ImmutableList<IPlayerState> playerStates,
                  Street street,
                  int dealerPos, ImmutableList<Card> communityCards,
+                    ImmutableMap<Street, ChipStack> pots,
                     int numberOfRaises, int raiseCap, Action lastAction)
     {
         this.lowerLimit = lowerLimit;
@@ -44,16 +43,18 @@ public class FixedLimitState implements IFixedLimitState
         this.raiseCap = raiseCap;
         this.numberOfRaises = numberOfRaises;
         this.lastAction = lastAction;
+        this.pots = pots;
     }
     FixedLimitState(ChipStack lowerLimit, ChipStack higherLimit,
                     ImmutableList<IPlayerState> playerStates,
+                    ImmutableMap<Street, ChipStack> pots,
                     Street street,
                     int dealerPos,  int numberOfRaises, int raiseCap, Action lastAction)  {
-        this(lowerLimit, higherLimit, playerStates, street, dealerPos, ImmutableList.<Card>of(), numberOfRaises, raiseCap, lastAction);
+        this(lowerLimit, higherLimit, playerStates, street, dealerPos, ImmutableList.<Card>of(), pots,  numberOfRaises, raiseCap, lastAction);
     }
     FixedLimitState(ChipStack lowerLimit, ChipStack higherLimit, ImmutableList<IPlayerState> playerStates,
                     Street street, int dealerPos, Action lastAction)  {
-        this(lowerLimit, higherLimit, playerStates, street, dealerPos, ImmutableList.<Card>of(), 0, 3, lastAction);
+        this(lowerLimit, higherLimit, playerStates, street, dealerPos, ImmutableList.<Card>of(), ImmutableMap.<Street, ChipStack>of(), 0, 3, lastAction);
     }
 
     @Override
@@ -97,50 +98,79 @@ public class FixedLimitState implements IFixedLimitState
     }
 
 
-    public int nextPlayerSeat() throws Exception
+    // TODO NEXT FIX NEXTPLAYERSEAT FOR MORE THAN ONE PLAYER
+
+
+
+    public int nextPlayerSeat()
     {
-        ChipStack lastPlayerBet = ChipStack.NO_CHIPS;
-        // start with next player after dealer, work out who is next
-        int nextPlayeSeat = playerAfter(dealerPos);
-        boolean fullCircle = false;
+        ChipStack highestPotSoFar = ChipStack.NO_CHIPS;
 
-        while(nextPlayeSeat != dealerPos || fullCircle == false)
-        {
-            IPlayerState nextPlayerInfo = playerStates.get(nextPlayeSeat);
-            if(!hasBets() && !nextPlayerInfo.hasChecked())
-            {
-                return nextPlayeSeat;
-            }
-            else if(hasBets() && !nextPlayerInfo.isOut() && nextPlayerInfo.pot().compareTo(lastPlayerBet) < 0)
-            {
-                return nextPlayeSeat;
-            }
+        // if there are no bets, go with first player who hasn't checked,
+        // if there are bets, go with first player after the highest bidder who hasn't called
 
-            lastPlayerBet = nextPlayerInfo.pot();
-            nextPlayeSeat = playerAfter(nextPlayeSeat);
-            if(nextPlayeSeat == playerAfter(dealerPos))
-            {
-                fullCircle = true;
+        ChipStack highestBet = getHighestBet();
+
+
+        int playerSeat = playerSeatAfter(dealerPos);
+
+        if(highestBet.compareTo(ChipStack.NO_CHIPS) == 0) {
+            do {
+                if (!playerStates.get(playerSeat).hasChecked() && !playerStates.get(playerSeat).isOut()) {
+                    return playerSeat;
+                }
+                playerSeat = playerSeatAfter(playerSeat);
+            } while (playerSeat != dealerPos);
+            return dealerPos;
+        }
+
+        // find highest bidding seat
+        while (playerSeat != dealerPos) {
+            if (playerStates.get(playerSeat).pot().equals(highestBet)) {
+                break;
+            }
+            playerSeat = playerSeatAfter(playerSeat);
+        }
+        final int highestBiddingSeat = playerSeat;
+        // move to the first seat after highest bidder
+        playerSeat = playerSeatAfter(playerSeat);
+
+        // now find first player after highest bidding player that hasn't called
+        for(; playerSeat != highestBiddingSeat; playerSeat = playerSeatAfter(playerSeat)) {
+            IPlayerState player = playerStates.get(playerSeat);
+            if(player.isOut()) {
+                continue;
+            }
+            if(player.pot().compareTo(highestBet) < 0) {
+                return playerSeat;
             }
         }
 
 
         // if we get here, it means that everyone has put in the same amount of money, which means it's a dealer action OR
         // we are pre flop and it's the big blind's turn to check or bet
-        if(street == Street.PRE_FLOP && !playerStates.get(playerAfter(playerAfter(dealerPos))).hasChecked() )
+        if(street == Street.PRE_FLOP && !playerStates.get(playerSeatAfter(playerSeatAfter(dealerPos))).hasChecked() )
         {
-            return playerAfter(playerAfter(dealerPos));
+            return playerSeatAfter(playerSeatAfter(dealerPos));
         }
         // it's a dealer action
         // return -1;
-        throw new Exception("Cannot determine next player");
+        throw new RuntimeException("Cannot determine next player");
     }
 
     @Override
-    public int playerAfter(int currentPlayer)
+    public int playerSeatAfter(int currentPlayer)
     {
         return (currentPlayer + 1) % playerStates().size();
     }
+
+    @Override
+    public UnmodifiableIterator<IPlayerState> fromDealerIterator() {
+        ImmutableList<IPlayerState> playersAfterDealer1 = playerStates.subList(playerSeatAfter(dealerPos), playerStates.size());
+        ImmutableList<IPlayerState> playersAfterDealer2 = playerStates.subList(0, playerSeatAfter(dealerPos));
+        return Iterators.unmodifiableIterator(Iterables.concat(playersAfterDealer1, playersAfterDealer2).iterator());
+    }
+
     public int smallBlindPosition()
     {
         return (dealerPosition() + 1) % playerStates().size();
@@ -190,7 +220,7 @@ public class FixedLimitState implements IFixedLimitState
 
 
     @Override
-    public IPlayerState getNextPlayer() throws Exception
+    public IPlayerState nextPlayer()
     {
         return playerStates.get(nextPlayerSeat());
     }
@@ -211,9 +241,9 @@ public class FixedLimitState implements IFixedLimitState
     }
 
     @Override
-    public ChipStack getAmountToCall() throws  Exception
+    public ChipStack getAmountToCall()
     {
-        return getHighestBet().subtract(getNextPlayer().pot());
+        return getHighestBet().subtract(nextPlayer().pot());
     }
 
     @Override
@@ -261,7 +291,7 @@ public class FixedLimitState implements IFixedLimitState
     public String toString() {
         String playerPots = "";
         for(IPlayerState player: playerStates) {
-            playerPots += player.pot().toString()  ;
+            playerPots += player.pot().toString() + " " ;
         }
 
         return String.format("%s pot: %s stakes: %s lastAction %s", street, totalPot(), playerPots, lastAction());

@@ -75,7 +75,7 @@ public class FiveCardHandEvaluator implements IHandEvaluator
         }
         else
         {
-            // in case card2 was added as a kicker
+            // in case card2 was added of a kicker
             kickers.remove(card2.rank());
             // check if card3 == card1, because they we have trips
             if(card3.rank() == card1.rank())

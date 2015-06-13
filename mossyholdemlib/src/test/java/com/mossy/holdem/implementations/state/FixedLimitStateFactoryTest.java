@@ -16,8 +16,8 @@ import static org.testng.Assert.assertEqualsNoOrder;
 //import static org.junit.Assert.assertEquals;
 
 
-import com.mossy.holdem.interfaces.state.IPlayerState;
-import com.mossy.holdem.interfaces.state.IPlayerInfoFactory;
+import com.mossy.holdem.interfaces.player.IPlayerState;
+import com.mossy.holdem.interfaces.player.IPlayerInfoFactory;
 import org.testng.annotations.*;
 
 import java.util.ArrayList;
@@ -131,7 +131,7 @@ public class FixedLimitStateFactoryTest
         stateFactory.buildNextState(gameState, action);
 
         // then
-        verify(playerFactory).updatePlayer(gameState.getNextPlayer(), action, gameState);
+        verify(playerFactory).updatePlayer(gameState.nextPlayer(), action, gameState);
     }
 
     private void prepareTestState(int numPlayers, int nextToPlay, Action action, ArrayList<IPlayerState> players, IPlayerInfoFactory playerFactory, IGameState gameState) throws Exception {
@@ -147,7 +147,7 @@ public class FixedLimitStateFactoryTest
             players.add(playerState);
 
             if(nextToPlay == p) {
-                stub(gameState.getNextPlayer()).toReturn(playerState);
+                stub(gameState.nextPlayer()).toReturn(playerState);
             }
             stub(playerFactory.updatePlayer(playerState, action, gameState)).toReturn(playerState);
         }
@@ -158,11 +158,11 @@ public class FixedLimitStateFactoryTest
     @DataProvider(name = "winActions")
     public Object[][] createWinActions() {
         return new Object[][] {
-                {2, 0, 1, Action.Factory.winAction()},
-                {3, 0, 0, Action.Factory.winAction()},
-                {3, 1, 1, Action.Factory.winAction()},
-                {2, 1, 0, Action.Factory.winAction()},
-                {3, 2, 2, Action.Factory.winAction()},
+                {2, 0, 1, Action.Factory.winAction(0)},
+                {3, 0, 0, Action.Factory.winAction(1)},
+                {3, 1, 1, Action.Factory.winAction(2)},
+                {2, 1, 0, Action.Factory.winAction(1)},
+                {3, 2, 2, Action.Factory.winAction(0)},
         };
     }
 

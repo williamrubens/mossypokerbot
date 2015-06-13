@@ -1,7 +1,7 @@
-package com.mossy.holdem.implementations.state;
+package com.mossy.holdem.implementations.player;
 
 import com.mossy.holdem.ChipStack;
-import com.mossy.holdem.interfaces.state.IPlayerState;
+import com.mossy.holdem.interfaces.player.IPlayerState;
 
 
 /**
@@ -55,4 +55,13 @@ public class PlayerState implements IPlayerState
     {
         return hasChecked;
     }
+
+    @Override
+    public String toString()
+    {
+        return String.format("id %d, bank %s, in pot %s, isout %b, hasChecked %b", id(), bank(), pot(), isOut(), hasChecked());
+    }
+
 }
+
+

@@ -13,7 +13,7 @@ public class Action
     {
         CHECK,
         BET, // not sure if need bet? could be just raise?
-        RAISE,
+        RAISE_TO,
         FOLD,
         CALL,
         SMALL_BLIND,
@@ -22,8 +22,10 @@ public class Action
         ALL_IN,
         SIT_OUT,
         POST_ANTE,
+        SHOWDOWN,
         WIN,
-        DEALER_ACTION,
+//        DEALER_ACTION,
+        DEAL_HOLE_CARDS,
         DEAL_FLOP,
         DEAL_TURN,
         DEAL_RIVER
@@ -39,13 +41,10 @@ public class Action
         {
             return new Action(ActionType.BET, amount);
         }
-        static public Action raiseAction(ChipStack amount)
+        // raise to amount
+        static public Action raiseToAction(ChipStack amount)
         {
-            return new Action(ActionType.RAISE, amount);
-        }
-        static public Action checkAction(ChipStack amount)
-        {
-            return new Action(ActionType.RAISE, amount);
+            return new Action(ActionType.RAISE_TO, amount);
         }
         static public Action foldAction()
         {
@@ -79,13 +78,32 @@ public class Action
         {
             return new Action(ActionType.POST_ANTE);
         }
-        static public Action dealerAction()
+//        static public Action dealerAction()
+//        {
+//            return new Action(ActionType.DEALER_ACTION);
+//        }
+        static public Action dealHoleCards()
         {
-            return new Action(ActionType.DEALER_ACTION);
+            return new Action(ActionType.DEAL_HOLE_CARDS);
         }
-        static public Action winAction()
+//        static public Action dealFlopAction()
+//        {
+//            return new Action(ActionType.DEAL_FLOP);
+//        }
+//        static public Action dealTurnAction() {
+//            return new Action(ActionType.DEAL_TURN);
+//        }
+//        static public Action dealRiverAction()
+//        {
+//            return new Action(ActionType.DEAL_RIVER);
+//        }
+        static public Action winAction(int playerId)
         {
-            return new Action(ActionType.WIN);
+            return new Action(ActionType.WIN, playerId);
+        }
+        static public Action showdownAction()
+        {
+            return new Action(ActionType.SHOWDOWN);
         }
         static public Action dealFlopAction(Card c1, Card c2, Card c3)
         {
@@ -116,15 +134,25 @@ public class Action
         return amount;
     }
 
-//    public boolean isPlayerAction()
-//    {
-//        return isPlayerAction;
-//    }
+    public int playerId() { return playerId; }
+
+    public boolean isPlayerAction()
+    {
+        return !isDealerAction();
+    }
+
+    public boolean isDealerAction()
+    {
+        return type() == ActionType.DEAL_FLOP || type() == ActionType.DEAL_HOLE_CARDS || type() == ActionType.DEAL_RIVER || type() == ActionType.DEAL_TURN;
+    }
 
     @Override
-    public String toString()
-    {
-        return String.format("%s %s", actionType, amount);
+    public String toString() {
+        if(actionType == ActionType.BET || actionType == ActionType.RAISE_TO) {
+            return String.format("%s %s", actionType, amount);
+        }
+        return String.format("%s", actionType);
+
     }
 
     @Override
@@ -141,10 +169,6 @@ public class Action
 
         Action action = (Action) o;
 
-        if (isPlayerAction != action.isPlayerAction)
-        {
-            return false;
-        }
         if (actionType != action.actionType)
         {
             return false;
@@ -153,10 +177,10 @@ public class Action
         {
             return false;
         }
-//        if (cards != null ? !cards.equals(action.cards) : action.cards != null)
-//        {
-//            return false;
-//        }
+        if (cards != null ? !cards.equals(action.cards) : action.cards != null)
+        {
+            return false;
+        }
 
         return true;
     }
@@ -166,36 +190,38 @@ public class Action
     {
         int result = actionType.hashCode();
         result = 31 * result + (amount != null ? amount.hashCode() : 0);
-//        result = 31 * result + (cards != null ? cards.hashCode() : 0);
-        result = 31 * result + (isPlayerAction ? 1 : 0);
+        result = 31 * result + (cards != null ? cards.hashCode() : 0);
+        result = 31 * result + (playerId);
         return result;
     }
 
     ActionType actionType;
     ChipStack amount = ChipStack.NO_CHIPS;
     ImmutableList<Card> cards = ImmutableList.of();
-    boolean isPlayerAction;
+    int playerId = 0;
 
     private Action(ActionType a)
     {
         this.actionType = a;
-        isPlayerAction = true;
     }
 
     private Action(ActionType a, ChipStack amount)
     {
         this.actionType = a;
         this.amount = amount;
-        isPlayerAction = true;
     }
 
     private Action(ActionType a, ImmutableList<Card> cards)
     {
         this.actionType = a;
         this.cards = cards;
-        isPlayerAction = false;
     }
 
+    private Action(ActionType a, int playerId)
+    {
+        this.actionType = a;
+        this.playerId = playerId;
+    }
 
 
 
