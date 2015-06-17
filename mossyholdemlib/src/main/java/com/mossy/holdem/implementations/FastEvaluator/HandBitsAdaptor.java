@@ -1,11 +1,10 @@
-package com.mossy.holdem.implementations.FastEvaluator;
+package com.mossy.holdem.implementations.fastevaluator;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.inject.Inject;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.Rank;
-import com.mossy.holdem.implementations.FastEvaluator.tables.TopCardTable;
-import com.mossy.holdem.implementations.HandFactory;
+import com.mossy.holdem.implementations.fastevaluator.tables.TopCardTable;
 import com.mossy.holdem.interfaces.IHand;
 import com.mossy.holdem.interfaces.IHandFactory;
 

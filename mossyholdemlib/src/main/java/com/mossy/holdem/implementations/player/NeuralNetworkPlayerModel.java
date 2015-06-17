@@ -13,6 +13,10 @@ public class NeuralNetworkPlayerModel implements IPlayerModel
 {
     Fann myNeuralNetwork;
 
+    NeuralNetworkPlayerModel(Fann nn) {
+        myNeuralNetwork = nn;
+    }
+
     @Override
     public ProbabilityTriple calculateActionProbabilties(IPlayerStatistics playerStats, IGameState state) {
 

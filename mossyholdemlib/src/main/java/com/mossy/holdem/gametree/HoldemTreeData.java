@@ -27,6 +27,6 @@ public class HoldemTreeData implements  IHoldemTreeData
     }
     @Override
     public String toString() {
-        return state.toString();
+        return state.toString() + " " + String.valueOf(probability);
     }
 }

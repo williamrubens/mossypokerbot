@@ -1,4 +1,4 @@
-package com.mossy.holdem.implementations.FastEvaluator;
+package com.mossy.holdem.implementations.fastevaluator;
 
 /**
  * Created with IntelliJ IDEA.

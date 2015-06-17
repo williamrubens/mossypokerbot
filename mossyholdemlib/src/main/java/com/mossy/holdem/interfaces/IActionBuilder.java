@@ -9,5 +9,5 @@ import com.mossy.holdem.interfaces.state.IGameState;
  */
 public interface IActionBuilder
 {
-    ImmutableList<Action> buildAllChildActions(IGameState parentState) throws Exception;
+    ImmutableList<Action> buildAllChildActions(IGameState parentState);
 }

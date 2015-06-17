@@ -1,6 +1,11 @@
-package com.mossy.holdem;
+package com.mossy.holdem.implementations.gametree;
 
 import com.google.common.collect.ImmutableList;
+import com.mossy.holdem.Action;
+import com.mossy.holdem.Card;
+import com.mossy.holdem.ChipStack;
+import com.mossy.holdem.Street;
+import com.mossy.holdem.gametree.ExpectedValueCalculator;
 import com.mossy.holdem.gametree.HoldemTreeBuilder;
 import com.mossy.holdem.gametree.IHoldemTreeData;
 import com.mossy.holdem.gametree.ITreeNode;
@@ -24,7 +29,7 @@ import java.util.function.Predicate;
 /**
  * Created by willrubens on 12/05/15.
  */
-public class FLTreeBuilderTest {
+public class FLTreeBuilderIntegrationTest {
 
     public  ITreeNode<IHoldemTreeData> buildTree (Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception{
 
@@ -52,7 +57,7 @@ public class FLTreeBuilderTest {
         IPlayerInfoFactory playerFactory = new PlayerInfoFactory();
         FLStateFactory stateFactory = new FLStateFactory(playerFactory, ChipStack.TWO_CHIPS, ChipStack.of(4)) ;
 
-        IActionProbabilityCalculator probCalc = mock(IActionProbabilityCalculator.class);
+        IActionProbabilityCalculator probCalc = new EquiProbableActionCalculator();
 
         HoldemTreeBuilder treeBuilder = new HoldemTreeBuilder(stateFactory, actionBuilder, probCalc);
 
@@ -141,6 +146,20 @@ public class FLTreeBuilderTest {
 
             };
         }
+
+    @Test(dataProvider = "treeBuilderTests")
+    public void TwoPlayerGameTreeWithDealer_calculatesEv_(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception {
+
+        ITreeNode<IHoldemTreeData> gameTree = build2PlayerTreeWithDealer(street, dealerPos, communityCards, lastAction, ChipStack.of(100));
+
+        ExpectedValueCalculator evCalculator = new ExpectedValueCalculator();
+
+        ChipStack ev = evCalculator.calculateExpectedValue(gameTree.data().state().playerStates().get(0), gameTree);
+
+        ev.compareTo(ev);
+
+
+    }
 
     @Test(dataProvider = "treeBuilderTests")
     public void TwoPlayerGameTreeWithDealer_raisesThreeTimes_capWorks(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception {

@@ -7,7 +7,7 @@ import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
 import com.mossy.holdem.annotations.Annotations;
 import com.mossy.holdem.implementations.*;
-import com.mossy.holdem.implementations.FastEvaluator.FastHandEvaluator;
+import com.mossy.holdem.implementations.fastevaluator.FastHandEvaluator;
 import com.mossy.holdem.interfaces.*;
 
 /**

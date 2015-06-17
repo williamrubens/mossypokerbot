@@ -60,9 +60,9 @@ public class FixedLimitActionBuilder implements IActionBuilder {
 
 
     @Override
-    public ImmutableList<Action> buildAllChildActions(IGameState parentState) throws Exception {
+    public ImmutableList<Action> buildAllChildActions(IGameState parentState) {
         if (!(parentState instanceof IFixedLimitState)) {
-            throw new Exception("Cannot build actions for non-fixed limit state");
+            throw new RuntimeException("Cannot build actions for non-fixed limit state");
         }
         IFixedLimitState flParentState = (IFixedLimitState) parentState;
 

@@ -9,5 +9,5 @@ import com.mossy.holdem.Action;
  */
 
 public interface IActionProbabilityCalculator {
-    ImmutableMap<Action.ActionType, Float> calculateProbability(IGameState state, ImmutableList<Action> actions);
+    ImmutableMap<Action.ActionType, Float> calculateProbability(IGameState state, ImmutableList<Action.ActionType> actions);
 }

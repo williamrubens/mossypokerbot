@@ -2,8 +2,8 @@ package com.mossy.holdem.implementations;
 
 import com.mossy.holdem.Card;
 import com.mossy.holdem.HoleCards;
-import com.mossy.holdem.implementations.FastEvaluator.FastHandEvaluator;
-import com.mossy.holdem.implementations.FastEvaluator.HandBitsAdaptor;
+import com.mossy.holdem.implementations.fastevaluator.FastHandEvaluator;
+import com.mossy.holdem.implementations.fastevaluator.HandBitsAdaptor;
 import com.mossy.holdem.interfaces.*;
 import org.junit.Test;
 

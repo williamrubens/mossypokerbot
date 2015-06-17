@@ -32,6 +32,9 @@ public class ChipStack implements Comparable<ChipStack> {
     public ChipStack divide(int divisor) {
         return new ChipStack(amount.divide(new BigDecimal(divisor)));
     }
+    public ChipStack multiply(double scalar) {
+        return new ChipStack(amount.multiply(new BigDecimal(scalar)));
+    }
 
     public final static ChipStack NO_CHIPS = new ChipStack();
     public final static ChipStack ONE_CHIP = new ChipStack(1);

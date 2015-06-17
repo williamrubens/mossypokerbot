@@ -1,4 +1,4 @@
-package com.mossy.holdem.implementations.FastEvaluator;
+package com.mossy.holdem.implementations.fastevaluator;
 
 import com.mossy.holdem.HandType;
 import com.mossy.holdem.implementations.*;

@@ -2,13 +2,7 @@ package com.mossy.holdem.modules;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.mossy.holdem.Card;
-import com.mossy.holdem.IncomeRate;
-import com.mossy.holdem.PreFlopHandType;
-import com.mossy.holdem.implementations.PreFlopIncomeRateSimulator;
-import com.mossy.holdem.interfaces.IDeckFactory;
-import com.mossy.holdem.interfaces.IKnowledgeBasedHoldemPlayer;
-import org.apache.log4j.BasicConfigurator;
+import com.mossy.holdem.interfaces.IHoldemPlayer;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,7 +11,7 @@ import static org.junit.Assert.fail;
 /**
  * Created by williamrubens on 17/07/2014.
  */
-public class GamePlayModuleTest
+public class FixedLimitPlayModuleTest
 {
 
     @Test
@@ -26,9 +20,9 @@ public class GamePlayModuleTest
 
         try
         {
-            Injector injector = Guice.createInjector(new GamePlayModule());
+            Injector injector = Guice.createInjector(new FixedLimitPlayModule());
 
-            IKnowledgeBasedHoldemPlayer var = injector.getInstance(IKnowledgeBasedHoldemPlayer.class);
+            IHoldemPlayer var = injector.getInstance(IHoldemPlayer.class);
 
             assertEquals(true, true);
 

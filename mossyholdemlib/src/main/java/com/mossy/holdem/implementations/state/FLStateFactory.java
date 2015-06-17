@@ -68,6 +68,11 @@ public class FLStateFactory implements IGameStateFactory
         return playerStatesBuilder.build();
     }
 
+    public IGameState buildNewState(ImmutableList<IPlayerState> playerStates, int dealerPosition)
+    {
+        return buildNewState(playerStates, dealerPosition, 3);
+    }
+
     public IGameState buildNewState(ImmutableList<IPlayerState> playerStates, int dealerPosition, int raiseCap)
     {
         return new FixedLimitState(lowerLimit, higherLimit, playerStates, ImmutableMap.<Street, ChipStack>of(),Street.PRE_FLOP, dealerPosition, 0, raiseCap, Action.Factory.dealHoleCards());
@@ -81,11 +86,11 @@ public class FLStateFactory implements IGameStateFactory
 
 
     @Override
-    public IGameState buildNextState(IGameState currentState, Action nextAction) throws Exception
+    public IGameState buildNextState(IGameState currentState, Action nextAction)
     {
         if(!(currentState instanceof FixedLimitState))
         {
-            throw new Exception("Cannot build next Fixed Limit state from a non Fixed Limit curentState");
+            throw new RuntimeException("Cannot build next Fixed Limit state from a non Fixed Limit curentState");
         }
 
         FixedLimitState currentFLState = (FixedLimitState)currentState;
@@ -100,7 +105,7 @@ public class FLStateFactory implements IGameStateFactory
         {
             if(!currentState.hasBets())
             {
-                throw new Exception(String.format("Cannot call a pot with no raise"));
+                throw new RuntimeException(String.format("Cannot call a pot with no raise"));
             }
          }
         else if(nextAction.type() == Action.ActionType.BET)
@@ -115,12 +120,12 @@ public class FLStateFactory implements IGameStateFactory
         }
          else if(nextAction.type() == Action.ActionType.CHECK) {
             if (currentFLState.hasBets() && currentFLState.street() != Street.PRE_FLOP) {
-                throw new Exception("Cannot check pot that has a raise in it already");
+                throw new RuntimeException("Cannot check pot that has a raise in it already");
             }
         }
         else if(nextAction.type() == Action.ActionType.SMALL_BLIND) {
             if (currentFLState.hasBets()) {
-                throw new Exception("Cannot post small blind when bets already open");
+                throw new RuntimeException("Cannot post small blind when bets already open");
             }
         }
         else if(nextAction.type() == Action.ActionType.SHOWDOWN) {

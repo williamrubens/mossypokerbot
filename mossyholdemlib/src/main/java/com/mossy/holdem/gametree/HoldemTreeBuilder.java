@@ -1,5 +1,7 @@
 package com.mossy.holdem.gametree;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mossy.holdem.Action;
@@ -10,13 +12,13 @@ import com.mossy.holdem.interfaces.state.IGameState;
 import com.mossy.holdem.interfaces.state.IGameStateFactory;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by williamrubens on 09/08/2014.
  */
 
-public class HoldemTreeBuilder
-{
+public class HoldemTreeBuilder implements IHoldemTreeBuilder {
     IGameStateFactory stateFactory;
     IActionBuilder actionBuilder;
     IActionProbabilityCalculator probCalc;
@@ -27,7 +29,8 @@ public class HoldemTreeBuilder
         this.probCalc = probCalc;
     }
 
-    public ITreeNode<IHoldemTreeData> buildTree(IGameState initialState) throws Exception
+    @Override
+    public ITreeNode<IHoldemTreeData> buildTree(IGameState initialState)
     {
         MutableTreeNode<IHoldemTreeData> root = new MutableTreeNode<>(new HoldemTreeData(initialState, 1.0));
 
@@ -36,7 +39,7 @@ public class HoldemTreeBuilder
         return root;
     }
 
-    void recursiveBuildNode(MutableTreeNode<IHoldemTreeData> parentNode, int level) throws Exception
+    void recursiveBuildNode(MutableTreeNode<IHoldemTreeData> parentNode, int level)
     {
 
         // first build the children, then the node
@@ -49,7 +52,10 @@ public class HoldemTreeBuilder
         // should work for both dealer and player actions
         ImmutableList<Action> actions = actionBuilder.buildAllChildActions(parentState);
 
-        ImmutableMap<Action.ActionType, Float> actionProbTuples = probCalc.calculateProbability(parentState, actions);
+
+        ImmutableList<Action.ActionType> actionTypes = FluentIterable.from(actions).transform(action -> action.type()).toList();
+
+        ImmutableMap<Action.ActionType, Float> actionProbTuples = probCalc.calculateProbability(parentState, actionTypes);
 
         for(Action a : actions) {
             IGameState childState = stateFactory.buildNextState(parentState, a);

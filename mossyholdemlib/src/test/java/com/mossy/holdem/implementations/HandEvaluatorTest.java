@@ -4,8 +4,8 @@
  */
 package com.mossy.holdem.implementations;
 
-import com.mossy.holdem.implementations.FastEvaluator.FastHandEvaluator;
-import com.mossy.holdem.implementations.FastEvaluator.HandBitsAdaptor;
+import com.mossy.holdem.implementations.fastevaluator.FastHandEvaluator;
+import com.mossy.holdem.implementations.fastevaluator.HandBitsAdaptor;
 import com.mossy.holdem.interfaces.IHand;
 import com.mossy.holdem.interfaces.IHandEvaluator;
 import org.junit.Test;

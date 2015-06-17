@@ -1,16 +1,15 @@
-package com.mossy.holdem.implementations.FastEvaluator;
+package com.mossy.holdem.implementations.fastevaluator;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.inject.Inject;
 import com.mossy.holdem.Rank;
-import com.mossy.holdem.implementations.FastEvaluator.tables.TopCardTable;
-import com.mossy.holdem.implementations.HandScoreFactory;
+import com.mossy.holdem.implementations.fastevaluator.tables.TopCardTable;
 import com.mossy.holdem.interfaces.IHand;
 import com.mossy.holdem.interfaces.IHandEvaluator;
-import com.mossy.holdem.implementations.FastEvaluator.tables.NBitsTable;
-import com.mossy.holdem.implementations.FastEvaluator.tables.StraightTable;
+import com.mossy.holdem.implementations.fastevaluator.tables.NBitsTable;
+import com.mossy.holdem.implementations.fastevaluator.tables.StraightTable;
 import com.mossy.holdem.interfaces.IHandScoreFactory;
 
 /**

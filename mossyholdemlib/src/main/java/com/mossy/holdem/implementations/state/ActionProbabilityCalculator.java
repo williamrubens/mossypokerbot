@@ -24,7 +24,19 @@ public class ActionProbabilityCalculator implements IActionProbabilityCalculator
     }
 
     @Override
-    public ImmutableMap<Action.ActionType, Float> calculateProbability(IGameState state, ImmutableList<Action> actions) {
+    public ImmutableMap<Action.ActionType, Float> calculateProbability(IGameState state, ImmutableList<Action.ActionType> actionTypes) {
+
+        if(actionTypes.size() == 1 ){
+            return ImmutableMap.of(actionTypes.get(0), Float.valueOf(1.0f));
+        }
+
+        if(actionTypes.get(0) == Action.ActionType.WIN) {
+            ImmutableMap.Builder mapBuilder = ImmutableMap.builder();
+            for(Action.ActionType action : actionTypes) {
+                mapBuilder.put(action, Float.valueOf(1.0f / (float)actionTypes.size()) );
+            }
+            return mapBuilder.build();
+        }
 
         Integer nextPlayerId = Integer.valueOf(state.nextPlayer().id());
 
@@ -32,10 +44,18 @@ public class ActionProbabilityCalculator implements IActionProbabilityCalculator
 
         ProbabilityTriple probTriple = playerModel.calculateActionProbabilties(playerStats, state);
 
+        if(actionTypes.size() == 2) {
+            return ImmutableMap.of(Action.ActionType.FOLD, Float.valueOf(probTriple.fold()),
+                    Action.ActionType.CALL, Float.valueOf(probTriple.call() + probTriple.raise()));
+        }
+        if(actionTypes.contains(Action.ActionType.CALL)) {
+            return ImmutableMap.of(Action.ActionType.FOLD, Float.valueOf(probTriple.fold()),
+                    Action.ActionType.CALL, Float.valueOf(probTriple.call()),
+                    Action.ActionType.RAISE_TO, Float.valueOf(probTriple.raise()));
+        }
+
         return ImmutableMap.of(Action.ActionType.FOLD, Float.valueOf(probTriple.fold()),
-                Action.ActionType.CALL, Float.valueOf(probTriple.call()),
-                Action.ActionType.RAISE_TO, Float.valueOf(probTriple.raise()));
-
-
+                Action.ActionType.CHECK, Float.valueOf(probTriple.call()),
+                Action.ActionType.BET, Float.valueOf(probTriple.raise()));
     }
 }

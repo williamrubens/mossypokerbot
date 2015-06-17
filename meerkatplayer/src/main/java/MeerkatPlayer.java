@@ -4,14 +4,9 @@ import com.biotools.meerkat.*;
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.util.Preferences;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.mossy.holdem.HoleCards;
-import com.mossy.holdem.IncomeRate;
-import com.mossy.holdem.PreFlopHandType;
-import com.mossy.holdem.interfaces.IKnowledgeBasedHoldemPlayer;
-import com.mossy.holdem.interfaces.IPreFlopIncomeRateVendor;
-import com.mossy.holdem.modules.GamePlayModule;
+import com.mossy.holdem.interfaces.IHoldemPlayer;
+import com.mossy.holdem.modules.FixedLimitPlayModule;
 import org.apache.log4j.Logger;
 
 
@@ -25,7 +20,7 @@ public class MeerkatPlayer implements Player
     final static private Logger log = Logger.getLogger(MeerkatPlayer.class);
 
     Injector injector;
-    IKnowledgeBasedHoldemPlayer knowledgePlayer;
+    IHoldemPlayer knowledgePlayer;
     GameInfo gameInfo;
     MeerkatToMossyAdaptor adaptor;
     int ourSeat;
@@ -34,8 +29,8 @@ public class MeerkatPlayer implements Player
     @Override
     public void init(Preferences preferences)
     {
-        injector = Guice.createInjector(new GamePlayModule());
-        knowledgePlayer = injector.getInstance(IKnowledgeBasedHoldemPlayer.class);
+        injector = Guice.createInjector(new FixedLimitPlayModule());
+        knowledgePlayer = injector.getInstance(IHoldemPlayer.class);
 
         adaptor = new MeerkatToMossyAdaptor();
     }
@@ -88,7 +83,7 @@ public class MeerkatPlayer implements Player
     public void gameStartEvent(GameInfo gameInfo)
     {
         this.gameInfo = gameInfo;
-        knowledgePlayer.startGame(gameInfo.getNumPlayers());
+        //knowledgePlayer.startGame(gameInfo.getNumPlayers());
     }
 
     @Override

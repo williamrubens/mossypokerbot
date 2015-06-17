@@ -1,4 +1,4 @@
-package com.mossy.holdem.implementations.FastEvaluator;
+package com.mossy.holdem.implementations.fastevaluator;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.mossy.holdem.Rank;
