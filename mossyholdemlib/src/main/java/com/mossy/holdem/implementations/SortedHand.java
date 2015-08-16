@@ -16,52 +16,52 @@ import com.mossy.holdem.interfaces.IHand;
  *
  * @author d80050
  */
-public final class Hand implements IHand
+public final class SortedHand implements IHand
 {
 
     ImmutableSortedSet<Card> cards;
     
-    Hand()
+    SortedHand()
     {
         cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).build();
     }
     
-     Hand(Card c1)
+     SortedHand(Card c1)
     {
         cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1).build();
     }
     
-    Hand(Card c1, Card c2)
+    SortedHand(Card c1, Card c2)
     {
        cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1, c2).build();
     }
-    Hand(Card c1, Card c2, Card c3)
+    SortedHand(Card c1, Card c2, Card c3)
     {
         cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1, c2, c3).build();
     }
     
-    Hand(Card c1, Card c2, Card c3, Card c4)
+    SortedHand(Card c1, Card c2, Card c3, Card c4)
     {
         cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1, c2, c3, c4).build();
     }
      
-    Hand(Card c1, Card c2, Card c3, Card c4, Card c5)
+    SortedHand(Card c1, Card c2, Card c3, Card c4, Card c5)
     {
         cards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).add(c1,c2, c3, c4, c5).build();
     }
 
-    Hand(ImmutableSortedSet<Card> c)
+    SortedHand(ImmutableSortedSet<Card> c)
     {
         cards = c;
     }
 
-    private Hand(ImmutableList<Card> c)
+    private SortedHand(ImmutableList<Card> c)
     {
         cards = ImmutableSortedSet.copyOf(c);
     }
     
     @Override
-    public ImmutableSortedSet<Card> cards()
+    public ImmutableSortedSet<Card> cardsSorted()
     {
         return cards;
     }
@@ -110,14 +110,14 @@ public final class Hand implements IHand
         {
             iter.next();
         }
-        return new Hand(cards.tailSet((Card)iter.next()) );
+        return new SortedHand(cards.tailSet((Card)iter.next()) );
     }
 
     @Override
     public IHand addCard(Card card)
     {        
         ImmutableSortedSet<Card> moreCards = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer()).addAll(cards).add(card).build();
-        return new Hand(moreCards);
+        return new SortedHand(moreCards);
     }
 
     @Override
@@ -131,7 +131,7 @@ public final class Hand implements IHand
                 builder.add(myCard);
             }
         }
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
     }
     
     @Override
@@ -143,5 +143,21 @@ public final class Hand implements IHand
             strBuilder.insert(0, card.toString());           
         }
         return strBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SortedHand hand = (SortedHand) o;
+
+        return !(cards != null ? !cards.equals(hand.cards) : hand.cards != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return cards != null ? cards.hashCode() : 0;
     }
 }
