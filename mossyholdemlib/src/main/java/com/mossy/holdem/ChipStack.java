@@ -44,6 +44,14 @@ public class ChipStack implements Comparable<ChipStack> {
         return new ChipStack(i);
     }
 
+    public final static ChipStack of(double d) {
+        return new ChipStack(BigDecimal.valueOf(d));
+    }
+
+    public double toDouble() {
+        return amount.doubleValue();
+    }
+
     @Override
     public int compareTo(ChipStack rhs) {
         return amount.compareTo(rhs.amount);
@@ -79,7 +87,7 @@ public class ChipStack implements Comparable<ChipStack> {
 
     @Override
     public String toString() {
-        return amount.toString() + " chips ";
+        return amount.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + " chips ";
     }
 
     public static final BinaryOperator<ChipStack> adder = new BinaryOperator<ChipStack>() {

@@ -1,18 +1,22 @@
 package com.mossy.holdem.gametree;
 
-import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Inject;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.interfaces.IActionBuilder;
-import com.mossy.holdem.interfaces.IBoardCardDealer;
 import com.mossy.holdem.interfaces.state.IActionProbabilityCalculator;
 import com.mossy.holdem.interfaces.state.IGameState;
 import com.mossy.holdem.interfaces.state.IGameStateFactory;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 
 /**
  * Created by williamrubens on 09/08/2014.
@@ -22,11 +26,28 @@ public class HoldemTreeBuilder implements IHoldemTreeBuilder {
     IGameStateFactory stateFactory;
     IActionBuilder actionBuilder;
     IActionProbabilityCalculator probCalc;
+    PrintWriter output = null;
+    boolean outputActionHistory;
+    Deque<Action> actionHistory = new ArrayDeque<>();
 
-    public HoldemTreeBuilder(IGameStateFactory stateFactory, IActionBuilder actionBuilder, IActionProbabilityCalculator probCalc) {
+    public HoldemTreeBuilder(IGameStateFactory stateFactory, IActionBuilder actionBuilder, IActionProbabilityCalculator probCalc, boolean outputActionHistory) {
         this.stateFactory = stateFactory;
         this.actionBuilder = actionBuilder;
         this.probCalc = probCalc;
+        this.outputActionHistory = outputActionHistory;
+
+        try {
+            output = new PrintWriter(new BufferedWriter(new FileWriter("treeoutput.out")));
+        }
+        catch (IOException e ) {
+            System.out.println("Cannot open file treeoutput.out");
+            System.out.println(e);
+            this.outputActionHistory = false;
+        }
+    }
+    @Inject
+    public HoldemTreeBuilder(IGameStateFactory stateFactory, IActionBuilder actionBuilder, IActionProbabilityCalculator probCalc) {
+        this(stateFactory, actionBuilder, probCalc, false);
     }
 
     @Override
@@ -35,6 +56,11 @@ public class HoldemTreeBuilder implements IHoldemTreeBuilder {
         MutableTreeNode<IHoldemTreeData> root = new MutableTreeNode<>(new HoldemTreeData(initialState, 1.0));
 
         recursiveBuildNode(root, 0);
+
+        if(this.outputActionHistory && this.output != null) {
+            output.flush();
+            output.close();
+        }
 
         return root;
     }
@@ -48,18 +74,21 @@ public class HoldemTreeBuilder implements IHoldemTreeBuilder {
         }
         level++;
 
+        actionHistory.addLast(parentNode.data().state().lastAction());
+
         IGameState parentState = parentNode.data().state();
         // should work for both dealer and player actions
         ImmutableList<Action> actions = actionBuilder.buildAllChildActions(parentState);
 
+        if(actions.size() == 0) {
+            printActionHistory();
+        }
 
-        ImmutableList<Action.ActionType> actionTypes = FluentIterable.from(actions).transform(action -> action.type()).toList();
-
-        ImmutableMap<Action.ActionType, Float> actionProbTuples = probCalc.calculateProbability(parentState, actionTypes);
+        ImmutableMap<Action, Double> actionProbTuples = probCalc.calculateProbability(parentState, actions);
 
         for(Action a : actions) {
             IGameState childState = stateFactory.buildNextState(parentState, a);
-            float actionProb = actionProbTuples.get(a.type());
+            Double actionProb = actionProbTuples.get(a);
             MutableTreeNode<IHoldemTreeData> childNode = new MutableTreeNode<>(new HoldemTreeData(childState, actionProb));
 
             parentNode.addChild(childNode);
@@ -68,9 +97,26 @@ public class HoldemTreeBuilder implements IHoldemTreeBuilder {
 
         }
 
+        actionHistory.removeLast();
+
+
 
     }
 
+    private void printActionHistory() {
+        if(!this.outputActionHistory && this.output == null) {
+            return;
+        }
+
+        String outputLine = new String();
+        for(Action action : actionHistory) {
+            outputLine += action.toString() + "/";
+        }
+
+        outputLine += "\n";
+
+        output.write(outputLine);
+    }
 
 
 //    public ITreeNode<IHoldemTreeData> buildTree(IGameState initialState) throws Exception

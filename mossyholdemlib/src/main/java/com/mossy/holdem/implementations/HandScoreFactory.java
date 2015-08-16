@@ -139,7 +139,7 @@ public class HandScoreFactory implements IHandScoreFactory {
 
         int kickerAdjustment = 0;
 
-        Iterator<Card> iKicker = kickers.cards().asList().reverse().iterator();
+        Iterator<Card> iKicker = kickers.cardsSorted().asList().reverse().iterator();
 
         kickerAdjustment += iKicker.next().rank().number() << FIRST_CARD_SHIFT;
         kickerAdjustment += iKicker.next().rank().number() << SECOND_CARD_SHIFT;

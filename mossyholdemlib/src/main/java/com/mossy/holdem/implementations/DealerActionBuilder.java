@@ -1,6 +1,7 @@
 package com.mossy.holdem.implementations;
 
 import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.interfaces.IDeck;
@@ -13,8 +14,9 @@ import com.mossy.holdem.interfaces.state.IGameState;
  */
 public class DealerActionBuilder implements IDealerActionBuilder {
 
-    IDeckFactory deckFactory;
+    final IDeckFactory deckFactory;
 
+    @Inject
     public DealerActionBuilder(IDeckFactory deckFactory) {
         this.deckFactory = deckFactory;
     }

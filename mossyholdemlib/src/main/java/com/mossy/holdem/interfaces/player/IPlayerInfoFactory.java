@@ -1,6 +1,7 @@
 package com.mossy.holdem.interfaces.player;
 
 import com.mossy.holdem.Action;
+import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.interfaces.state.IGameState;
 
 /**
@@ -8,5 +9,6 @@ import com.mossy.holdem.interfaces.state.IGameState;
  */
 public interface IPlayerInfoFactory
 {
+    IPlayerState newPlayer(int id, ChipStack bank);
     IPlayerState updatePlayer(IPlayerState currentState, Action action, IGameState gameState);
 }

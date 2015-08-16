@@ -10,5 +10,5 @@ package com.mossy.holdem.interfaces;
  */
 public interface IHandEvaluator
 {
-    int evaluateHand(IHand hand)  throws Exception;
+    int evaluateHand(IHand hand) ;
 }

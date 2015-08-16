@@ -32,14 +32,14 @@ public class FiveCardHandEvaluator implements IHandEvaluator
     }
 
     @Override
-    public int evaluateHand(IHand hand) throws Exception
+    public int evaluateHand(IHand hand)
     {
         if(hand.cardCount() != 5)
         {
-            throw new Exception ("FiveCardHandEvaluator can only evaluate hands with FIVE cards");
+            throw new RuntimeException ("FiveCardHandEvaluator can only evaluate hands with FIVE cards");
         }
         
-        ImmutableSortedSet<Card> cards = hand.cards();
+        ImmutableSortedSet<Card> cards = hand.cardsSorted();
         
         boolean straight = false;
         boolean flush = false;

@@ -1,6 +1,7 @@
 package com.mossy.holdem.gametree;
 
 import com.google.common.collect.ImmutableList;
+import com.mossy.holdem.ChipStack;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,5 +41,12 @@ public class MutableTreeNode<T> implements  IMutableTreeNode<T> {
     public String toString()  {
         return data.toString();
     }
+
+    // debug feature
+
+    private ChipStack ev = ChipStack.NO_CHIPS;
+    public void setEv(ChipStack newEv) { ev = newEv;}
+    public ChipStack ev() { return ev;}
+
 
 }

@@ -1,5 +1,6 @@
 package com.mossy.holdem.interfaces;
 
+import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.HoleCards;
 
@@ -12,5 +13,5 @@ import java.util.ArrayList;
  */
 public interface IHandStrengthCalculator
 {
-    double calculateHandStrength(HoleCards holeCards, ArrayList<Card> boardCards) throws Exception;
+    double calculateHandStrength(HoleCards holeCards, ImmutableList<Card> boardCards);
 }

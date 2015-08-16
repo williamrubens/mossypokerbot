@@ -38,6 +38,8 @@ public interface IGameState
     boolean hasBets();
     boolean isBettingClosed();
 
+    double potOdds();
+
     Action lastAction();
 
 }

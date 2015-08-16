@@ -2,6 +2,7 @@ package com.mossy.holdem.modules;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.interfaces.IHoldemPlayer;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class FixedLimitPlayModuleTest
 
         try
         {
-            Injector injector = Guice.createInjector(new FixedLimitPlayModule());
+            Injector injector = Guice.createInjector(new FixedLimitPlayModule(ChipStack.of(2), ChipStack.of(4) ));
 
             IHoldemPlayer var = injector.getInstance(IHoldemPlayer.class);
 

@@ -67,6 +67,11 @@ public final class SortedHand implements IHand
     }
 
     @Override
+    public ImmutableList<Card> cards() {
+        return cards.asList();
+    }
+
+    @Override
     public ImmutableSortedSet<Rank> getRanks(Suit suit)
     {
         ImmutableSortedSet.Builder<Rank> builder = ImmutableSortedSet.naturalOrder();

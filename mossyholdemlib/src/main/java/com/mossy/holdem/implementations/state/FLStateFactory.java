@@ -75,7 +75,8 @@ public class FLStateFactory implements IGameStateFactory
 
     public IGameState buildNewState(ImmutableList<IPlayerState> playerStates, int dealerPosition, int raiseCap)
     {
-        return new FixedLimitState(lowerLimit, higherLimit, playerStates, ImmutableMap.<Street, ChipStack>of(),Street.PRE_FLOP, dealerPosition, 0, raiseCap, Action.Factory.dealHoleCards());
+        return new FixedLimitState(lowerLimit, higherLimit, playerStates,Street.PRE_FLOP, dealerPosition, ImmutableList.<Card>of(), ImmutableMap.<Street, ChipStack>of(),
+                0, raiseCap, Action.Factory.dealHoleCards());
     }
 
     public IGameState buildState(Street street, ImmutableList<IPlayerState> playerStates, int dealerPosition, ImmutableList<Card> communityCards, Action lastAction, int raiseCap)
@@ -131,14 +132,14 @@ public class FLStateFactory implements IGameStateFactory
         else if(nextAction.type() == Action.ActionType.SHOWDOWN) {
 
 
-            return new FixedLimitState(lowerLimit, higherLimit, currentState.playerStates(), currentState.pots(), Street.SHOWDOWN, currentState.playerSeatAfter(dealerPosition), numberOfRaises, currentFLState.raiseCap(), nextAction);
+            return new FixedLimitState(lowerLimit, higherLimit, currentState.playerStates(), Street.SHOWDOWN, dealerPosition,currentFLState.communityCards(), currentState.pots(),  numberOfRaises, currentFLState.raiseCap(), nextAction);
         }
         else if(nextAction.type() == Action.ActionType.WIN) {
             ImmutableList<IPlayerState> newPlayerStates = currentState.playerStates().stream()
                     .map(player -> playerStateFactory.updatePlayer(player, nextAction, currentState))
                     .collect(new ImmutableListCollector<>());
 
-            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, ImmutableMap.<Street, ChipStack>of(), Street.FINISHED, currentState.playerSeatAfter(dealerPosition), numberOfRaises, currentFLState.raiseCap(), nextAction);
+            return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, Street.FINISHED, dealerPosition, currentState.communityCards(), ImmutableMap.of(), numberOfRaises, currentFLState.raiseCap(), nextAction);
         }
         else if (nextAction.isDealerAction()) {
             // clear away chips any bets
@@ -153,7 +154,9 @@ public class FLStateFactory implements IGameStateFactory
 
             ImmutableMap newPot = ImmutableMap.builder().putAll(currentState.pots()).put(currentState.street(), pot).build();
 
-            return new FixedLimitState(lowerLimit, higherLimit, playersBuilder.build(), Street.nextStreet(currentState.street()), currentState.playerSeatAfter(dealerPosition), nextAction.cards(), newPot, numberOfRaises,  currentFLState.raiseCap(), nextAction);
+            ImmutableList nextCommunityCards = ImmutableList.builder().addAll(currentState.communityCards()).addAll(nextAction.cards()).build();
+
+            return new FixedLimitState(lowerLimit, higherLimit, playersBuilder.build(), Street.nextStreet(currentState.street()), dealerPosition, nextCommunityCards, newPot, numberOfRaises,  currentFLState.raiseCap(), nextAction);
 
         }
 
@@ -164,7 +167,8 @@ public class FLStateFactory implements IGameStateFactory
 
         ImmutableList<IPlayerState> newPlayerStates = updatePlayerList(currentState.playerStates(), nextPlayerUpdated);
 
-        return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates,pots, currentFLState.street(), dealerPosition, numberOfRaises, currentFLState.raiseCap(), nextAction );
+        return new FixedLimitState(lowerLimit, higherLimit, newPlayerStates, currentFLState.street(), dealerPosition, currentState.communityCards(),
+                pots, numberOfRaises, currentFLState.raiseCap(), nextAction );
 
         //throw new Exception(String.format("Unexpected  action %s", nextAction.type()));
     }

@@ -5,7 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
 import com.mossy.holdem.interfaces.IPreFlopIncomeRateVendor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileReader;
 import java.io.InputStream;
@@ -20,12 +21,12 @@ import java.io.InputStreamReader;
  */
 public class PreFlopIncomeRateLookupFactory
 {
-    final static private Logger log = Logger.getLogger(PreFlopIncomeRateLookupFactory.class);
+    final static private Logger log = LogManager.getLogger(PreFlopIncomeRateLookupFactory.class);
 
     public IPreFlopIncomeRateVendor Build(String iteratedRolloutFilename) throws Exception
     {
 
-        InputStream input = getClass().getClassLoader().getResourceAsStream(iteratedRolloutFilename);
+        InputStream input = getClass().getResourceAsStream(iteratedRolloutFilename);
 
         CSVReader reader = new CSVReader(new InputStreamReader(input));
         String [] nextLine;

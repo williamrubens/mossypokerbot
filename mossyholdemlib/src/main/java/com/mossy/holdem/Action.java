@@ -12,7 +12,7 @@ public class Action
     public enum ActionType
     {
         CHECK,
-        BET, // not sure if need bet? could be just raise?
+        BET,
         RAISE_TO,
         FOLD,
         CALL,
@@ -21,7 +21,6 @@ public class Action
         ANTE,
         ALL_IN,
         SIT_OUT,
-        POST_ANTE,
         SHOWDOWN,
         WIN,
 //        DEALER_ACTION,
@@ -74,10 +73,6 @@ public class Action
         {
             return new Action(ActionType.SIT_OUT);
         }
-        static public Action postAnteAction()
-        {
-            return new Action(ActionType.POST_ANTE);
-        }
 //        static public Action dealerAction()
 //        {
 //            return new Action(ActionType.DEALER_ACTION);
@@ -86,17 +81,19 @@ public class Action
         {
             return new Action(ActionType.DEAL_HOLE_CARDS);
         }
-//        static public Action dealFlopAction()
-//        {
-//            return new Action(ActionType.DEAL_FLOP);
-//        }
-//        static public Action dealTurnAction() {
-//            return new Action(ActionType.DEAL_TURN);
-//        }
-//        static public Action dealRiverAction()
-//        {
-//            return new Action(ActionType.DEAL_RIVER);
-//        }
+//////////////// using these as hacks for now
+        static public Action dealFlopAction()
+        {
+            return new Action(ActionType.DEAL_FLOP);
+        }
+        static public Action dealTurnAction() {
+            return new Action(ActionType.DEAL_TURN);
+        }
+        static public Action dealRiverAction()
+        {
+            return new Action(ActionType.DEAL_RIVER);
+        }
+///////////////////////////////////////
         static public Action winAction(int playerId)
         {
             return new Action(ActionType.WIN, playerId);
@@ -134,11 +131,12 @@ public class Action
         return amount;
     }
 
-    public int playerId() { return playerId; }
+    public int playerId() { if(actionType == ActionType.WIN){return playerId;} throw new RuntimeException("Action.playerId only supported for WIN acions"); }
 
     public boolean isPlayerAction()
     {
-        return !isDealerAction();
+        return type() == ActionType.BET || type() == ActionType.CHECK || type() == ActionType.FOLD || type() == ActionType.CALL || type() == ActionType.RAISE_TO;
+
     }
 
     public boolean isDealerAction()
@@ -146,6 +144,9 @@ public class Action
         return type() == ActionType.DEAL_FLOP || type() == ActionType.DEAL_HOLE_CARDS || type() == ActionType.DEAL_RIVER || type() == ActionType.DEAL_TURN;
     }
 
+    public boolean isAggressive() {
+        return type() == ActionType.BET || type() == ActionType.RAISE_TO;
+    }
     @Override
     public String toString() {
         if(actionType == ActionType.BET || actionType == ActionType.RAISE_TO) {
@@ -178,6 +179,10 @@ public class Action
             return false;
         }
         if (cards != null ? !cards.equals(action.cards) : action.cards != null)
+        {
+            return false;
+        }
+        if (playerId != action.playerId)
         {
             return false;
         }

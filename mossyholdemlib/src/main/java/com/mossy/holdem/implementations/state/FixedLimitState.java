@@ -9,6 +9,7 @@ import com.mossy.holdem.interfaces.state.IFixedLimitState;
 import com.mossy.holdem.interfaces.player.IPlayerState;
 import com.mossy.holdem.implementations.ImmutableListCollector;
 
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -45,13 +46,7 @@ public class FixedLimitState implements IFixedLimitState
         this.lastAction = lastAction;
         this.pots = pots;
     }
-    FixedLimitState(ChipStack lowerLimit, ChipStack higherLimit,
-                    ImmutableList<IPlayerState> playerStates,
-                    ImmutableMap<Street, ChipStack> pots,
-                    Street street,
-                    int dealerPos,  int numberOfRaises, int raiseCap, Action lastAction)  {
-        this(lowerLimit, higherLimit, playerStates, street, dealerPos, ImmutableList.<Card>of(), pots,  numberOfRaises, raiseCap, lastAction);
-    }
+
     FixedLimitState(ChipStack lowerLimit, ChipStack higherLimit, ImmutableList<IPlayerState> playerStates,
                     Street street, int dealerPos, Action lastAction)  {
         this(lowerLimit, higherLimit, playerStates, street, dealerPos, ImmutableList.<Card>of(), ImmutableMap.<Street, ChipStack>of(), 0, 3, lastAction);
@@ -215,7 +210,14 @@ public class FixedLimitState implements IFixedLimitState
 
     @Override
     public ChipStack totalPot() {
-        return pots.values().stream().reduce(ChipStack.NO_CHIPS, ChipStack.adder);
+        ChipStack totalPot = ChipStack.NO_CHIPS;
+        for(ChipStack pot : this.pots().values()) {
+            totalPot = totalPot.add(pot);
+        }
+        for(IPlayerState player : playerStates()){
+            totalPot = totalPot.add(player.pot());
+        };
+        return totalPot;
     }
 
 
@@ -270,6 +272,13 @@ public class FixedLimitState implements IFixedLimitState
         return everyoneHasCalled;
 
 
+    }
+
+    @Override
+    public double potOdds() {
+        ChipStack amountToCall = getAmountToCall();
+
+        return amountToCall.toDouble() / (amountToCall.toDouble() + totalPot().toDouble());
     }
 
     @Override

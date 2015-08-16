@@ -65,7 +65,7 @@ public class HandBitsAdaptor
         return cardBits;
     }
 
-    public Rank bitMaskToRank(int rank) throws Exception
+    public Rank bitMaskToRank(int rank)
     {
         return Rank.fromIndex(TopCardTable.ranksToIndex[rank]);
         /*
@@ -80,7 +80,7 @@ public class HandBitsAdaptor
     }
 
     // immutablesortedset sorts from LOWEST to HIGHEST
-    public ImmutableSortedSet<Rank> bitMasksToRanks(int rank) throws Exception
+    public ImmutableSortedSet<Rank> bitMasksToRanks(int rank)
     {
         int cardsTriedMask = 0;
         ImmutableSortedSet.Builder<Rank> rankBuilder = ImmutableSortedSet.naturalOrder();

@@ -1,20 +1,18 @@
 package com.mossy.holdem.implementations.gametree;
 
 import com.google.common.collect.ImmutableList;
-import com.mossy.holdem.Action;
-import com.mossy.holdem.Card;
-import com.mossy.holdem.ChipStack;
-import com.mossy.holdem.Street;
+import com.mossy.holdem.*;
 import com.mossy.holdem.gametree.ExpectedValueCalculator;
 import com.mossy.holdem.gametree.HoldemTreeBuilder;
 import com.mossy.holdem.gametree.IHoldemTreeData;
 import com.mossy.holdem.gametree.ITreeNode;
-import com.mossy.holdem.implementations.DealerActionBuilder;
-import com.mossy.holdem.implementations.FixedLimitActionBuilder;
-import com.mossy.holdem.implementations.SmallDeckFactory;
-import com.mossy.holdem.implementations.player.PlayerInfoFactory;
-import com.mossy.holdem.implementations.player.PlayerState;
+import com.mossy.holdem.implementations.*;
+import com.mossy.holdem.implementations.fastevaluator.FastHandEvaluator;
+import com.mossy.holdem.implementations.fastevaluator.HandBitsAdaptor;
+import com.mossy.holdem.implementations.player.*;
 import com.mossy.holdem.implementations.state.*;
+import com.mossy.holdem.interfaces.IDealerActionBuilder;
+import com.mossy.holdem.interfaces.player.IMutablePlayerState;
 import com.mossy.holdem.interfaces.state.IActionProbabilityCalculator;
 import com.mossy.holdem.interfaces.state.IGameState;
 import com.mossy.holdem.interfaces.player.IPlayerState;
@@ -31,70 +29,52 @@ import java.util.function.Predicate;
  */
 public class FLTreeBuilderIntegrationTest {
 
-    public  ITreeNode<IHoldemTreeData> buildTree (Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception{
-
-        FixedLimitActionBuilder actionBuilder = new FixedLimitActionBuilder();
-        IPlayerInfoFactory playerFactory = new PlayerInfoFactory();
-        FLStateFactory stateFactory = new FLStateFactory(playerFactory, ChipStack.TWO_CHIPS, ChipStack.of(4)) ;
-
-        IActionProbabilityCalculator probCalc = mock(IActionProbabilityCalculator.class);
+    public  ITreeNode<IHoldemTreeData> buildTree (Street street, int dealerPos, int numPlayers, ChipStack playerBank, ImmutableList<Card> communityCards, Action lastAction) throws Exception{
 
 
-        HoldemTreeBuilder treeBuilder = new HoldemTreeBuilder(stateFactory, actionBuilder, probCalc);
-
-        ImmutableList<IPlayerState> players = ImmutableList.of(new PlayerState(0, ChipStack.of(10), ChipStack.NO_CHIPS),
-                new PlayerState(1, ChipStack.of(10), ChipStack.NO_CHIPS));
-
-        IGameState initialState = stateFactory.buildState(street, players, dealerPos, communityCards, lastAction, 3);
-
-        return treeBuilder.buildTree(initialState);
-    }
-
-    public  ITreeNode<IHoldemTreeData> build2PlayerTreeWithDealer(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction, ChipStack playerBank) throws Exception{
-
-        DealerActionBuilder dealer = new DealerActionBuilder(new SmallDeckFactory());
+        IDealerActionBuilder dealer = new SingelDealerActionBuilder();
         FixedLimitActionBuilder actionBuilder = new FixedLimitActionBuilder(dealer);
         IPlayerInfoFactory playerFactory = new PlayerInfoFactory();
         FLStateFactory stateFactory = new FLStateFactory(playerFactory, ChipStack.TWO_CHIPS, ChipStack.of(4)) ;
 
-        IActionProbabilityCalculator probCalc = new EquiProbableActionCalculator();
+        ImmutableList<IPlayerState> players = buildPlayers(numPlayers, playerBank);
+
+        IMutablePlayerState myState = new MutablePlayerState();
+        myState.copy(players.get(0));
+        myState.setHoleCards(HoleCards.from(Card.ACE_CLUBS, Card.ACE_DIAMONDS));
+
+        IActionProbabilityCalculator probCalc = new MyWinActionProbabilityCalculator( myState,
+                new HandStrengthCalculator(new FastHandEvaluator(new HandScoreFactory(), new HandBitsAdaptor(new HandFactory())), new HandFactory(), new StandardDeckFactory()),
+                new StandardDeckFactory(),
+                new HandFactory(), new NeuralNetworkPlayerModel(new PlayerStatisticsHolder()));
 
         HoldemTreeBuilder treeBuilder = new HoldemTreeBuilder(stateFactory, actionBuilder, probCalc);
 
-        ImmutableList<IPlayerState> players = ImmutableList.of(new PlayerState(0, playerBank, ChipStack.NO_CHIPS),
-                new PlayerState(1, playerBank, ChipStack.NO_CHIPS));
+
 
         IGameState initialState = stateFactory.buildState(street, players, dealerPos, communityCards, lastAction, 3);
 
         return treeBuilder.buildTree(initialState);
     }
 
-    public  ITreeNode<IHoldemTreeData> build3PlayerTreeWithDealer(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction, ChipStack playerBank) throws Exception{
+    public ImmutableList<IPlayerState> buildPlayers(int numPlayers, ChipStack playerBank) {
 
-        DealerActionBuilder dealer = new DealerActionBuilder(new SmallDeckFactory());
-        FixedLimitActionBuilder actionBuilder = new FixedLimitActionBuilder(dealer);
-        IPlayerInfoFactory playerFactory = new PlayerInfoFactory();
-        FLStateFactory stateFactory = new FLStateFactory(playerFactory, ChipStack.TWO_CHIPS, ChipStack.of(4)) ;
+        ImmutableList.Builder<IPlayerState> builder = ImmutableList.builder();
+        for(int p = 0; p < numPlayers; ++p) {
+            builder.add(new PlayerState(p, playerBank, ChipStack.NO_CHIPS));
 
-        IActionProbabilityCalculator probCalc = mock(IActionProbabilityCalculator.class);
-
-
-        HoldemTreeBuilder treeBuilder = new HoldemTreeBuilder(stateFactory, actionBuilder, probCalc);
-
-        ImmutableList<IPlayerState> players = ImmutableList.of(new PlayerState(0, playerBank, ChipStack.NO_CHIPS),
-                new PlayerState(1, playerBank, ChipStack.NO_CHIPS), new PlayerState(2, playerBank, ChipStack.NO_CHIPS));
-
-        IGameState initialState = stateFactory.buildState(street, players, dealerPos, communityCards, lastAction, 3);
-
-        return treeBuilder.buildTree(initialState);
+        }
+        return builder.build();
     }
+
+
     @DataProvider(name = "fullTreeBuilderTests")
     public Object[][] createFullTreeData() {
         return new Object[][] {
 //                {Street.PRE_FLOP, 0, ImmutableList.of(), Action.Factory.dealHoleCards()},
-//                {Street.FLOP, 0, ImmutableList.of(Card.ACE_CLUBS, Card.ACE_DIAMONDS, Card.ACE_HEARTS), Action.Factory.dealHoleCards()},
-                {Street.TURN, 0, ImmutableList.of(), Action.Factory.dealHoleCards()},
-                {Street.RIVER, 0, ImmutableList.of(), Action.Factory.dealHoleCards()},
+                {Street.FLOP, 0, ImmutableList.of(Card.ACE_SPADES, Card.KING_CLUBS, Card.ACE_HEARTS), Action.Factory.dealFlopAction()},
+                {Street.TURN, 0, ImmutableList.of(Card.ACE_SPADES, Card.KING_CLUBS, Card.ACE_HEARTS, Card.KING_DIAMONDS), Action.Factory.dealTurnAction(Card.KING_DIAMONDS)},
+                {Street.RIVER, 0, ImmutableList.of(Card.ACE_SPADES, Card.KING_CLUBS, Card.ACE_HEARTS, Card.KING_DIAMONDS, Card.KING_HEARTS), Action.Factory.dealRiverAction(Card.KING_HEARTS)},
 //                {Street.SHOWDOWN, 0, ImmutableList.of(), Action.Factory.dealHoleCards()},
 
         };
@@ -103,7 +83,7 @@ public class FLTreeBuilderIntegrationTest {
     @Test(dataProvider = "fullTreeBuilderTests")
     public void buildFullTree(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception
     {
-        ITreeNode<IHoldemTreeData> fullTree = build2PlayerTreeWithDealer(street, dealerPos, communityCards, lastAction, ChipStack.of(10));
+        ITreeNode<IHoldemTreeData> fullTree = buildTree(street, dealerPos, 2, ChipStack.of(100), communityCards, lastAction);
 
         int nodes = recursiveCountNodes(fullTree);
         fullTree.children();
@@ -135,22 +115,12 @@ public class FLTreeBuilderIntegrationTest {
 
     }
 
-        @DataProvider(name = "treeBuilderTests")
-        public Object[][] createTreeData() {
-            return new Object[][] {
-//                    {Street.PRE_FLOP, 0, ImmutableList.of(), Action.Factory.dealHoleCards()},
-//                    {Street.FLOP, 0, ImmutableList.of(Card.ACE_CLUBS, Card.ACE_DIAMONDS, Card.ACE_HEARTS), Action.Factory.dealHoleCards()},
-                    {Street.TURN, 0, ImmutableList.of(), Action.Factory.dealHoleCards()},
-                    {Street.RIVER, 0, ImmutableList.of(), Action.Factory.dealRiverAction(Card.ACE_DIAMONDS)},
-    //                {Street.SHOWDOWN, 0, ImmutableList.of(), Action.Factory.dealHoleCards()},
 
-            };
-        }
-
-    @Test(dataProvider = "treeBuilderTests")
+    @Test(dataProvider = "fullTreeBuilderTests")
     public void TwoPlayerGameTreeWithDealer_calculatesEv_(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception {
 
-        ITreeNode<IHoldemTreeData> gameTree = build2PlayerTreeWithDealer(street, dealerPos, communityCards, lastAction, ChipStack.of(100));
+        ITreeNode<IHoldemTreeData> gameTree = buildTree(street, dealerPos, 2, ChipStack.of(100), communityCards, lastAction);
+
 
         ExpectedValueCalculator evCalculator = new ExpectedValueCalculator();
 
@@ -161,10 +131,10 @@ public class FLTreeBuilderIntegrationTest {
 
     }
 
-    @Test(dataProvider = "treeBuilderTests")
+    @Test(dataProvider = "fullTreeBuilderTests")
     public void TwoPlayerGameTreeWithDealer_raisesThreeTimes_capWorks(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception {
 
-        ITreeNode<IHoldemTreeData> gameTree = build2PlayerTreeWithDealer(street, dealerPos, communityCards, lastAction, ChipStack.of(100));
+        ITreeNode<IHoldemTreeData> gameTree = buildTree(street, dealerPos, 2, ChipStack.of(100), communityCards, lastAction);
 
         Predicate<IHoldemTreeData> hasRaisesPredicate = iHoldemTreeData -> iHoldemTreeData.state().lastAction().type() == Action.ActionType.RAISE_TO;
         // find node with first raise
@@ -178,13 +148,13 @@ public class FLTreeBuilderIntegrationTest {
 
     }
 
-    @Test(dataProvider = "treeBuilderTests")
+    @Test(dataProvider = "fullTreeBuilderTests")
     public void gameTreeWithDealerAndSmallBank_raisesAllIn_cutsTreeShort(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception {
 
         // give players a bank of 6, therefore with a fixed limit of 2 and 4, the first raise will be to 6 and will therefore be an all in
         // therefore action should terminate there
 
-        ITreeNode<IHoldemTreeData> gameTree = build2PlayerTreeWithDealer(street, dealerPos, communityCards, lastAction, ChipStack.of(6));
+        ITreeNode<IHoldemTreeData> gameTree = buildTree(street, dealerPos, 2, ChipStack.of(6), communityCards, lastAction);
 
         Predicate<IHoldemTreeData> hasRaisesPredicate = iHoldemTreeData -> iHoldemTreeData.state().lastAction().type() == Action.ActionType.RAISE_TO;
         // find node with first raise
@@ -196,10 +166,10 @@ public class FLTreeBuilderIntegrationTest {
 
     }
 
-    @Test(dataProvider = "treeBuilderTests")
+    @Test(dataProvider = "fullTreeBuilderTests")
     public void ThreePlayerGameTreeWithDealer_raisesThreeTimes_capWorks(Street street, int dealerPos, ImmutableList<Card> communityCards, Action lastAction) throws Exception {
 
-        ITreeNode<IHoldemTreeData> gameTree = build3PlayerTreeWithDealer(street, dealerPos, communityCards, lastAction, ChipStack.of(100));
+        ITreeNode<IHoldemTreeData> gameTree = buildTree(street, dealerPos, 3, ChipStack.of(100), communityCards, lastAction);
 
         Predicate<IHoldemTreeData> hasRaisesPredicate = iHoldemTreeData -> iHoldemTreeData.state().lastAction().type() == Action.ActionType.RAISE_TO;
         // find node with first raise

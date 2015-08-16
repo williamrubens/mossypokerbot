@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.UnmodifiableIterator;
 import com.mossy.holdem.Action;
+import com.mossy.holdem.Card;
 import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.Street;
 import com.mossy.holdem.implementations.player.PlayerState;
@@ -77,7 +78,8 @@ public class FixedLimitStateTest
         ChipStack lowerLimit = ChipStack.of(2);
         ChipStack higherLimit = ChipStack.of(4);
 
-        FixedLimitState state = new FixedLimitState(lowerLimit, higherLimit, players, ImmutableMap.of(), street, dealerPos, 0, 3, Action.Factory.dealHoleCards());
+        FixedLimitState state = new FixedLimitState(lowerLimit, higherLimit, players, street, dealerPos,
+                ImmutableList.<Card>of(), ImmutableMap.<Street, ChipStack>of(), 0, 3, Action.Factory.dealHoleCards());
 
         IPlayerState nextPlayer = state.nextPlayer();
 
@@ -93,7 +95,8 @@ public class FixedLimitStateTest
         ChipStack lowerLimit = ChipStack.of(2);
         ChipStack higherLimit = ChipStack.of(4);
 
-        FixedLimitState state = new FixedLimitState(lowerLimit, higherLimit, players, ImmutableMap.of(), street, dealerPos, 0, 3, Action.Factory.dealHoleCards());
+        FixedLimitState state = new FixedLimitState(lowerLimit, higherLimit, players, street, dealerPos,
+                ImmutableList.<Card>of(), ImmutableMap.<Street, ChipStack>of(), 0, 3, Action.Factory.dealHoleCards());
 
         UnmodifiableIterator<IPlayerState> nextPlayerIter = state.fromDealerIterator();
         int nexPlayerSeat = state.playerSeatAfter(dealerPos);
@@ -109,7 +112,8 @@ public class FixedLimitStateTest
         ChipStack lowerLimit = ChipStack.of(2);
         ChipStack higherLimit = ChipStack.of(4);
 
-        FixedLimitState state = new FixedLimitState(lowerLimit, higherLimit, players, ImmutableMap.of(), street, dealerPos, 0, 3, Action.Factory.dealHoleCards());
+        FixedLimitState state = new FixedLimitState(lowerLimit, higherLimit, players, street, dealerPos,
+                ImmutableList.<Card>of(), ImmutableMap.<Street, ChipStack>of(), 0, 3, Action.Factory.dealHoleCards());
 
         UnmodifiableIterator<IPlayerState> nextPlayerIter = state.fromDealerIterator();
 

@@ -2,12 +2,23 @@
 
 import com.biotools.meerkat.*;
 import com.biotools.meerkat.Action;
+import com.biotools.meerkat.Card;
 import com.biotools.meerkat.util.Preferences;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.mossy.holdem.*;
+import com.mossy.holdem.implementations.player.PlayerState;
 import com.mossy.holdem.interfaces.IHoldemPlayer;
+import com.mossy.holdem.interfaces.player.IPlayerInfoFactory;
+import com.mossy.holdem.interfaces.player.IPlayerState;
+import com.mossy.holdem.interfaces.state.IFixedLimitState;
 import com.mossy.holdem.modules.FixedLimitPlayModule;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 /**
@@ -17,21 +28,38 @@ import org.apache.log4j.Logger;
  */
 public class MeerkatPlayer implements Player
 {
-    final static private Logger log = Logger.getLogger(MeerkatPlayer.class);
+    final static private Logger log = LogManager.getLogger(MeerkatPlayer.class);
 
-    Injector injector;
-    IHoldemPlayer knowledgePlayer;
+    Injector injector = null;
+    IHoldemPlayer holdemPlayer;
     GameInfo gameInfo;
     MeerkatToMossyAdaptor adaptor;
     int ourSeat;
+
+    private void initInjector(ChipStack lowerLimit, ChipStack higherLimit) {
+        if (injector == null ) {
+            injector = Guice.createInjector(new FixedLimitPlayModule(lowerLimit, higherLimit));
+        }
+        holdemPlayer = injector.getInstance(IHoldemPlayer.class);
+        IPlayerInfoFactory playerFactory = injector.getInstance(IPlayerInfoFactory.class);
+        SortedMap<Integer, IPlayerState> seatToPlayer = new TreeMap<>();
+
+        for (int playerIdx = 0; playerIdx < gameInfo.getNumPlayers(); ++playerIdx) {
+            PlayerInfo meerkatPlayer = gameInfo.getPlayer(playerIdx);
+            if (meerkatPlayer.inGame()) {
+                IPlayerState mossyPlayer = playerFactory.newPlayer(playerIdx, ChipStack.of(meerkatPlayer.getBankRoll()));
+                seatToPlayer.put(Integer.valueOf(meerkatPlayer.getSeat()), mossyPlayer);
+            }
+
+        }
+        holdemPlayer.startGame(seatToPlayer.values(), gameInfo.getButtonSeat());
+
+    }
 
 
     @Override
     public void init(Preferences preferences)
     {
-        injector = Guice.createInjector(new FixedLimitPlayModule());
-        knowledgePlayer = injector.getInstance(IHoldemPlayer.class);
-
         adaptor = new MeerkatToMossyAdaptor();
     }
 
@@ -41,7 +69,11 @@ public class MeerkatPlayer implements Player
         try
         {
             ourSeat = seat;
-            knowledgePlayer.setHoleCards(adaptor.adaptCard(card1), adaptor.adaptCard(card2), ourSeat);
+            com.mossy.holdem.Card mossyCard1 = adaptor.adaptCard(card1);
+            com.mossy.holdem.Card mossyCard2 = adaptor.adaptCard(card2);
+            holdemPlayer.setHoleCards(mossyCard1, mossyCard2, ourSeat);
+
+            log.info(String.format("MossyBot: %s %s seat: %d", card1, card2, seat));
         }
         catch (Exception ex)
         {
@@ -52,25 +84,39 @@ public class MeerkatPlayer implements Player
     @Override
     public Action getAction()
     {
-        double callAmount = gameInfo.getAmountToCall(ourSeat);
+        return adaptor.adaptAction(holdemPlayer.getNextAction(), (IFixedLimitState)holdemPlayer.currentState());
 
-
-        //return adaptor
-        //return knowledgePlayer.getNextAction();
-
-        return null;
     }
 
     @Override
     public void actionEvent(int i, Action action)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if(action.getType() == 100) {
+            // 100 = PublicGameInfo.SPECIAL_ACTION_RETURNUNCALLEDBET
+            return;
+        }
+        if(action.getType() == Action.MUCK) {
+            // don't handle mucks very wayy because opentestbed doesn't tell us that we are in
+            // showdown yet...
+            return;
+        }
+
+        com.mossy.holdem.Action mossyAction = adaptor.adaptAction(action, gameInfo);
+
+        String playerName = gameInfo.getPlayer(i).getName();
+        log.info(String.format("%s %s", mossyAction, playerName));
+
+        holdemPlayer.setNextAction(mossyAction);
     }
 
     @Override
     public void stageEvent(int i)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if(i == 0) {
+            return;
+        }
+
+        holdemPlayer.setNextAction(adaptor.adaptStageChangeEvent(i, gameInfo));
     }
 
     @Override
@@ -83,7 +129,9 @@ public class MeerkatPlayer implements Player
     public void gameStartEvent(GameInfo gameInfo)
     {
         this.gameInfo = gameInfo;
-        //knowledgePlayer.startGame(gameInfo.getNumPlayers());
+        //holdemPlayer.startGame(gameInfo.getNumPlayers());
+        ChipStack bigBlind = ChipStack.of(gameInfo.getBigBlindSize());
+        initInjector(bigBlind, bigBlind.multiply(2.0));
     }
 
     @Override
@@ -102,6 +150,9 @@ public class MeerkatPlayer implements Player
     public void winEvent(int i, double v, String s)
     {
         //To change body of implemented methods use File | Settings | File Templates.
+        String playerName = gameInfo.getPlayer(i).getName();
+        log.info(String.format("%s wins %f %s", playerName, v, s));
+        log.info("######################################");
     }
 
     @Override

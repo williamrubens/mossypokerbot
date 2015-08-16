@@ -17,7 +17,7 @@ public enum Suit
     DIAMONDS,
     CLUBS ;
     
-    private static Suit numberToSuit(int n)  throws Exception
+    private static Suit numberToSuit(int n)
     {
         switch(n)
         {
@@ -29,7 +29,7 @@ public enum Suit
         }
     }
     
-    public static Suit fromChar(char c)  throws Exception
+    public static Suit fromChar(char c)
     {
         switch(Character.toUpperCase(c))
         {

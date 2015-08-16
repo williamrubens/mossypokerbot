@@ -5,19 +5,30 @@ package com.mossy.holdem;
  */
 public class ProbabilityTriple {
 
-    final float fold;
-    final float call;
-    final float raise;
+    final double fold;
+    final double call;
+    final double raise;
 
 
-    public ProbabilityTriple(float fold, float call, float raise) {
+    public ProbabilityTriple(double fold, double call, double raise) {
         this.fold = fold;
         this.call = call;
         this.raise = raise;
 
     }
 
-    public float fold() { return fold; }
-    public float call() { return call; }
-    public float raise() { return raise; }
+    public double fold() { return fold; }
+    public double call() { return call; }
+    public double raise() { return raise; }
+
+    public double get(Action.ActionType type) {
+        switch (type) {
+            case CHECK: return fold + call;
+            case BET: return raise;
+            case RAISE_TO: return raise;
+            case FOLD: return fold;
+            case CALL: return call;
+        }
+        throw new RuntimeException("Illegal action type for ProbabilityTriple");
+    }
 }

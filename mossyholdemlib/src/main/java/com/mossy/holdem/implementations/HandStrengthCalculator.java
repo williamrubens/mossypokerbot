@@ -1,9 +1,11 @@
 package com.mossy.holdem.implementations;
 
+import com.google.common.collect.ImmutableList;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.HoleCards;
 import com.mossy.holdem.interfaces.*;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class HandStrengthCalculator implements IHandStrengthCalculator
     private IHandFactory   handFactory;
     private IDeckFactory   deckFactory;
 
+    @Inject
     public HandStrengthCalculator(IHandEvaluator handEvaluator, IHandFactory handFactory, IDeckFactory deckFactory) {
         this.handEvaluator = handEvaluator;
         this.handFactory = handFactory;
@@ -23,7 +26,7 @@ public class HandStrengthCalculator implements IHandStrengthCalculator
     }
 
     @Override
-    public double calculateHandStrength(HoleCards holeCards, ArrayList<Card> boardCards) throws Exception
+    public double calculateHandStrength(HoleCards holeCards, ImmutableList<Card> boardCards)
     {
         int winCount = 0, looseCount = 0, drawCount = 0;
 

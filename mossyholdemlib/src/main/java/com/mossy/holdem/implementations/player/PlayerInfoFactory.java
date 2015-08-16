@@ -12,6 +12,11 @@ import com.mossy.holdem.interfaces.player.IPlayerInfoFactory;
 public class PlayerInfoFactory implements IPlayerInfoFactory
 {
     @Override
+    public IPlayerState newPlayer(int id, ChipStack bank) {
+        return new PlayerState(id, bank, ChipStack.NO_CHIPS, false, false);
+    }
+
+    @Override
     public IPlayerState updatePlayer(IPlayerState currentPlayer, Action action, IGameState gameState)
     {
         if(action.type() == Action.ActionType.CHECK)
@@ -61,7 +66,7 @@ public class PlayerInfoFactory implements IPlayerInfoFactory
             return new PlayerState(currentPlayer.id(), newBankroll, ChipStack.NO_CHIPS, false, false);
 
         }
-        if(!action.isPlayerAction()) {
+        if(action.isDealerAction()) {
             if(currentPlayer.isOut()){
                 return currentPlayer;
             }

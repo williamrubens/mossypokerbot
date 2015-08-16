@@ -7,7 +7,6 @@ import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
 import com.mossy.holdem.implementations.PreFlopIncomeRateSimulator;
 import com.mossy.holdem.interfaces.IDeckFactory;
-import org.apache.log4j.BasicConfigurator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -28,7 +27,7 @@ public class IteratedRolloutModuleTest
 
         try
         {
-            BasicConfigurator.configure();
+            //BasicConfigurator.configure();
 
             int numPlayers = 10;
             int boardCards = 5;

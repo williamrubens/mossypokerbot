@@ -4,6 +4,7 @@
  */
 package com.mossy.holdem.interfaces;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedSet;
 import com.mossy.holdem.Card;
 import com.mossy.holdem.Rank;
@@ -13,12 +14,13 @@ import com.mossy.holdem.Suit;
  *
  * @author d80050
  */
-public interface IHand {
+public interface IHand  {
     
     IHand addCard(Card card);
     IHand removeCard(Card card);
     
-    ImmutableSortedSet<Card> cards();
+    ImmutableSortedSet<Card> cardsSorted();
+    ImmutableList<Card> cards();
     ImmutableSortedSet<Rank> getRanks(Suit suit);
     
     int cardCount();

@@ -7,5 +7,5 @@ import com.mossy.holdem.interfaces.state.IGameState;
  * Created by willrubens on 13/06/15.
  */
 public interface IPlayerModel {
-    ProbabilityTriple calculateActionProbabilties(IPlayerStatistics playerStats, IGameState state);
+    ProbabilityTriple calculateActionProbabilties(IGameState state);
 }

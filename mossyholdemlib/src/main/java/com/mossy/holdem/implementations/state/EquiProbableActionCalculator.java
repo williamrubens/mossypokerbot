@@ -12,8 +12,8 @@ import com.mossy.holdem.interfaces.state.IGameState;
  */
 public class EquiProbableActionCalculator implements IActionProbabilityCalculator {
     @Override
-    public ImmutableMap<Action.ActionType, Float> calculateProbability(IGameState state, ImmutableList<Action.ActionType> actions) {
-        float numberOfActions = (float)actions.size();
-        return FluentIterable.from(actions).toMap(action -> Float.valueOf(1.0f / numberOfActions));
+    public ImmutableMap<Action, Double> calculateProbability(IGameState state, ImmutableList<Action> actions) {
+        double numberOfActions = (double)actions.size();
+        return FluentIterable.from(actions).toMap(action -> Double.valueOf(1.0f / numberOfActions));
     }
 }

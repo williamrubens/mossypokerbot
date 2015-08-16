@@ -134,7 +134,7 @@ public enum Rank //implements Comparable<Rank>
        
     }
     
-    static private Rank numberToRank(int n) throws Exception
+    static private Rank numberToRank(int n)
     {
         switch(n)
         {
@@ -153,10 +153,10 @@ public enum Rank //implements Comparable<Rank>
             case 13: return KING;
             case 14: return ACE;                
         }
-        throw new Exception("Dodgy rank number");
+        throw new RuntimeException("Dodgy rank number");
     }
 
-    static public Rank fromIndex(int index) throws Exception
+    static public Rank fromIndex(int index)
     {
         return numberToRank(index + 2);
     }

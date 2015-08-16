@@ -124,13 +124,13 @@ public class HandFactory implements IHandFactory
         builder.add(Card.from(randomRank.addToRank(3), randomSuit));
         builder.add(Card.from(randomRank.addToRank(4), randomSuit));
         
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
     }
     
     private IHand generateRandomFourOfAKind(StandardDeckFactory deckFactory) 
     {
         
-        Hand randomHand = new Hand();
+        SortedHand randomHand = new SortedHand();
         
         Rank randomRank = Rank.getRandomRank();
         
@@ -143,14 +143,14 @@ public class HandFactory implements IHandFactory
         builder.add(deck.pickRandom(randomRank));
         builder.add(deck.dealTopCard());
               
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
     
     private IHand generateRandomFullHouse(StandardDeckFactory deckFactory) 
     {
         
-        Hand randomHand = new Hand();
+        SortedHand randomHand = new SortedHand();
         
         Rank randomTrips = Rank.getRandomRank();
         Rank randomPair = null;
@@ -165,7 +165,7 @@ public class HandFactory implements IHandFactory
         builder.add(deck.pickRandom(randomPair));
         builder.add(deck.pickRandom(randomPair));
               
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
     
@@ -184,7 +184,7 @@ public class HandFactory implements IHandFactory
         builder.add(Card.from(cards.get(3).rank(), randomSuit));
         builder.add(Card.from(cards.get(4).rank(), randomSuit));
 
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
     
@@ -201,7 +201,7 @@ public class HandFactory implements IHandFactory
         builder.add(Card.from(randomRank.addToRank(3), Suit.SPADES));
         builder.add(Card.from(randomRank.addToRank(4), Suit.HEARTS));
         
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
     
@@ -220,14 +220,14 @@ public class HandFactory implements IHandFactory
         builder.add(cards.get(1));
         builder.add(cards.get(2));
               
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
     
     private IHand generateRandomTwoPair(StandardDeckFactory deckFactory) 
     {
         
-        Hand randomHand = new Hand();
+        SortedHand randomHand = new SortedHand();
         
         ArrayList<Card> cards = pickNRandomDifferentCards(3);
         
@@ -240,13 +240,13 @@ public class HandFactory implements IHandFactory
         builder.add(deck.pickRandom(cards.get(1).rank()));
         builder.add(cards.get(2));
               
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
     
     private IHand generateRandomPair(StandardDeckFactory deckFactory) 
     {        
-        Hand randomHand = new Hand();
+        SortedHand randomHand = new SortedHand();
         
         ArrayList<Card> cards = pickNRandomDifferentCards(4);
         
@@ -259,7 +259,7 @@ public class HandFactory implements IHandFactory
         builder.add(cards.get(2));
         builder.add(cards.get(3));
               
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
    
@@ -275,16 +275,16 @@ public class HandFactory implements IHandFactory
         builder.add(cards.get(3));
         builder.add(cards.get(4));
               
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
         
     }
 
     @Override
-    public IHand build(String handString)  throws Exception
+    public IHand build(String handString)
     {
         if(handString.length() % 2 != 0)
         {
-            throw new Exception("Hand string has odd number of characters");
+            throw new RuntimeException("Hand string has odd number of characters");
         }
         
         java.util.ArrayList<String> cardStrings = new java.util.ArrayList<String>();
@@ -308,26 +308,28 @@ public class HandFactory implements IHandFactory
             builder.add(Card.fromString(cardString));
         }
         
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
     }
 
     @Override
-    public IHand build(HoleCards holeCards, List<Card> boardCards) throws Exception
+    public IHand build(HoleCards holeCards, List<Card> boardCards)
     {
-        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
-        builder.add(holeCards.card1());
-        builder.add(holeCards.card2());
-                
-        for(Card boardCard : boardCards)
-        {
-            builder.add(boardCard);
-        }
-        
-        return new Hand(builder.build());
+        return UnsortedHand.from(holeCards, boardCards);
+//
+//        ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
+//        builder.add(holeCards.card1());
+//        builder.add(holeCards.card2());
+//
+//        for(Card boardCard : boardCards)
+//        {
+//            builder.add(boardCard);
+//        }
+//
+//        return new SortedHand(builder.build());
     }
 
     @Override
-    public IHand build(List<Card> cards) throws Exception
+    public IHand build(List<Card> cards)
     {
         ImmutableSortedSet.Builder<Card> builder = ImmutableSortedSet.orderedBy(new Card.RankThenSuitComparer());
 
@@ -336,7 +338,7 @@ public class HandFactory implements IHandFactory
             builder.add(card);
         }
 
-        return new Hand(builder.build());
+        return new SortedHand(builder.build());
     }
 
    

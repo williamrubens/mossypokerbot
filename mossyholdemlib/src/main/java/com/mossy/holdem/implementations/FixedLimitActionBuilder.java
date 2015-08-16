@@ -1,6 +1,7 @@
 package com.mossy.holdem.implementations;
 
 import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
 import com.mossy.holdem.Action;
 import com.mossy.holdem.ChipStack;
 import com.mossy.holdem.Street;
@@ -16,6 +17,7 @@ import com.mossy.holdem.interfaces.player.IPlayerState;
 public class FixedLimitActionBuilder implements IActionBuilder {
     IDealerActionBuilder dealer;
 
+    @Inject
     public FixedLimitActionBuilder(IDealerActionBuilder dealer) {
 
         this.dealer = dealer;
@@ -60,7 +62,7 @@ public class FixedLimitActionBuilder implements IActionBuilder {
 
 
     @Override
-    public ImmutableList<Action> buildAllChildActions(IGameState parentState) {
+    public ImmutableList<Action>    buildAllChildActions(IGameState parentState) {
         if (!(parentState instanceof IFixedLimitState)) {
             throw new RuntimeException("Cannot build actions for non-fixed limit state");
         }
@@ -94,7 +96,7 @@ public class FixedLimitActionBuilder implements IActionBuilder {
                 return moveToNextStreetAction(parentState);
             }
 
-            return ImmutableList.of(Action.Factory.checkAction(), Action.Factory.foldAction(), Action.Factory.betAction(nextBetAmount(flParentState)));
+            return ImmutableList.of(Action.Factory.checkAction(), Action.Factory.betAction(nextBetAmount(flParentState)));
         }
 
         if (parentState.isBettingClosed()) {
@@ -109,7 +111,7 @@ public class FixedLimitActionBuilder implements IActionBuilder {
             }
             // or it's the big blind check or bet action after everyone has called him preflip
             if (parentState.getAmountToCall().compareTo(ChipStack.NO_CHIPS) == 0) {
-                return ImmutableList.of(Action.Factory.checkAction(), Action.Factory.foldAction(), Action.Factory.betAction(nextBetAmount(flParentState)));
+                return ImmutableList.of(Action.Factory.checkAction(), Action.Factory.betAction(nextBetAmount(flParentState)));
 
             }
         }

@@ -9,7 +9,8 @@ import com.mossy.holdem.IncomeRate;
 import com.mossy.holdem.PreFlopHandType;
 import com.mossy.holdem.interfaces.*;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +21,7 @@ import org.apache.log4j.Logger;
  */
 public class PreFlopIncomeRateSimulator implements IPreFlopIncomeRateSimulator
 {
-    static private Logger log = Logger.getLogger(PreFlopIncomeRateSimulator.class);
+    static private Logger log = LogManager.getLogger(PreFlopIncomeRateSimulator.class);
     final private IHoleCardDealer oppHoleCardsDealer;
     final private IBoardCardDealer boardCardDealer;
     final private IRolloutWinningsCalculator rolloutWinningsCalculator;

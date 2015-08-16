@@ -13,7 +13,8 @@ import com.mossy.holdem.interfaces.IDeck;
 import com.mossy.holdem.interfaces.IDeckFactory;
 import com.mossy.holdem.interfaces.IPreFlopIncomeRateSimulator;
 import com.mossy.holdem.interfaces.IPreFlopRolloutSimulator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.PrintWriter;
 import java.util.concurrent.*;
@@ -29,7 +30,7 @@ public class PreFlopRolloutSimulator implements IPreFlopRolloutSimulator
 {
     final private IPreFlopIncomeRateSimulator incomeRateSimulator;
     final private PreFlopHandTypeAdaptor adaptor;
-    final static private Logger log = Logger.getLogger(PreFlopRolloutSimulator.class);
+    final static private Logger log = LogManager.getLogger(PreFlopRolloutSimulator.class);
     final private IDeckFactory deckFactory;
 
     private

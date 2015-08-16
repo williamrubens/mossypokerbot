@@ -35,7 +35,7 @@ public class FastHandEvaluator implements IHandEvaluator
     }
 
     @Override
-    public int evaluateHand(IHand hand) throws Exception
+    public int evaluateHand(IHand hand)
     {
 
         // this is a port of the poker eval c evaluation function

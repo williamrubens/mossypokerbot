@@ -59,8 +59,8 @@ public class FixedLimitActionBuilderTest
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.NO_CHIPS, ChipStack.ONE_CHIP}, new Action[]{Action.Factory.bigBlindAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 2, new ChipStack[]{ ChipStack.ONE_CHIP, ChipStack.TWO_CHIPS, ChipStack.NO_CHIPS}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(4)), Action.Factory.foldAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.ONE_CHIP, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(4)), Action.Factory.foldAction()}},
-                {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS), Action.Factory.foldAction()}},
-                {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS), Action.Factory.foldAction()}},
+                {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS)}},
+                {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS)}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 3, new ChipStack[]{ ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS}, new Action[]{Action.Factory.smallBlindAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 3, new ChipStack[]{ ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS}, new Action[]{Action.Factory.smallBlindAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 3, new ChipStack[]{ ChipStack.ONE_CHIP,ChipStack.TWO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(4)), Action.Factory.foldAction()}},
@@ -92,13 +92,13 @@ public class FixedLimitActionBuilderTest
     public Object[][] createData2() {
         return new Object[][] {
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS, ChipStack.NO_CHIPS}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(4)), Action.Factory.foldAction()}},
-                {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.NO_CHIPS, ChipStack.NO_CHIPS}, new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS), Action.Factory.foldAction()}} ,
+                {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.NO_CHIPS, ChipStack.NO_CHIPS}, new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS)}} ,
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.NO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(4)), Action.Factory.foldAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 2, new ChipStack[]{ ChipStack.ONE_CHIP, ChipStack.TWO_CHIPS, ChipStack.NO_CHIPS}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(4)), Action.Factory.foldAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS,  new ChipStack(4),  new ChipStack(4)}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(6)), Action.Factory.foldAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS, ChipStack.TWO_CHIPS}, new Action[]{}},
-                {ChipStack.TWO_CHIPS, new ChipStack(4), 3, new ChipStack[]{ ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS},new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS), Action.Factory.foldAction()}},
+                {ChipStack.TWO_CHIPS, new ChipStack(4), 3, new ChipStack[]{ ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS,ChipStack.NO_CHIPS},new Action[]{Action.Factory.checkAction(), Action.Factory.betAction(ChipStack.TWO_CHIPS)}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 3, new ChipStack[]{ ChipStack.TWO_CHIPS, new ChipStack(4),ChipStack.NO_CHIPS,ChipStack.NO_CHIPS}, new Action[]{Action.Factory.callAction(), Action.Factory.raiseToAction(ChipStack.of(6)), Action.Factory.foldAction()}},
                 {ChipStack.TWO_CHIPS, new ChipStack(4), 0, new ChipStack[]{ new ChipStack(4), new ChipStack(4)}, new Action[]{}},
 

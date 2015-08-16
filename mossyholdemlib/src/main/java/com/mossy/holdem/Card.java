@@ -133,7 +133,7 @@ final public class Card{
         return String.format("%s%c", rank, suit.toChar());
     }
     
-    static public Card fromString(String cardString) throws Exception
+    static public Card fromString(String cardString)
     {
         if(cardString.length() != 2)
         {

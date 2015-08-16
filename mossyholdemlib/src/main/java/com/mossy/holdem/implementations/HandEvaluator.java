@@ -26,7 +26,7 @@ public class HandEvaluator implements IHandEvaluator
             
 
     @Override
-    public int evaluateHand(IHand hand) throws Exception
+    public int evaluateHand(IHand hand)
     {       
         
         if(hand.cardCount() == 5)
@@ -36,7 +36,7 @@ public class HandEvaluator implements IHandEvaluator
                 
         int highestScore = -1;
         
-        for(Card cardToRemove : hand.cards())
+        for(Card cardToRemove : hand.cardsSorted())
         {
             int currentScore = evaluateHand(hand.removeCard(cardToRemove));
             highestScore = currentScore  > highestScore ? currentScore : highestScore;
